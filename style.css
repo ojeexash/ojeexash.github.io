@@ -20,16 +20,16 @@ html{
 body{
   background:
     radial-gradient(circle at 20% 0%,
-      rgba(255,255,255,0.04),
+      rgba(255,255,255,0.05),
       transparent 35%),
 
     radial-gradient(circle at 80% 100%,
       rgba(255,255,255,0.03),
-      transparent 40%),
+      transparent 45%),
 
     linear-gradient(180deg,
-      #050505 0%,
-      #030303 50%,
+      #060606 0%,
+      #020202 60%,
       #000 100%);
 
   color:white;
@@ -39,21 +39,26 @@ body{
   letter-spacing:0.5px;
 }
 
-/* TOP GLOW */
+/* =========================
+   TOP GLOW (VISIBLE)
+========================= */
+
 body::before{
   content:'';
   position:fixed;
   inset:0;
   pointer-events:none;
+
   background:
     radial-gradient(circle at top,
-      rgba(255,255,255,0.05),
-      transparent 45%);
-  z-index:-2;
+      rgba(255,255,255,0.08),
+      transparent 55%);
+
+  z-index:0;
 }
 
 /* =========================
-   METALLIC MICRO GRID (FIXED)
+   METAL GRID (FIXED VISIBILITY)
 ========================= */
 
 body::after{
@@ -61,45 +66,49 @@ body::after{
   position:fixed;
   inset:0;
   pointer-events:none;
-  z-index:-1;
+
+  z-index:1;
 
   background-image:
-    radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
 
-  background-size:3px 3px;
+  background-size:6px 6px;
 
-  opacity:0.05;
-
+  opacity:0.08;
   mix-blend-mode:overlay;
 }
 
 /* =========================
-   GRAIN / FILM
+   GRAIN (FIXED STRONGER)
 ========================= */
 
 .noise{
   position:fixed;
   inset:0;
   pointer-events:none;
-  opacity:0.10;
-  z-index:999;
+
+  z-index:2;
+
+  opacity:0.18;
 
   background-image:url("https://grainy-gradients.vercel.app/noise.svg");
+
   mix-blend-mode:soft-light;
 
-  animation:grain 0.25s steps(1) infinite;
+  animation:grain 0.2s steps(2) infinite;
 }
 
 @keyframes grain{
   0%{transform:translate(0,0)}
-  25%{transform:translate(-1%,-1%)}
-  50%{transform:translate(1%,1%)}
+  25%{transform:translate(-1.5%,-1%)}
+  50%{transform:translate(1%,1.5%)}
   75%{transform:translate(-1%,1%)}
   100%{transform:translate(0,0)}
 }
 
 /* =========================
-   LAYOUT
+   CONTAINER
 ========================= */
 
 .container{
@@ -107,23 +116,29 @@ body::after{
   max-width:850px;
   margin:auto;
   padding:90px 0;
+
+  position:relative;
+  z-index:5;
 }
 
-/* HERO */
+/* =========================
+   HERO (FIXED FONT)
+========================= */
 
 .hero{
   text-align:center;
   margin-bottom:55px;
 }
 
+/* 🔥 FONT FIXED HERE */
 .artist-name{
-  font-family:'Cinzel', serif;
+  font-family:'Space Grotesk', sans-serif;
   font-size:5.5rem;
-  font-weight:800;
-  letter-spacing:8px;
+  font-weight:700;
+  letter-spacing:10px;
   text-transform:uppercase;
-  color:#f4f4f4;
-  text-shadow:0 0 8px rgba(255,255,255,0.05);
+  color:#f5f5f5;
+  text-shadow:0 0 12px rgba(255,255,255,0.06);
   position:relative;
   display:inline-block;
 }
@@ -135,11 +150,13 @@ body::after{
   bottom:-12px;
   width:120px;
   height:1px;
-  background:rgba(255,255,255,0.12);
+  background:rgba(255,255,255,0.15);
   transform:translateX(-50%);
 }
 
-/* SOCIALS */
+/* =========================
+   SOCIALS
+========================= */
 
 .socials{
   display:flex;
@@ -159,7 +176,9 @@ body::after{
   color:white;
 }
 
-/* SECTION */
+/* =========================
+   SECTION
+========================= */
 
 .section{
   margin-bottom:75px;
@@ -168,11 +187,13 @@ body::after{
 .section h2{
   font-size:0.82rem;
   letter-spacing:6px;
-  color:#727272;
+  color:#7a7a7a;
   margin-bottom:24px;
 }
 
-/* RELEASE */
+/* =========================
+   RELEASE CARDS
+========================= */
 
 .release-card{
   display:flex;
@@ -180,14 +201,14 @@ body::after{
   margin-bottom:24px;
   padding:18px;
   background:#0b0b0b;
-  border:1px solid rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.06);
   transition:0.35s ease;
   overflow:hidden;
 }
 
 .release-card:hover{
   transform:translateY(-2px);
-  border-color:rgba(255,255,255,0.12);
+  border-color:rgba(255,255,255,0.14);
 }
 
 /* IMAGES */
@@ -197,14 +218,14 @@ body::after{
   width:120px;
   height:120px;
   object-fit:cover;
-  filter:grayscale(10%) contrast(1.02) brightness(0.88);
+  filter:grayscale(10%) contrast(1.05) brightness(0.9);
   transition:0.4s ease;
 }
 
 .release-card:hover img,
 .album-card:hover img{
   transform:scale(1.02);
-  filter:grayscale(0%) contrast(1.05) brightness(0.94);
+  filter:grayscale(0%) brightness(0.95);
 }
 
 /* INFO */
@@ -230,7 +251,7 @@ body::after{
 }
 
 .platforms a{
-  color:#8c8c8c;
+  color:#9a9a9a;
   text-decoration:none;
   font-size:0.9rem;
   transition:0.25s ease;
@@ -240,7 +261,9 @@ body::after{
   color:white;
 }
 
-/* ALBUMS */
+/* =========================
+   ALBUMS
+========================= */
 
 .album-card{
   position:relative;
@@ -262,7 +285,7 @@ body::after{
   bottom:0;
   width:100%;
   padding:20px;
-  background:linear-gradient(transparent, rgba(0,0,0,0.94));
+  background:linear-gradient(transparent, rgba(0,0,0,0.95));
 }
 
 .album-info h3{
@@ -277,12 +300,12 @@ body::after{
   align-items:center;
   justify-content:center;
   background:#080808;
-  opacity:0.42;
+  opacity:0.5;
 }
 
 .locked-center{
   letter-spacing:3px;
-  color:#8d8d8d;
+  color:#9a9a9a;
   font-size:0.92rem;
 }
 
@@ -292,7 +315,7 @@ body::after{
 
   .artist-name{
     font-size:3.2rem;
-    letter-spacing:5px;
+    letter-spacing:6px;
   }
 
   .release-card{
