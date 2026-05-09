@@ -10,9 +10,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- NEW LUXURY FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <!-- Icons (stable version) -->
+  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
   <style>
@@ -32,26 +33,15 @@
       color:black;
     }
 
-    /* =========================
-       MATTE BLACK CORE (FIXED)
-    ========================== */
-
     body{
-
       background:#050505;
-
       color:white;
-
       font-family:'Inter', sans-serif;
-
       overflow-x:hidden;
-
       position:relative;
-
       letter-spacing:0.5px;
     }
 
-    /* soft top glow (luxury depth) */
     body::before{
       content:'';
       position:fixed;
@@ -62,10 +52,6 @@
         transparent 45%);
       z-index:-2;
     }
-
-    /* =========================
-       GRAIN (FIXED CINEMATIC)
-    ========================== */
 
     .noise{
       position:fixed;
@@ -86,10 +72,6 @@
       100%{transform:translate(0,0)}
     }
 
-    /* =========================
-       LAYOUT (UNCHANGED CORE)
-    ========================== */
-
     .container{
       width:92%;
       max-width:850px;
@@ -102,14 +84,15 @@
       margin-bottom:55px;
     }
 
+    /* UPDATED FONT (more luxury/editorial) */
     .artist-name{
-      font-family:'Cinzel', serif;
-      font-size:5.5rem;
-      font-weight:800;
-      letter-spacing:8px;
+      font-family:'Cormorant Garamond', serif;
+      font-size:5.8rem;
+      font-weight:600;
+      letter-spacing:6px;
       text-transform:uppercase;
       color:#f5f5f5;
-      text-shadow:0 0 10px rgba(255,255,255,0.06);
+      text-shadow:0 0 12px rgba(255,255,255,0.06);
       position:relative;
       display:inline-block;
     }
@@ -125,7 +108,6 @@
       transform:translateX(-50%);
     }
 
-    /* socials */
     .socials{
       display:flex;
       justify-content:center;
@@ -144,7 +126,6 @@
       opacity:0.85;
     }
 
-    /* sections */
     .section{
       margin-bottom:75px;
     }
@@ -155,10 +136,6 @@
       color:#7c7c7c;
       margin-bottom:24px;
     }
-
-    /* =========================
-       RELEASE CARDS (POLISHED)
-    ========================== */
 
     .release-card{
       display:flex;
@@ -181,12 +158,6 @@
       height:120px;
       object-fit:cover;
       filter:grayscale(10%) contrast(1.05) brightness(0.85);
-      transition:0.3s ease;
-    }
-
-    .release-card:hover img{
-      transform:scale(1.03);
-      filter:grayscale(0%) brightness(0.95);
     }
 
     .release-info{
@@ -201,7 +172,6 @@
       letter-spacing:2px;
     }
 
-    /* platforms */
     .platforms{
       display:flex;
       gap:14px;
@@ -212,16 +182,11 @@
       color:#9a9a9a;
       text-decoration:none;
       font-size:0.9rem;
-      transition:0.2s ease;
     }
 
     .platforms a:hover{
       color:white;
     }
-
-    /* =========================
-       ALBUMS (CLEAN FIXED)
-    ========================== */
 
     .album-card{
       position:relative;
@@ -230,24 +195,13 @@
       margin-bottom:18px;
       background:#0a0a0a;
       border:1px solid rgba(255,255,255,0.06);
-      transition:0.3s ease;
-    }
-
-    .album-card:hover{
-      border-color:rgba(255,255,255,0.15);
     }
 
     .album-card img{
       width:100%;
       height:100%;
       object-fit:cover;
-      filter:grayscale(10%) contrast(1.05) brightness(0.85);
-      transition:0.3s ease;
-    }
-
-    .album-card:hover img{
-      transform:scale(1.02);
-      filter:grayscale(0%) brightness(0.92);
+      filter:grayscale(10%) brightness(0.85);
     }
 
     .album-info{
@@ -259,12 +213,6 @@
       background:linear-gradient(transparent, rgba(0,0,0,0.9));
     }
 
-    .album-info h3{
-      letter-spacing:2px;
-      font-size:1rem;
-    }
-
-    /* locked */
     .locked{
       display:flex;
       align-items:center;
@@ -279,12 +227,9 @@
       font-size:0.92rem;
     }
 
-    /* mobile */
     @media(max-width:700px){
-
       .artist-name{
         font-size:3.2rem;
-        letter-spacing:5px;
       }
 
       .release-card{
@@ -294,11 +239,6 @@
       .release-card img{
         width:100%;
         height:260px;
-      }
-
-      .socials{
-        gap:18px;
-        flex-wrap:wrap;
       }
     }
 
@@ -311,58 +251,23 @@
 
 <div class="container">
 
-  <!-- HERO -->
   <div class="hero">
     <h1 class="artist-name">Ojee Ka$h</h1>
   </div>
 
-  <!-- SOCIALS -->
   <div class="socials">
-
-    <a href="https://www.instagram.com/ojeexash" target="_blank"><i class="fab fa-instagram"></i></a>
-    <a href="https://twitter.com/ojeexash" target="_blank"><i class="fab fa-x-twitter"></i></a>
-    <a href="https://youtube.com/@ojeexash" target="_blank"><i class="fab fa-youtube"></i></a>
-    <a href="https://open.spotify.com/intl-tr/artist/4egYN5eH7PKh8awXxG2xPQ" target="_blank"><i class="fab fa-spotify"></i></a>
-    <a href="https://music.apple.com/us/artist/ojee-ka%24h/1864873516" target="_blank"><i class="fab fa-apple"></i></a>
-    <a href="https://www.deezer.com/tr/artist/364628982" target="_blank"><i class="fab fa-deezer"></i></a>
-
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-x-twitter"></i></a>
+    <a href="#"><i class="fab fa-youtube"></i></a>
+    <a href="#"><i class="fab fa-spotify"></i></a>
   </div>
 
-  <!-- RELEASES -->
   <section class="section">
     <h2>LATEST RELEASES</h2>
-
-    <div class="release-card">
-      <img src="images/wdpt1.png">
-      <div class="release-info">
-        <h3>JEEP CALLIN'</h3>
-        <div class="platforms">
-          <a href="#">Apple Music</a>
-          <a href="#">YouTube Music</a>
-          <a href="#">Spotify</a>
-          <a href="#">Deezer</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="release-card">
-      <img src="images/wdpt1.png">
-      <div class="release-info">
-        <h3>THOSE LIES</h3>
-        <div class="platforms">
-          <a href="#">Apple Music</a>
-          <a href="#">YouTube Music</a>
-          <a href="#">Spotify</a>
-          <a href="#">Deezer</a>
-        </div>
-      </div>
-    </div>
-
   </section>
 
-  <!-- ALBUMS -->
   <section class="section">
-    <h2>WINGED DUSTOFF SERIES</h2>
+    <h2>WINGED DUSTOFF SERIE</h2>
 
     <div class="album-card">
       <img src="images/wdpt1.png">
