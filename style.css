@@ -14,23 +14,32 @@ html{
 }
 
 /* =========================
-   MATTE BLACK CORE
+   METALLIC MAT BLACK CORE
 ========================= */
 
 body{
   background:
-    radial-gradient(circle at 20% 0%,
-      rgba(255,255,255,0.05),
-      transparent 35%),
 
-    radial-gradient(circle at 80% 100%,
-      rgba(255,255,255,0.03),
+    /* 🪨 METALLIC BASE LAYER */
+    linear-gradient(145deg,
+      #0a0a0a 0%,
+      #050505 25%,
+      #070707 50%,
+      #030303 75%,
+      #000 100%),
+
+    /* ✨ SOFT METAL SHEEN */
+    radial-gradient(circle at 30% 20%,
+      rgba(255,255,255,0.06),
+      transparent 40%),
+
+    radial-gradient(circle at 70% 80%,
+      rgba(255,255,255,0.04),
       transparent 45%),
 
-    linear-gradient(180deg,
-      #060606 0%,
-      #020202 60%,
-      #000 100%);
+    radial-gradient(circle at 50% 50%,
+      rgba(255,255,255,0.02),
+      transparent 60%);
 
   color:white;
   font-family:'Inter', sans-serif;
@@ -40,7 +49,7 @@ body{
 }
 
 /* =========================
-   TOP GLOW (VISIBLE)
+   TOP GLOW (CLEAN LUXURY)
 ========================= */
 
 body::before{
@@ -58,7 +67,7 @@ body::before{
 }
 
 /* =========================
-   METAL GRID (FIXED VISIBILITY)
+   METAL MICRO GRID
 ========================= */
 
 body::after{
@@ -75,12 +84,12 @@ body::after{
 
   background-size:6px 6px;
 
-  opacity:0.08;
+  opacity:0.07;
   mix-blend-mode:overlay;
 }
 
 /* =========================
-   GRAIN (FIXED STRONGER)
+   GRAIN / FILM
 ========================= */
 
 .noise{
@@ -90,7 +99,7 @@ body::after{
 
   z-index:2;
 
-  opacity:0.18;
+  opacity:0.16;
 
   background-image:url("https://grainy-gradients.vercel.app/noise.svg");
 
@@ -116,13 +125,12 @@ body::after{
   max-width:850px;
   margin:auto;
   padding:90px 0;
-
   position:relative;
   z-index:5;
 }
 
 /* =========================
-   HERO (FIXED FONT)
+   HERO
 ========================= */
 
 .hero{
@@ -130,12 +138,11 @@ body::after{
   margin-bottom:55px;
 }
 
-/* 🔥 FONT FIXED HERE */
 .artist-name{
-  font-family:'Space Grotesk', sans-serif;
+  font-family:'Cinzel', serif;
   font-size:5.5rem;
-  font-weight:700;
-  letter-spacing:10px;
+  font-weight:800;
+  letter-spacing:8px;
   text-transform:uppercase;
   color:#f5f5f5;
   text-shadow:0 0 12px rgba(255,255,255,0.06);
