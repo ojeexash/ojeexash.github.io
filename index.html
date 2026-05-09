@@ -1,155 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARTIST NAME</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ojee Ka$h</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    background:#000;
-    color:#fff;
-    font-family:'Inter',sans-serif;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:40px 20px;
-}
-
-.container{
-    width:100%;
-    max-width:700px;
-}
-
-h1{
-    font-size:42px;
-    margin-bottom:12px;
-}
-
-.bio{
-    color:#888;
-    margin-bottom:40px;
-}
-
-.section-title{
-    font-size:13px;
-    letter-spacing:2px;
-    color:#666;
-    margin-bottom:15px;
-    text-transform:uppercase;
-}
-
-.links{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-    margin-bottom:50px;
-}
-
-.links a{
-    border:1px solid #222;
-    padding:12px 18px;
-    border-radius:14px;
-    color:white;
-    text-decoration:none;
-    transition:.2s;
-    background:#111;
-}
-
-.links a:hover{
-    background:#fff;
-    color:#000;
-}
-
-.release{
-    border:1px solid #1a1a1a;
-    border-radius:20px;
-    padding:22px;
-    margin-bottom:18px;
-    background:#0b0b0b;
-}
-
-.release h2{
-    margin-bottom:14px;
-}
-
-.platforms{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-}
-
-.platforms a{
-    text-decoration:none;
-    color:#999;
-    border:1px solid #222;
-    padding:8px 12px;
-    border-radius:10px;
-    transition:.2s;
-}
-
-.platforms a:hover{
-    color:#fff;
-    border-color:#555;
-}
-</style>
+  <!-- Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
 </head>
-
 <body>
 
-<div class="container">
+  <div class="container">
 
-<h1>ARTIST NAME</h1>
-<p class="bio">
-music / visuals / whatever
-</p>
+    <!-- Artist Name -->
+    <h1 class="artist">Ojee Ka$h</h1>
 
-<div class="section-title">socials</div>
+    <!-- Socials -->
+    <div class="socials">
 
-<div class="links">
-    <a href="#">Instagram</a>
-    <a href="#">Twitter/X</a>
-    <a href="#">YouTube</a>
-    <a href="#">Spotify</a>
-    <a href="#">Apple Music</a>
-    <a href="#">Deezer</a>
-    <a href="#">YouTube Music</a>
-</div>
+      <a href="https://instagram.com/" target="_blank">
+        <i class="fab fa-instagram"></i>
+      </a>
 
-<div class="section-title">releases</div>
+      <a href="https://twitter.com/" target="_blank">
+        <i class="fab fa-x-twitter"></i>
+      </a>
 
-<div class="release">
-    <h2>ALBUM NAME</h2>
+      <a href="https://youtube.com/" target="_blank">
+        <i class="fab fa-youtube"></i>
+      </a>
 
-    <div class="platforms">
-        <a href="#">Spotify</a>
-        <a href="#">Apple Music</a>
-        <a href="#">YouTube Music</a>
-        <a href="#">Deezer</a>
+      <a href="https://spotify.com/" target="_blank">
+        <i class="fab fa-spotify"></i>
+      </a>
+
+      <a href="https://music.apple.com/" target="_blank">
+        <i class="fab fa-apple"></i>
+      </a>
+
+      <a href="https://deezer.com/" target="_blank">
+        <i class="fab fa-deezer"></i>
+      </a>
+
+      <a href="https://music.youtube.com/" target="_blank">
+        <i class="fab fa-youtube"></i>
+      </a>
+
     </div>
-</div>
 
-<div class="release">
-    <h2>SINGLE NAME</h2>
+    <!-- Releases -->
+    <section class="section">
+      <h2>RELEASES</h2>
 
-    <div class="platforms">
-        <a href="#">Spotify</a>
-        <a href="#">Apple Music</a>
-        <a href="#">YouTube</a>
-    </div>
-</div>
+      <div class="release-card">
+        <h3>JEEP CALLIN'</h3>
 
-</div>
+        <div class="platforms">
+          <a href="#">Spotify</a>
+          <a href="#">Apple Music</a>
+          <a href="#">YouTube Music</a>
+          <a href="#">Deezer</a>
+        </div>
+      </div>
+
+      <div class="release-card">
+        <h3>THOSE LIES</h3>
+
+        <div class="platforms">
+          <a href="#">Spotify</a>
+          <a href="#">Apple Music</a>
+          <a href="#">YouTube Music</a>
+          <a href="#">Deezer</a>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Albums -->
+    <section class="section">
+      <h2>WINGED DUSTOFF</h2>
+
+      <div class="album open">
+        WINGED DUSTOFF PT.1
+      </div>
+
+      <div class="album locked">
+        🔒 WINGED DUSTOFF PT.2
+      </div>
+
+      <div class="album locked">
+        🔒 WINGED DUSTOFF PT.3
+      </div>
+
+      <div class="album locked">
+        🔒 WINGED DUSTOFF PT.4
+      </div>
+
+      <div class="album locked">
+        🔒 WINGED DUSTOFF PT.5
+      </div>
+
+    </section>
+
+  </div>
 
 </body>
 </html>
