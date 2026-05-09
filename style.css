@@ -6,90 +6,240 @@
 
 body{
   background:#000;
-  color:#fff;
-  font-family:Arial, Helvetica, sans-serif;
+  color:white;
+  font-family:'Inter', sans-serif;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* GRAIN / NOISE EFFECT */
+
+.noise{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:0.08;
+  z-index:999;
+
+  background-image:
+  url("https://grainy-gradients.vercel.app/noise.svg");
+}
+
+/* BACKGROUND GLOW */
+
+body::before{
+  content:'';
+  position:fixed;
+  width:700px;
+  height:700px;
+  background:radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%);
+  top:-200px;
+  left:50%;
+  transform:translateX(-50%);
+  filter:blur(80px);
+  z-index:-1;
 }
 
 .container{
-  width:90%;
-  max-width:700px;
+  width:92%;
+  max-width:850px;
   margin:auto;
-  padding:60px 0;
-  text-align:center;
+  padding:80px 0;
 }
 
-.artist{
-  font-size:4rem;
-  margin-bottom:30px;
-  letter-spacing:3px;
+/* HERO */
+
+.hero{
+  text-align:center;
+  margin-bottom:40px;
 }
+
+.artist-name{
+  font-family:'Cinzel', serif;
+  font-size:5rem;
+  font-weight:800;
+  letter-spacing:6px;
+  text-transform:uppercase;
+
+  text-shadow:
+  0 0 10px rgba(255,255,255,0.15),
+  0 0 30px rgba(255,255,255,0.08);
+}
+
+.tagline{
+  margin-top:12px;
+  color:#888;
+  letter-spacing:3px;
+  font-size:0.8rem;
+}
+
+/* SOCIALS */
 
 .socials{
   display:flex;
   justify-content:center;
-  gap:20px;
-  margin-bottom:60px;
+  gap:22px;
+  margin-bottom:70px;
 }
 
 .socials a{
   color:white;
-  font-size:1.7rem;
-  transition:0.3s;
+  font-size:1.4rem;
+  transition:0.35s ease;
 }
 
 .socials a:hover{
-  opacity:0.6;
+  transform:translateY(-4px) scale(1.08);
+  color:#cfcfcf;
 }
 
+/* SECTION */
+
 .section{
-  margin-bottom:60px;
+  margin-bottom:70px;
 }
 
 .section h2{
-  margin-bottom:25px;
-  font-size:1.2rem;
-  letter-spacing:2px;
+  font-size:0.9rem;
+  letter-spacing:5px;
+  color:#888;
+  margin-bottom:22px;
 }
+
+/* RELEASES */
 
 .release-card{
-  border:1px solid #222;
-  padding:20px;
-  margin-bottom:20px;
-  background:#0a0a0a;
+  display:flex;
+  gap:22px;
+
+  margin-bottom:24px;
+  padding:18px;
+
+  background:rgba(255,255,255,0.03);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(12px);
+
+  transition:0.3s ease;
 }
 
-.release-card h3{
-  margin-bottom:15px;
+.release-card:hover{
+  transform:scale(1.01);
+  border-color:rgba(255,255,255,0.2);
+}
+
+.release-card img{
+  width:120px;
+  height:120px;
+  object-fit:cover;
+}
+
+.release-info{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.release-info h3{
+  font-size:1.3rem;
+  margin-bottom:14px;
 }
 
 .platforms{
   display:flex;
-  justify-content:center;
-  gap:15px;
+  gap:12px;
   flex-wrap:wrap;
 }
 
 .platforms a{
-  color:#999;
+  color:#9e9e9e;
   text-decoration:none;
-  transition:0.3s;
+  font-size:0.9rem;
+  transition:0.25s;
 }
 
 .platforms a:hover{
-  color:#fff;
+  color:white;
 }
 
-.album{
-  border:1px solid #222;
-  padding:18px;
-  margin-bottom:15px;
+/* ALBUMS */
+
+.album-card{
+  position:relative;
+
+  height:150px;
+
+  margin-bottom:20px;
+
+  overflow:hidden;
+
+  border:1px solid rgba(255,255,255,0.08);
+
   background:#0a0a0a;
 }
 
-.locked{
-  opacity:0.4;
+.album-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:brightness(0.8);
 }
 
-.open{
-  border-color:white;
+.album-info{
+  position:absolute;
+  bottom:0;
+  left:0;
+
+  width:100%;
+
+  padding:18px;
+
+  background:linear-gradient(
+    transparent,
+    rgba(0,0,0,0.9)
+  );
+}
+
+.album-info h3{
+  letter-spacing:2px;
+}
+
+.locked{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:
+  linear-gradient(
+    135deg,
+    #050505,
+    #111
+  );
+
+  opacity:0.45;
+}
+
+.locked-center{
+  letter-spacing:3px;
+  color:#999;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  .artist-name{
+    font-size:3rem;
+  }
+
+  .release-card{
+    flex-direction:column;
+  }
+
+  .release-card img{
+    width:100%;
+    height:250px;
+  }
+
 }
