@@ -13,6 +13,10 @@ html{
   color:black;
 }
 
+/* =========================
+   MATTE BLACK CORE
+========================= */
+
 body{
   background:
     radial-gradient(circle at 20% 0%,
@@ -35,32 +39,23 @@ body{
   letter-spacing:0.5px;
 }
 
-/* MATTE TOP LIGHT */
-
+/* TOP GLOW */
 body::before{
-
   content:'';
-
   position:fixed;
-
   inset:0;
-
   pointer-events:none;
-
   background:
-  radial-gradient(
-    circle at top,
-    rgba(255,255,255,0.05),
-    transparent 45%
-  );
-
+    radial-gradient(circle at top,
+      rgba(255,255,255,0.05),
+      transparent 45%);
   z-index:-2;
 }
 
-/* GRAIN / FILM */
+/* =========================
+   METALLIC MICRO GRID (FIXED)
+========================= */
 
-.noise{
-/* subtle metallic dust layer */
 body::after{
   content:'';
   position:fixed;
@@ -77,143 +72,91 @@ body::after{
 
   mix-blend-mode:overlay;
 }
+
+/* =========================
+   GRAIN / FILM
+========================= */
+
+.noise{
   position:fixed;
-
   inset:0;
-
   pointer-events:none;
-
   opacity:0.10;
-
   z-index:999;
 
-  background-image:
-  url("https://grainy-gradients.vercel.app/noise.svg");
-
+  background-image:url("https://grainy-gradients.vercel.app/noise.svg");
   mix-blend-mode:soft-light;
 
   animation:grain 0.25s steps(1) infinite;
 }
 
 @keyframes grain{
-
-  0%{
-    transform:translate(0,0)
-  }
-
-  20%{
-    transform:translate(-1%,-1%)
-  }
-
-  40%{
-    transform:translate(1%,1%)
-  }
-
-  60%{
-    transform:translate(-1%,1%)
-  }
-
-  80%{
-    transform:translate(1%,-1%)
-  }
-
-  100%{
-    transform:translate(0,0)
-  }
+  0%{transform:translate(0,0)}
+  25%{transform:translate(-1%,-1%)}
+  50%{transform:translate(1%,1%)}
+  75%{transform:translate(-1%,1%)}
+  100%{transform:translate(0,0)}
 }
 
-/* CONTAINER */
+/* =========================
+   LAYOUT
+========================= */
 
 .container{
-
   width:92%;
   max-width:850px;
-
   margin:auto;
-
   padding:90px 0;
 }
 
 /* HERO */
 
 .hero{
-
   text-align:center;
-
   margin-bottom:55px;
 }
 
 .artist-name{
-
   font-family:'Cinzel', serif;
-
   font-size:5.5rem;
-
   font-weight:800;
-
   letter-spacing:8px;
-
   text-transform:uppercase;
-
   color:#f4f4f4;
-
-  text-shadow:
-  0 0 8px rgba(255,255,255,0.05);
-
+  text-shadow:0 0 8px rgba(255,255,255,0.05);
   position:relative;
-
   display:inline-block;
 }
 
 .artist-name::after{
-
   content:'';
-
   position:absolute;
-
   left:50%;
   bottom:-12px;
-
   width:120px;
   height:1px;
-
-  background:
-  rgba(255,255,255,0.12);
-
+  background:rgba(255,255,255,0.12);
   transform:translateX(-50%);
 }
 
 /* SOCIALS */
 
 .socials{
-
   display:flex;
-
   justify-content:center;
-
   gap:24px;
-
   margin-bottom:80px;
 }
 
 .socials a{
-
   color:#d9d9d9;
-
   font-size:1.45rem;
-
   transition:0.35s ease;
 }
 
 .socials a:hover{
-
-  transform:
-  translateY(-3px)
-  scale(1.06);
-
+  transform:translateY(-3px) scale(1.06);
   color:white;
-
-  opacity:1;
 }
 
 /* SECTION */
@@ -223,205 +166,123 @@ body::after{
 }
 
 .section h2{
-
   font-size:0.82rem;
-
   letter-spacing:6px;
-
   color:#727272;
-
   margin-bottom:24px;
 }
 
-/* RELEASE CARDS */
+/* RELEASE */
 
 .release-card{
-
   display:flex;
-
   gap:22px;
-
   margin-bottom:24px;
-
   padding:18px;
-
   background:#0b0b0b;
-
-  border:
-  1px solid rgba(255,255,255,0.05);
-
+  border:1px solid rgba(255,255,255,0.05);
   transition:0.35s ease;
-
   overflow:hidden;
 }
 
 .release-card:hover{
-
-  transform:
-  translateY(-2px);
-
-  border-color:
-  rgba(255,255,255,0.12);
+  transform:translateY(-2px);
+  border-color:rgba(255,255,255,0.12);
 }
 
-/* COVER ARTS */
+/* IMAGES */
 
 .release-card img,
 .album-card img{
-
   width:120px;
   height:120px;
-
   object-fit:cover;
-
-  filter:
-  grayscale(10%)
-  contrast(1.02)
-  brightness(0.88);
-
+  filter:grayscale(10%) contrast(1.02) brightness(0.88);
   transition:0.4s ease;
 }
 
 .release-card:hover img,
 .album-card:hover img{
-
   transform:scale(1.02);
-
-  filter:
-  grayscale(0%)
-  contrast(1.05)
-  brightness(0.94);
+  filter:grayscale(0%) contrast(1.05) brightness(0.94);
 }
 
-/* RELEASE INFO */
+/* INFO */
 
 .release-info{
-
   display:flex;
-
   flex-direction:column;
-
   justify-content:center;
 }
 
 .release-info h3{
-
   margin-bottom:15px;
-
   font-size:1.2rem;
-
   letter-spacing:2px;
 }
 
-/* PLATFORMS */
+/* LINKS */
 
 .platforms{
-
   display:flex;
-
   gap:14px;
-
   flex-wrap:wrap;
 }
 
 .platforms a{
-
   color:#8c8c8c;
-
   text-decoration:none;
-
   font-size:0.9rem;
-
   transition:0.25s ease;
 }
 
 .platforms a:hover{
-
   color:white;
 }
 
 /* ALBUMS */
 
 .album-card{
-
   position:relative;
-
   height:150px;
-
   overflow:hidden;
-
   margin-bottom:18px;
-
   background:#0a0a0a;
-
-  border:
-  1px solid rgba(255,255,255,0.05);
-
+  border:1px solid rgba(255,255,255,0.05);
   transition:0.35s ease;
 }
 
 .album-card:hover{
-
-  border-color:
-  rgba(255,255,255,0.12);
-}
-
-.album-card img{
-
-  width:100%;
-  height:100%;
-
-  object-fit:cover;
-
-  transition:0.4s ease;
+  border-color:rgba(255,255,255,0.12);
 }
 
 .album-info{
-
   position:absolute;
-
   left:0;
   bottom:0;
-
   width:100%;
-
   padding:20px;
-
-  background:
-  linear-gradient(
-    transparent,
-    rgba(0,0,0,0.94)
-  );
+  background:linear-gradient(transparent, rgba(0,0,0,0.94));
 }
 
 .album-info h3{
-
   letter-spacing:2px;
-
   font-size:1rem;
 }
 
 /* LOCKED */
 
 .locked{
-
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
   background:#080808;
-
   opacity:0.42;
 }
 
 .locked-center{
-
   letter-spacing:3px;
-
   color:#8d8d8d;
-
   font-size:0.92rem;
 }
 
@@ -430,27 +291,21 @@ body::after{
 @media(max-width:700px){
 
   .artist-name{
-
     font-size:3.2rem;
-
     letter-spacing:5px;
   }
 
   .release-card{
-
     flex-direction:column;
   }
 
   .release-card img{
-
     width:100%;
     height:260px;
   }
 
   .socials{
-
     gap:18px;
-
     flex-wrap:wrap;
   }
 }
