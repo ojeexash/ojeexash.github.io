@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ojeexash.github.io/sitemap.xml
