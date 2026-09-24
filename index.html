@@ -7,11 +7,16 @@
 
   <title>Ojee Ka$h — Ojee Kash | Official Artist</title>
 
-  <!-- SEO / ENTITY METADATA -->
+  <!-- SEARCH / SEO -->
 
 <meta
  name="description"
  content="Ojee Ka$h — official artist profile, releases, music and artist information. Ojee Kash, also known online as OjeeXash."
+/>
+
+<meta
+ name="robots"
+ content="index, follow, max-image-preview:large"
 />
 
   <link
@@ -22,9 +27,10 @@
   <!-- OPEN GRAPH -->
 
   <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content="Ojee Ka$h" />
   <meta
     property="og:title"
-    content="Ojee Ka$h — Official Artist"
+    content="Ojee Ka$h — Ojee Kash | Official Artist"
   />
   <meta
     property="og:description"
@@ -34,17 +40,25 @@
     property="og:url"
     content="https://ojeexash.github.io/"
   />
+  <meta
+    property="og:image"
+    content="https://ojeexash.github.io/images/wdpt1.png"
+  />
 
   <!-- X / TWITTER -->
 
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta
     name="twitter:title"
-    content="Ojee Ka$h — Official Artist"
+    content="Ojee Ka$h — Ojee Kash | Official Artist"
   />
   <meta
     name="twitter:description"
     content="Ojee Ka$h — official artist profile, releases, music and artist information."
+  />
+  <meta
+    name="twitter:image"
+    content="https://ojeexash.github.io/images/wdpt1.png"
   />
 
   <!-- Fonts -->
@@ -58,38 +72,50 @@
 
   <!-- Icons -->
 
-  <link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
 
   <!-- PROFILE PAGE / ARTIST ENTITY -->
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "ProfilePage",
-    "mainEntity": {
-      "@id": "https://ojeexash.github.io/#ojee-kash",
-      "@type": "Person",
-      "name": "Ojee Ka$h",
-      "alternateName": [
-        "Ojee Kash",
-        "OjeeXash",
-        "Ojee",
-        "OJEE"
-      ],
-      "description": "Music artist known as Ojee Ka$h, also known online as Ojee Kash and OjeeXash.",
-      "url": "https://ojeexash.github.io/",
-      "jobTitle": "Music Artist",
-      "sameAs": [
-        "https://www.instagram.com/ojeexash",
-        "https://twitter.com/ojeexash",
-        "https://youtube.com/@ojeexash",
-        "https://open.spotify.com/intl-tr/artist/4egYN5eH7PKh8awXxG2xPQ",
-        "https://music.apple.com/us/artist/ojee-ka%24h/1864873516",
-        "https://www.deezer.com/tr/artist/364628982",
-        "https://soundcloud.com/ojeexash"
-      ]
-    }
+    "@graph": [
+      {
+        "@type": "ProfilePage",
+        "@id": "https://ojeexash.github.io/#profilepage",
+        "url": "https://ojeexash.github.io/",
+        "name": "Ojee Ka$h — Ojee Kash | Official Artist",
+        "mainEntity": {
+          "@id": "https://ojeexash.github.io/#ojee-kash"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://ojeexash.github.io/#ojee-kash",
+        "name": "Ojee Ka$h",
+        "alternateName": [
+          "Ojee Kash",
+          "OjeeXash",
+          "Ojee",
+          "OJEE"
+        ],
+        "description": "Music artist known as Ojee Ka$h, also known online as Ojee Kash and OjeeXash.",
+        "url": "https://ojeexash.github.io/",
+        "jobTitle": "Music Artist",
+        "sameAs": [
+          "https://www.instagram.com/ojeexash",
+          "https://twitter.com/ojeexash",
+          "https://youtube.com/@ojeexash",
+          "https://open.spotify.com/intl-tr/artist/4egYN5eH7PKh8awXxG2xPQ",
+          "https://music.apple.com/us/artist/ojee-ka%24h/1864873516",
+          "https://www.deezer.com/tr/artist/364628982",
+          "https://soundcloud.com/ojeexash"
+        ]
+      }
+    ]
   }
   </script>
 
@@ -158,7 +184,7 @@
 
     .hero{
       text-align:center;
-      margin-bottom:55px;
+      margin-bottom:75px;
     }
 
     .artist-name{
@@ -188,7 +214,7 @@
       display:flex;
       justify-content:center;
       gap:24px;
-      margin-bottom:80px;
+      margin-bottom:105px;
     }
 
     .socials a{
@@ -203,7 +229,7 @@
     }
 
     .section{
-      margin-bottom:75px;
+      margin-bottom:105px;
     }
 
     .section h2{
@@ -506,6 +532,16 @@
   </div>
 
 </div>
+```
+
+  </section>
+
+  <!-- GALLERY -->
+
+  <section class="section">
+
+```
+<h2>GALLERY</h2>
 ```
 
   </section>
