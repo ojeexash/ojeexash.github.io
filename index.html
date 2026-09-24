@@ -16,7 +16,7 @@
 
 <meta
  name="robots"
- content="index, follow, max-image-preview:large"
+ content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
 />
 
   <link
@@ -24,42 +24,67 @@
     href="https://ojeexash.github.io/"
   />
 
+  <!-- FAVICON -->
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="/images/wdpt1.png"
+  />
+
+  <link
+    rel="apple-touch-icon"
+    href="/images/wdpt1.png"
+  />
+
   <!-- OPEN GRAPH -->
 
   <meta property="og:type" content="profile" />
   <meta property="og:site_name" content="Ojee Ka$h" />
-  <meta
-    property="og:title"
-    content="Ojee Ka$h — Ojee Kash | Official Artist"
-  />
-  <meta
-    property="og:description"
-    content="Ojee Ka$h — official artist profile, releases, music and artist information."
-  />
-  <meta
-    property="og:url"
-    content="https://ojeexash.github.io/"
-  />
-  <meta
-    property="og:image"
-    content="https://ojeexash.github.io/images/wdpt1.png"
-  />
+
+<meta
+ property="og:title"
+ content="Ojee Ka$h — Ojee Kash | Official Artist"
+/>
+
+<meta
+ property="og:description"
+ content="Ojee Ka$h — official artist profile, releases, music and artist information."
+/>
+
+<meta
+ property="og:url"
+ content="https://ojeexash.github.io/"
+/>
+
+<meta
+ property="og:image"
+ content="https://ojeexash.github.io/images/wdpt1.png"
+/>
+
+<meta
+ property="og:locale"
+ content="en_US"
+/>
 
   <!-- X / TWITTER -->
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta
-    name="twitter:title"
-    content="Ojee Ka$h — Ojee Kash | Official Artist"
-  />
-  <meta
-    name="twitter:description"
-    content="Ojee Ka$h — official artist profile, releases, music and artist information."
-  />
-  <meta
-    name="twitter:image"
-    content="https://ojeexash.github.io/images/wdpt1.png"
-  />
+
+<meta
+ name="twitter:title"
+ content="Ojee Ka$h — Ojee Kash | Official Artist"
+/>
+
+<meta
+ name="twitter:description"
+ content="Ojee Ka$h — official artist profile, releases, music and artist information."
+/>
+
+<meta
+ name="twitter:image"
+ content="https://ojeexash.github.io/images/wdpt1.png"
+/>
 
   <!-- Fonts -->
 
@@ -77,17 +102,31 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
   />
 
-  <!-- PROFILE PAGE / ARTIST ENTITY -->
+  <!-- WEBSITE / WEBPAGE / ARTIST ENTITY -->
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "ProfilePage",
-        "@id": "https://ojeexash.github.io/#profilepage",
+        "@type": "WebSite",
+        "@id": "https://ojeexash.github.io/#website",
+        "url": "https://ojeexash.github.io/",
+        "name": "Ojee Ka$h",
+        "alternateName": [
+          "Ojee Kash",
+          "OjeeXash",
+          "Ojee"
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://ojeexash.github.io/#webpage",
         "url": "https://ojeexash.github.io/",
         "name": "Ojee Ka$h — Ojee Kash | Official Artist",
+        "isPartOf": {
+          "@id": "https://ojeexash.github.io/#website"
+        },
         "mainEntity": {
           "@id": "https://ojeexash.github.io/#ojee-kash"
         }
@@ -98,9 +137,7 @@
         "name": "Ojee Ka$h",
         "alternateName": [
           "Ojee Kash",
-          "OjeeXash",
-          "Ojee",
-          "OJEE"
+          "OjeeXash"
         ],
         "description": "Music artist known as Ojee Ka$h, also known online as Ojee Kash and OjeeXash.",
         "url": "https://ojeexash.github.io/",
@@ -372,7 +409,7 @@
 
   <div class="socials">
 
-
+```
 <a
   href="https://www.instagram.com/ojeexash"
   target="_blank"
@@ -442,7 +479,7 @@
 >
   <i class="fab fa-soundcloud"></i>
 </a>
-
+```
 
   </div>
 
@@ -450,10 +487,11 @@
 
   <section class="section">
 
-
+```
 <h2>LATEST RELEASES</h2>
 
 <!-- JEEP CALLIN -->
+
 <div class="release-card">
 
   <img
@@ -494,6 +532,7 @@
 </div>
 
 <!-- THOSE LIES -->
+
 <div class="release-card">
 
   <img
@@ -532,7 +571,7 @@
   </div>
 
 </div>
-
+```
 
   </section>
 
@@ -540,9 +579,9 @@
 
   <section class="section">
 
-
+```
 <h2>GALLERY</h2>
-
+```
 
   </section>
 
@@ -550,7 +589,7 @@
 
   <section class="section">
 
-
+```
 <h2>WINGED DUSTOFF SERIE</h2>
 
 <div class="album-card">
@@ -581,7 +620,7 @@
 <div class="album-card locked">
   <div class="locked-center">PT.5 🔒</div>
 </div>
-
+```
 
   </section>
 
