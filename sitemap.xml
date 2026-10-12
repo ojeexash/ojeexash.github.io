@@ -1,23 +1,6 @@
 
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ojeexash.github.io/</loc>
-    <image:image>
-      <image:loc>https://ojeexash.github.io/images/gta-love-ojee-kash-original-cover.png</image:loc>
-      <image:title>Ojee Ka$h - GTA LOVE</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://ojeexash.github.io/images/gta-love-ojee-kash-artwork.png</image:loc>
-      <image:title>Ojee Ka$h - GTA LOVE Artwork</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://ojeexash.github.io/images/gta-love-ojee-kash-poster.png</image:loc>
-      <image:title>Ojee Ka$h - GTA LOVE Poster</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://ojeexash.github.io/images/gta-love-ojee-kash-alternate-cover.png</image:loc>
-      <image:title>Ojee Ka$h - GTA LOVE Alternate Cover</image:title>
-    </image:image>
   </url>
 </urlset>
