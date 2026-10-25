@@ -1,6 +1,59 @@
 
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
   <url>
     <loc>https://ojeexash.github.io/</loc>
+
+    <image:image>
+      <image:loc>https://ojeexash.github.io/images/kash-ojee-arch-92139.png</image:loc>
+      <image:title>Ojee Ka$h archival visual artwork</image:title>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ojeexash.github.io/images/ojee-kash-arch-30123.png</image:loc>
+      <image:title>Ojee Ka$h archive visual</image:title>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ojeexash.github.io/images/ojee-kash-gta-love-visual-cd.png</image:loc>
+      <image:title>Ojee Ka$h GTA LOVE visual artwork</image:title>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ojeexash.github.io/images/gta-love-ojee-kash-artwork.png</image:loc>
+      <image:title>Ojee Ka$h GTA LOVE artwork</image:title>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ojeexash.github.io/images/gta-love-ojee-kash-poster.png</image:loc>
+      <image:title>Ojee Ka$h GTA LOVE poster artwork</image:title>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ojeexash.github.io/images/gta-love-ojee-kash-alternate-cover.png</image:loc>
+      <image:title>Ojee Ka$h GTA LOVE alternate cover artwork</image:title>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ojeexash.github.io/images/gta-love-ojee-kash-original-cover.png</image:loc>
+      <image:title>Ojee Ka$h GTA LOVE original cover</image:title>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ojeexash.github.io/images/ojee-kash-official-spotify-portrait.png</image:loc>
+      <image:title>Ojee Ka$h official artist portrait</image:title>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ojeexash.github.io/images/wdpt1.png</image:loc>
+      <image:title>Ojee Ka$h WINGED DUSTOFF PT.1 artwork</image:title>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ojeexash.github.io/images/horizontal-winged-dustoff-pt-2-cover-ojee-kash.png</image:loc>
+      <image:title>Ojee Ka$h WINGED DUSTOFF PT.2 artwork</image:title>
+    </image:image>
+
   </url>
 </urlset>
