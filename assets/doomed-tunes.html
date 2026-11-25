@@ -1,33 +1,29 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#111b2b">
-
 <title>DOOMED TUNES® powered by OjeeXa$h</title>
-<meta name="description" content="Explore DOOMED TUNES®, a music selection powered by Ojee Ka$h and VN RECORDS.">
+<meta name="description" content="Explore doom tunes station powered by Ojee Ka$h.">
 <meta name="author" content="Ojee Ka$h">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ojeexash.github.io/">
-
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ojee Ka$h">
 <meta property="og:title" content="DOOMED TUNES® powered by OjeeXa$h">
-<meta property="og:description" content="Explore DOOMED TUNES®, a music selection powered by Ojee Ka$h and VN RECORDS.">
+<meta property="og:description" content="Explore doom tunes station powered by Ojee Ka$h.">
 <meta property="og:url" content="https://ojeexash.github.io/#doomed-tunes">
-
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DOOMED TUNES® powered by OjeeXa$h">
-<meta name="twitter:description" content="Explore DOOMED TUNES®, a music selection powered by Ojee Ka$h and VN RECORDS.">
+<meta name="twitter:description" content="Explore doom tunes station powered by Ojee Ka$h">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "MusicPlaylist",
   "name": "DOOMED TUNES® powered by OjeeXa$h",
-  "description": "A music selection powered by Ojee Ka$h and VN RECORDS.",
+  "description": "Explore doom tunes station powered by Ojee Ka$h.",
   "url": "https://ojeexash.github.io/#doomed-tunes",
   "sameAs": "https://soundcloud.com/ojeexash/sets/doomed-tunes-fm",
   "creator": {
@@ -44,348 +40,470 @@
 
 <style>
 :root {
-  --bg:#111b2b;
-  --panel:#18263a;
-  --text:#f4f3ef;
-  --muted:#8994a5;
-  --accent:#b8a0ff;
-  --line:rgba(255,255,255,.13);
+  --bg: #111b2b;
+  --panel: #18263a;
+  --text: #f4f3ef;
+  --muted: #8994a5;
+  --accent: #b8a0ff;
+  --line: rgba(255,255,255,.13);
 }
-* { box-sizing:border-box; }
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  margin:0;
-  padding:0;
-  background:transparent;
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
 }
-button { font:inherit; }
+
+button {
+  font: inherit;
+}
+
 .doomed {
-  width:100%;
-  max-width:1000px;
-  margin:0 auto;
-  padding:34px;
-  background:var(--bg);
-  border:1px solid var(--line);
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 34px;
+  background: var(--bg);
+  border: 1px solid var(--line);
 }
+
 .header {
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:20px;
-  padding-bottom:25px;
-  border-bottom:1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid var(--line);
 }
+
 .eyebrow {
-  margin:0 0 12px;
-  color:var(--muted);
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:.25em;
-  text-transform:uppercase;
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .25em;
+  text-transform: uppercase;
 }
+
 .heading {
-  margin:0;
-  font-size:clamp(28px,5vw,48px);
-  font-weight:900;
-  letter-spacing:-.055em;
-  line-height:1;
+  margin: 0;
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 900;
+  letter-spacing: -.055em;
+  line-height: 1;
 }
-.heading span { color:var(--accent); }
+
+.heading span {
+  color: var(--accent);
+}
+
 .subheading {
-  margin:9px 0 0;
-  color:var(--muted);
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:.2em;
-  line-height:1.4;
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .2em;
+  line-height: 1.4;
 }
+
 .volume-wrap {
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  min-width:90px;
-  padding-top:8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 90px;
+  padding-top: 8px;
 }
+
 .volume-control {
-  width:100px;
-  max-width:100%;
-  height:4px;
-  margin:0;
-  accent-color:var(--accent);
-  cursor:pointer;
+  width: 100px;
+  max-width: 100%;
+  height: 4px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
 }
+
 .main {
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);
-  gap:30px;
-  padding-top:28px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 30px;
+  padding-top: 28px;
 }
+
 .now-playing {
-  display:flex;
-  flex-direction:column;
-  min-width:0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
+
 .artwork {
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:100%;
-  aspect-ratio:1;
-  overflow:hidden;
-  background:var(--panel);
-  border:1px solid var(--line);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--line);
 }
+
 .artwork img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
+
 .artwork-placeholder {
-  color:var(--accent);
-  font-size:clamp(42px,9vw,90px);
-  font-weight:900;
-  letter-spacing:-.1em;
+  color: var(--accent);
+  font-size: clamp(42px, 9vw, 90px);
+  font-weight: 900;
+  letter-spacing: -.1em;
 }
-.track-info { padding:22px 0 15px; }
+
+.track-info {
+  padding: 22px 0 15px;
+}
+
 .track-status {
-  margin-bottom:9px;
-  color:var(--accent);
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:.2em;
-  text-transform:uppercase;
+  margin-bottom: 9px;
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .2em;
+  text-transform: uppercase;
 }
+
 .track-title {
-  margin:0;
-  overflow-wrap:anywhere;
-  font-size:clamp(19px,3vw,26px);
-  font-weight:800;
-  letter-spacing:-.035em;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: clamp(19px, 3vw, 26px);
+  font-weight: 800;
+  letter-spacing: -.035em;
 }
+
 .track-artist {
-  margin:8px 0 0;
-  color:var(--muted);
-  font-size:12px;
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 12px;
 }
-.track-artist:empty { display:none; }
+
 .controls {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-top:auto;
-  padding-top:18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 18px;
 }
+
 .control {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:42px;
-  height:42px;
-  padding:0;
-  color:var(--text);
-  background:transparent;
-  border:1px solid var(--line);
-  cursor:pointer;
-  transition:.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: .2s ease;
 }
-.control:hover,.control.active {
-  color:var(--accent);
-  border-color:var(--accent);
+
+.control:hover,
+.control.active {
+  color: var(--accent);
+  border-color: var(--accent);
 }
+
 .control.play {
-  width:50px;
-  height:50px;
-  color:var(--bg);
-  background:var(--accent);
-  border-color:var(--accent);
-  font-size:18px;
+  width: 50px;
+  height: 50px;
+  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+  font-size: 18px;
 }
-.control.play:hover { opacity:.85; }
+
+.control.play:hover {
+  opacity: .85;
+}
+
 .control.shuffle {
-  margin-left:auto;
-  font-size:17px;
+  margin-left: auto;
+  font-size: 17px;
 }
+
 .control svg {
-  width:17px;
-  height:17px;
-  fill:none;
-  stroke:currentColor;
-  stroke-width:1.8;
-  stroke-linecap:round;
-  stroke-linejoin:round;
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
-.playlist { min-width:0; }
+
+.playlist {
+  min-width: 0;
+}
+
 .playlist-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  padding-bottom:15px;
-  border-bottom:1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--line);
 }
+
 .playlist-heading {
-  margin:0;
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:.15em;
-  text-transform:uppercase;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-transform: uppercase;
 }
+
 .track-count {
-  color:var(--muted);
-  font-size:10px;
-  letter-spacing:.1em;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .1em;
 }
+
 .track-list {
-  max-height:390px;
-  overflow-y:auto;
-  scrollbar-width:thin;
-  scrollbar-color:var(--muted) transparent;
+  max-height: 390px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) transparent;
 }
+
 .track-item {
-  display:grid;
-  grid-template-columns:27px minmax(0,1fr) auto;
-  align-items:center;
-  gap:12px;
-  width:100%;
-  padding:14px 4px;
-  color:var(--text);
-  text-align:left;
-  background:transparent;
-  border:0;
-  border-bottom:1px solid var(--line);
-  cursor:pointer;
+  display: grid;
+  grid-template-columns: 27px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 4px;
+  color: var(--text);
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
 }
-.track-item:hover,.track-item.current {
-  background:rgba(255,255,255,.045);
+
+.track-item:hover,
+.track-item.current {
+  background: rgba(255,255,255,.045);
 }
+
 .track-number {
-  color:var(--muted);
-  font-size:10px;
-  text-align:center;
+  color: var(--muted);
+  font-size: 10px;
+  text-align: center;
 }
-.track-item.current .track-number { color:var(--accent); }
-.track-details { min-width:0; }
+
+.track-item.current .track-number {
+  color: var(--accent);
+}
+
+.track-details {
+  min-width: 0;
+}
+
 .track-name {
-  display:block;
-  overflow:hidden;
-  font-size:12px;
-  font-weight:700;
-  text-overflow:ellipsis;
-  white-space:nowrap;
+  display: block;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
+
 .track-user {
-  display:block;
-  margin-top:5px;
-  overflow:hidden;
-  color:var(--muted);
-  font-size:10px;
-  text-overflow:ellipsis;
-  white-space:nowrap;
+  display: block;
+  margin-top: 5px;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.track-user:empty { display:none; }
+
 .track-duration {
-  color:var(--muted);
-  font-size:10px;
-  font-variant-numeric:tabular-nums;
+  color: var(--muted);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
 }
+
 .message {
-  padding:25px 5px;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.7;
+  padding: 25px 5px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
 }
+
 .footer {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:14px;
-  margin-top:26px;
-  padding-top:18px;
-  border-top:1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
 }
+
 .footer-note {
-  color:var(--muted);
-  font-size:9px;
-  font-weight:700;
-  letter-spacing:.16em;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .16em;
 }
+
 .share-actions {
-  display:flex;
-  align-items:center;
-  gap:8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+
 .share-button {
-  padding:9px 12px;
-  color:var(--text);
-  background:transparent;
-  border:1px solid var(--line);
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:.1em;
-  cursor:pointer;
-  transition:.2s ease;
+  padding: 9px 12px;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--line);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  cursor: pointer;
+  transition: .2s ease;
 }
+
 .share-button:hover {
-  color:var(--accent);
-  border-color:var(--accent);
+  color: var(--accent);
+  border-color: var(--accent);
 }
+
 .soundcloud-source {
-  position:absolute;
-  width:1px;
-  height:1px;
-  left:-10000px;
-  top:0;
-  opacity:0;
-  pointer-events:none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  left: -10000px;
+  top: 0;
+  opacity: 0;
+  pointer-events: none;
 }
-@media(max-width:650px) {
-  .doomed { padding:22px 17px; }
-  .header { gap:10px; }
-  .volume-wrap { min-width:65px; padding-top:6px; }
-  .volume-control { width:72px; }
-  .main { grid-template-columns:1fr; gap:30px; }
-  .artwork { max-width:360px; margin:0 auto; }
-  .track-list { max-height:340px; }
-  .footer { align-items:flex-start; }
+
+@media (max-width: 650px) {
+  .doomed {
+    padding: 22px 17px;
+  }
+
+  .header {
+    gap: 10px;
+  }
+
+  .volume-wrap {
+    min-width: 65px;
+    padding-top: 6px;
+  }
+
+  .volume-control {
+    width: 72px;
+  }
+
+  .main {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .artwork {
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .track-list {
+    max-height: 340px;
+  }
+
+  .footer {
+    align-items: flex-start;
+  }
 }
 </style>
 </head>
 
 <body>
 <section class="doomed" id="doomed-tunes">
+
   <header class="header">
     <div>
       <p class="eyebrow">VN RECORDS® / SELECTION</p>
       <h1 class="heading">DOOMED <span>TUNES</span></h1>
       <p class="subheading">SHUFFLE / PLAY</p>
     </div>
+
     <div class="volume-wrap">
-      <input class="volume-control" id="volume" type="range" min="0" max="100" value="80" aria-label="Sound level" title="Sound level">
+      <input
+        class="volume-control"
+        id="volume"
+        type="range"
+        min="0"
+        max="100"
+        value="80"
+        aria-label="Sound level"
+        title="Sound level">
     </div>
   </header>
 
   <div class="main">
+
     <section class="now-playing">
+
       <div class="artwork" id="artwork">
         <div class="artwork-placeholder">DT®</div>
       </div>
+
       <div class="track-info">
         <div class="track-status" id="track-status">READY TO PLAY</div>
         <h2 class="track-title" id="track-title">DOOMED TUNES</h2>
-        <p class="track-artist" id="track-artist"></p>
+        <p class="track-artist" id="track-artist">SoundCloud Playlist</p>
       </div>
+
       <div class="controls">
-        <button class="control" id="previous" aria-label="Previous track">
-          <svg viewBox="0 0 24 24"><path d="M19 20 9 12l10-8v16Z"/><path d="M5 19V5"/></svg>
+
+        <button class="control" id="previous" type="button" aria-label="Previous track">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 20 9 12l10-8v16Z"/>
+            <path d="M5 19V5"/>
+          </svg>
         </button>
-        <button class="control play" id="play" aria-label="Play">▶</button>
-        <button class="control" id="next" aria-label="Next track">
-          <svg viewBox="0 0 24 24"><path d="m5 4 10 8-10 8V4Z"/><path d="M19 5v14"/></svg>
+
+        <button class="control play" id="play" type="button" aria-label="Play">
+          ▶
         </button>
-        <button class="control shuffle" id="shuffle" aria-label="Toggle shuffle" aria-pressed="false" title="Shuffle">
+
+        <button class="control" id="next" type="button" aria-label="Next track">
+          <svg viewBox="0 0 24 24">
+            <path d="m5 4 10 8-10 8V4Z"/>
+            <path d="M19 5v14"/>
+          </svg>
+        </button>
+
+        <button
+          class="control shuffle"
+          id="shuffle"
+          type="button"
+          aria-label="Toggle shuffle"
+          aria-pressed="false"
+          title="Shuffle">
           <svg viewBox="0 0 24 24">
             <path d="m16 3 4 4-4 4"/>
             <path d="M4 17h2.5a5 5 0 0 0 4-2l3-4a5 5 0 0 1 4-2H20"/>
@@ -394,345 +512,426 @@ button { font:inherit; }
             <path d="M14 16a5 5 0 0 0 2.5 1H20"/>
           </svg>
         </button>
+
       </div>
     </section>
 
     <section class="playlist">
+
       <div class="playlist-header">
         <h2 class="playlist-heading">TRACKLIST</h2>
         <span class="track-count" id="track-count">LOADING</span>
       </div>
+
       <div class="track-list" id="track-list">
         <div class="message">Connecting to SoundCloud...</div>
       </div>
+
     </section>
+
   </div>
 
   <footer class="footer">
     <div class="footer-note">DOOMED TUNES® / VN RECORDS</div>
+
     <div class="share-actions">
-      <button class="share-button" id="share-playlist">SHARE PLAYLIST</button>
-      <button class="share-button" id="share-track">SHARE TRACK</button>
+      <button class="share-button" id="share-playlist" type="button">
+        SHARE PLAYLIST
+      </button>
+
+      <button class="share-button" id="share-track" type="button">
+        SHARE TRACK
+      </button>
     </div>
   </footer>
+
 </section>
 
-<iframe id="soundcloud-player" class="soundcloud-source" title="DOOMED TUNES SoundCloud Player" allow="autoplay" scrolling="no" frameborder="0"></iframe>
+<iframe
+  id="soundcloud-player"
+  class="soundcloud-source"
+  title="DOOMED TUNES SoundCloud Player"
+  allow="autoplay"
+  scrolling="no"
+  frameborder="0">
+</iframe>
+
 <script src="https://w.soundcloud.com/player/api.js"></script>
 
 <script>
-const PLAYLIST_URL = "https://soundcloud.com/ojeexash/sets/doomed-tunes-fm";
-const SHARE_URL = "https://ojeexash.github.io/#doomed-tunes";
+(() => {
+  "use strict";
 
-const iframe = document.getElementById("soundcloud-player");
-const titleEl = document.getElementById("track-title");
-const artistEl = document.getElementById("track-artist");
-const statusEl = document.getElementById("track-status");
-const artworkEl = document.getElementById("artwork");
-const listEl = document.getElementById("track-list");
-const countEl = document.getElementById("track-count");
-const playBtn = document.getElementById("play");
-const shuffleBtn = document.getElementById("shuffle");
-const volumeEl = document.getElementById("volume");
+  const PLAYLIST_URL =
+    "https://soundcloud.com/ojeexash/sets/doomed-tunes-fm";
 
-const embedURL = "https://w.soundcloud.com/player/?" +
-  "url=" + encodeURIComponent(PLAYLIST_URL) +
-  "&auto_play=false&hide_related=true&show_comments=false" +
-  "&show_user=true&show_reposts=false&visual=false";
+  const PAGE_URL =
+    "https://ojeexash.github.io/#doomed-tunes";
 
-let widget;
-let sounds = [];
-let currentIndex = -1;
-let shuffleEnabled = false;
-let isPlaying = false;
-let playRequest = 0;
+  const $ = id => document.getElementById(id);
 
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+  const iframe = $("soundcloud-player");
+  const title = $("track-title");
+  const artist = $("track-artist");
+  const status = $("track-status");
+  const artwork = $("artwork");
+  const list = $("track-list");
+  const count = $("track-count");
+  const playButton = $("play");
+  const shuffleButton = $("shuffle");
+  const volume = $("volume");
 
-function widgetCall(method) {
-  return new Promise(resolve => widget[method](resolve));
-}
+  let player;
+  let tracks = [];
+  let currentIndex = 0;
+  let shuffle = false;
+  let isPlaying = false;
+  let ready = false;
+  let changing = false;
 
-function formatDuration(ms) {
-  const seconds = Math.floor((ms || 0) / 1000);
-  return Math.floor(seconds / 60) + ":" +
-    String(seconds % 60).padStart(2, "0");
-}
+  const embed =
+    "https://w.soundcloud.com/player/?url=" +
+    encodeURIComponent(PLAYLIST_URL) +
+    "&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&visual=false";
 
-function artworkURL(sound) {
-  return sound && sound.artwork_url
-    ? sound.artwork_url.replace("-large", "-t500x500")
-    : "";
-}
+  function message(text) {
+    list.replaceChildren();
 
-function showMessage(message) {
-  listEl.textContent = "";
-  const el = document.createElement("div");
-  el.className = "message";
-  el.textContent = message;
-  listEl.appendChild(el);
-}
+    const node = document.createElement("div");
+    node.className = "message";
+    node.textContent = text;
 
-function updatePlayButton(playing) {
-  isPlaying = playing;
-  playBtn.textContent = playing ? "Ⅱ" : "▶";
-  playBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
-}
-
-function renderTracklist() {
-  if (!sounds.length) {
-    showMessage("No tracks found in this playlist.");
-    countEl.textContent = "EMPTY";
-    return;
+    list.appendChild(node);
   }
 
-  countEl.textContent = String(sounds.length).padStart(2, "0") + " TRACKS";
-  listEl.textContent = "";
+  function duration(ms) {
+    const seconds = Math.floor((Number(ms) || 0) / 1000);
 
-  sounds.forEach((sound, index) => {
-    const item = document.createElement("button");
-    item.type = "button";
-    item.className = "track-item" +
-      (index === currentIndex ? " current" : "");
+    return (
+      Math.floor(seconds / 60) +
+      ":" +
+      String(seconds % 60).padStart(2, "0")
+    );
+  }
 
-    const number = document.createElement("span");
-    number.className = "track-number";
-    number.textContent = String(index + 1).padStart(2, "0");
+  function updatePlayButton(playing) {
+    isPlaying = playing;
+    playButton.textContent = playing ? "Ⅱ" : "▶";
 
-    const details = document.createElement("span");
-    details.className = "track-details";
+    playButton.setAttribute(
+      "aria-label",
+      playing ? "Pause" : "Play"
+    );
+  }
 
-    const name = document.createElement("span");
-    name.className = "track-name";
-    name.textContent = sound.title || "Untitled track";
+  function renderArtwork(track) {
+    const url = track && track.artwork_url
+      ? track.artwork_url.replace("-large", "-t500x500")
+      : "";
 
-    const artist = document.createElement("span");
-    artist.className = "track-user";
-    artist.textContent = sound.user?.username || "";
+    artwork.replaceChildren();
 
-    details.append(name, artist);
+    if (url) {
+      const image = document.createElement("img");
 
-    const duration = document.createElement("span");
-    duration.className = "track-duration";
-    duration.textContent = formatDuration(sound.duration);
+      image.src = url;
+      image.alt = (track.title || "Track") + " artwork";
 
-    item.append(number, details, duration);
-    item.addEventListener("click", () => playTrack(index));
-    listEl.appendChild(item);
-  });
-}
+      artwork.appendChild(image);
+    } else {
+      const placeholder = document.createElement("div");
 
-function updateCurrentTrack(sound) {
-  if (!sound) return;
+      placeholder.className = "artwork-placeholder";
+      placeholder.textContent = "DT®";
 
-  const index = sounds.findIndex(
-    track => String(track.id) === String(sound.id)
-  );
+      artwork.appendChild(placeholder);
+    }
+  }
 
-  if (index !== -1) {
-    sounds[index] = { ...sounds[index], ...sound };
+  function renderTracklist() {
+    count.textContent =
+      String(tracks.length).padStart(2, "0") + " TRACKS";
+
+    list.replaceChildren();
+
+    tracks.forEach((track, index) => {
+      const button = document.createElement("button");
+
+      button.type = "button";
+      button.className =
+        "track-item" +
+        (index === currentIndex ? " current" : "");
+
+      const number = document.createElement("span");
+
+      number.className = "track-number";
+      number.textContent = String(index + 1).padStart(2, "0");
+
+      const details = document.createElement("span");
+      details.className = "track-details";
+
+      const name = document.createElement("span");
+
+      name.className = "track-name";
+      name.textContent = track.title || "Track " + (index + 1);
+
+      const user = document.createElement("span");
+
+      user.className = "track-user";
+      user.textContent = track.user?.username || "SoundCloud";
+
+      details.append(name, user);
+
+      const time = document.createElement("span");
+
+      time.className = "track-duration";
+      time.textContent = duration(track.duration);
+
+      button.append(number, details, time);
+
+      button.addEventListener("click", () => {
+        selectTrack(index);
+      });
+
+      list.appendChild(button);
+    });
+  }
+
+  function showTrack(track, index) {
+    if (!track) return;
+
+    if (
+      Number.isInteger(index) &&
+      index >= 0 &&
+      index < tracks.length
+    ) {
+      currentIndex = index;
+    }
+
+    title.textContent =
+      track.title ||
+      tracks[currentIndex]?.title ||
+      "DOOMED TUNES";
+
+    artist.textContent =
+      track.user?.username ||
+      tracks[currentIndex]?.user?.username ||
+      "SoundCloud";
+
+    renderArtwork(track);
+    renderTracklist();
+  }
+
+  function getRandomIndex() {
+    if (tracks.length < 2) return currentIndex;
+
+    let index;
+
+    do {
+      index = Math.floor(Math.random() * tracks.length);
+    } while (index === currentIndex);
+
+    return index;
+  }
+
+  function selectTrack(index) {
+    if (!ready || changing || index < 0 || index >= tracks.length) {
+      return;
+    }
+
+    changing = true;
     currentIndex = index;
+
+    renderTracklist();
+    status.textContent = "LOADING TRACK";
+
+    player.skip(index);
+    player.seekTo(0);
+    player.play();
+
+    player.getCurrentSound(track => {
+      if (track) showTrack(track, index);
+
+      changing = false;
+      status.textContent = "NOW PLAYING";
+    });
   }
 
-  titleEl.textContent = sound.title || "DOOMED TUNES";
-  artistEl.textContent = sound.user?.username || "";
-  statusEl.textContent = "NOW PLAYING";
+  function nextTrack() {
+    if (!ready || !tracks.length) return;
 
-  artworkEl.textContent = "";
-  const art = artworkURL(sound);
-
-  if (art) {
-    const img = document.createElement("img");
-    img.src = art;
-    img.alt = (sound.title || "Track") + " artwork";
-    artworkEl.appendChild(img);
-  } else {
-    const placeholder = document.createElement("div");
-    placeholder.className = "artwork-placeholder";
-    placeholder.textContent = "DT®";
-    artworkEl.appendChild(placeholder);
+    if (shuffle) {
+      selectTrack(getRandomIndex());
+    } else {
+      player.next();
+    }
   }
 
-  renderTracklist();
-}
+  function previousTrack() {
+    if (!ready || !tracks.length) return;
 
-function randomIndex() {
-  if (sounds.length < 2) return currentIndex;
-
-  let index;
-  do {
-    index = Math.floor(Math.random() * sounds.length);
-  } while (index === currentIndex);
-
-  return index;
-}
-
-async function playTrack(index) {
-  if (!widget || index < 0 || index >= sounds.length) return;
-
-  const request = ++playRequest;
-  currentIndex = index;
-  renderTracklist();
-
-  widget.pause();
-  widget.skip(index);
-
-  for (let attempt = 0; attempt < 50; attempt++) {
-    if (request !== playRequest) return;
-
-    const actualIndex = await widgetCall("getCurrentSoundIndex");
-
-    if (Number(actualIndex) === index) break;
-    await wait(50);
+    if (shuffle) {
+      selectTrack(getRandomIndex());
+    } else {
+      player.prev();
+    }
   }
 
-  if (request !== playRequest) return;
+  function bindPlayer() {
+    const events = SC.Widget.Events;
 
-  widget.seekTo(0);
-  await wait(150);
+    player.bind(events.READY, () => {
+      ready = true;
+      player.setVolume(Number(volume.value));
 
-  if (request !== playRequest) return;
+      player.getSounds(sounds => {
+        tracks = Array.isArray(sounds) ? sounds : [];
 
-  widget.play();
-}
+        if (!tracks.length) {
+          count.textContent = "EMPTY";
+          status.textContent = "NO TRACKS AVAILABLE";
 
-function nextTrack() {
-  if (!widget || !sounds.length) return;
+          message("No public tracks are available in this playlist.");
+          return;
+        }
 
-  if (shuffleEnabled) {
-    playTrack(randomIndex());
-  } else {
-    widget.next();
-  }
-}
+        player.getCurrentSoundIndex(index => {
+          currentIndex =
+            Number.isInteger(index) && index >= 0 ? index : 0;
 
-function previousTrack() {
-  if (!widget || !sounds.length) return;
+          renderTracklist();
 
-  if (shuffleEnabled) {
-    playTrack(randomIndex());
-  } else {
-    playTrack(Math.max(0, currentIndex - 1));
-  }
-}
+          player.getCurrentSound(track => {
+            if (track) showTrack(track, currentIndex);
 
-function initializePlayer() {
-  iframe.src = embedURL;
-  widget = SC.Widget(iframe);
+            status.textContent = "READY TO PLAY";
+          });
+        });
+      });
+    });
 
-  widget.bind(SC.Widget.Events.READY, () => {
-    widget.setVolume(Number(volumeEl.value));
+    player.bind(events.PLAY, () => {
+      updatePlayButton(true);
 
-    widget.getSounds(playlistSounds => {
-      sounds = Array.isArray(playlistSounds)
-        ? playlistSounds.filter(sound => sound && sound.id)
-        : [];
+      player.getCurrentSoundIndex(index => {
+        player.getCurrentSound(track => {
+          if (track) showTrack(track, index);
+        });
+      });
 
-      if (!sounds.length) {
-        statusEl.textContent = "NO TRACKS AVAILABLE";
-        countEl.textContent = "EMPTY";
-        showMessage("No tracks available. Check playlist visibility and embedding permissions.");
-        return;
+      status.textContent = "NOW PLAYING";
+    });
+
+    player.bind(events.PAUSE, () => {
+      updatePlayButton(false);
+      status.textContent = "PAUSED";
+    });
+
+    player.bind(events.FINISH, () => {
+      if (shuffle && tracks.length > 1) {
+        selectTrack(getRandomIndex());
+      } else {
+        updatePlayButton(false);
       }
-
-      renderTracklist();
-
-      widget.getCurrentSoundIndex(index => {
-        currentIndex = Number.isInteger(index) ? index : 0;
-        renderTracklist();
-      });
-
-      widget.getCurrentSound(sound => {
-        if (sound) updateCurrentTrack(sound);
-      });
-
-      statusEl.textContent = "PLAYLIST CONNECTED";
     });
-  });
 
-  widget.bind(SC.Widget.Events.PLAY, () => {
-    updatePlayButton(true);
-    widget.getCurrentSound(sound => {
-      if (sound) updateCurrentTrack(sound);
+    player.bind(events.ERROR, () => {
+      status.textContent = "SOUNDCLOUD ERROR";
     });
-  });
+  }
 
-  widget.bind(SC.Widget.Events.PAUSE, () => {
-    updatePlayButton(false);
-  });
-
-  widget.bind(SC.Widget.Events.FINISH, () => {
-    if (shuffleEnabled) playTrack(randomIndex());
-  });
-}
-
-volumeEl.addEventListener("input", () => {
-  if (widget) widget.setVolume(Number(volumeEl.value));
-});
-
-playBtn.addEventListener("click", () => {
-  if (!widget) return;
-  isPlaying ? widget.pause() : widget.play();
-});
-
-document.getElementById("next").addEventListener("click", nextTrack);
-document.getElementById("previous").addEventListener("click", previousTrack);
-
-shuffleBtn.addEventListener("click", () => {
-  shuffleEnabled = !shuffleEnabled;
-  shuffleBtn.classList.toggle("active", shuffleEnabled);
-  shuffleBtn.setAttribute("aria-pressed", String(shuffleEnabled));
-});
-
-async function shareContent(data) {
-  if (navigator.share) {
-    try {
-      await navigator.share(data);
-      return;
-    } catch (error) {
-      if (error.name === "AbortError") return;
+  function copyLink(url) {
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(url)
+        .then(() => {
+          status.textContent = "LINK COPIED";
+        })
+        .catch(() => {
+          window.prompt("Copy this link:", url);
+        });
+    } else {
+      window.prompt("Copy this link:", url);
     }
   }
 
-  try {
-    await navigator.clipboard.writeText(data.url);
-    alert("Link copied.");
-  } catch {
-    window.prompt("Copy this link:", data.url);
+  function share(data) {
+    if (navigator.share) {
+      navigator.share(data).catch(error => {
+        if (error.name !== "AbortError") {
+          copyLink(data.url);
+        }
+      });
+    } else {
+      copyLink(data.url);
+    }
   }
-}
 
-document.getElementById("share-playlist").addEventListener("click", () => {
-  shareContent({
-    title: "DOOMED TUNES® powered by OjeeXa$h",
-    url: SHARE_URL
+  volume.addEventListener("input", () => {
+    if (ready) {
+      player.setVolume(Number(volume.value));
+    }
   });
-});
 
-document.getElementById("share-track").addEventListener("click", () => {
-  if (!widget) return;
+  playButton.addEventListener("click", () => {
+    if (ready) player.toggle();
+  });
 
-  widget.getCurrentSound(sound => {
-    if (!sound?.permalink_url) {
-      alert("No track is currently selected.");
+  $("next").addEventListener("click", nextTrack);
+  $("previous").addEventListener("click", previousTrack);
+
+  shuffleButton.addEventListener("click", () => {
+    shuffle = !shuffle;
+
+    shuffleButton.classList.toggle("active", shuffle);
+
+    shuffleButton.setAttribute(
+      "aria-pressed",
+      String(shuffle)
+    );
+  });
+
+  $("share-playlist").addEventListener("click", () => {
+    share({
+      title: "DOOMED TUNES® powered by OjeeXa$h",
+      url: PAGE_URL
+    });
+  });
+
+  $("share-track").addEventListener("click", () => {
+    if (!ready) return;
+
+    player.getCurrentSound(track => {
+      if (track?.permalink_url) {
+        share({
+          title: track.title || "DOOMED TUNES",
+          url: track.permalink_url
+        });
+      } else {
+        status.textContent = "NO TRACK SELECTED";
+      }
+    });
+  });
+
+  function initialize() {
+    if (!window.SC?.Widget) {
+      status.textContent = "PLAYER UNAVAILABLE";
+      count.textContent = "ERROR";
+
+      message(
+        "SoundCloud player could not be initialized. Refresh the page and try again."
+      );
+
       return;
     }
 
-    shareContent({
-      title: sound.title || "DOOMED TUNES",
-      text: sound.title ? "Listen to " + sound.title : "Listen to this track",
-      url: sound.permalink_url
-    });
-  });
-});
+    iframe.src = embed;
+    player = SC.Widget(iframe);
 
-if (window.SC && window.SC.Widget) {
-  initializePlayer();
-} else {
-  statusEl.textContent = "PLAYER UNAVAILABLE";
-  countEl.textContent = "ERROR";
-  showMessage("SoundCloud player could not be initialized. Please refresh the page.");
-}
+    bindPlayer();
+  }
+
+  initialize();
+})();
 </script>
 </body>
 </html>
