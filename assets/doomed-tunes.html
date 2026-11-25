@@ -108,13 +108,30 @@ button {
   color: var(--accent);
 }
 
-.header-label {
+.subheading {
+  margin: 9px 0 0;
   color: var(--muted);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .16em;
-  text-align: right;
-  line-height: 1.7;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .2em;
+  line-height: 1.4;
+}
+
+.volume-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 90px;
+  padding-top: 8px;
+}
+
+.volume-control {
+  width: 100px;
+  max-width: 100%;
+  height: 4px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
 }
 
 .main {
@@ -221,7 +238,7 @@ button {
 
 .control.play:hover {
   opacity: .85;
-}
+  }
 
 .control.shuffle {
   margin-left: auto;
@@ -398,8 +415,13 @@ button {
     gap: 10px;
   }
 
-  .header-label {
-    font-size: 8px;
+  .volume-wrap {
+    min-width: 65px;
+    padding-top: 6px;
+  }
+
+  .volume-control {
+    width: 72px;
   }
 
   .main {
@@ -429,13 +451,21 @@ button {
 
   <header class="header">
     <div>
-      <p class="eyebrow">VN RECORDS® / SOUND ARCHIVE</p>
+      <p class="eyebrow">VN RECORDS® / SELECTION</p>
       <h1 class="heading">DOOMED <span>TUNES</span></h1>
+      <p class="subheading">SHUFFLE / PLAY</p>
     </div>
 
-    <div class="header-label">
-      SOUND SELECTION<br>
-      SHUFFLE / PLAY
+    <div class="volume-wrap">
+      <input
+        class="volume-control"
+        id="volume"
+        type="range"
+        min="0"
+        max="100"
+        value="80"
+        aria-label="Sound level"
+        title="Sound level">
     </div>
   </header>
 
@@ -566,6 +596,7 @@ const listElement = document.getElementById("track-list");
 const countElement = document.getElementById("track-count");
 const playButton = document.getElementById("play");
 const shuffleButton = document.getElementById("shuffle");
+const volumeControl = document.getElementById("volume");
 
 let widget = null;
 let sounds = [];
@@ -611,7 +642,7 @@ function updatePlayButton(playing) {
   );
 }
 
-/* ==================================
+  /* ==================================
    TRACK INFORMATION
 ================================== */
 
@@ -760,6 +791,7 @@ function initializePlayer() {
   widget = SC.Widget(iframe);
 
   widget.bind(SC.Widget.Events.READY, () => {
+    widget.setVolume(Number(volumeControl.value));
     statusElement.textContent = "PLAYLIST CONNECTED";
 
     widget.getSounds((playlistSounds) => {
@@ -809,6 +841,11 @@ function initializePlayer() {
    BUTTONS
 ================================== */
 
+volumeControl.addEventListener("input", () => {
+  if (!widget) return;
+  widget.setVolume(Number(volumeControl.value));
+});
+
 playButton.addEventListener("click", () => {
   if (!widget) return;
 
@@ -843,7 +880,7 @@ shuffleButton.addEventListener("click", () => {
   );
 });
 
-/* ==================================
+  /* ==================================
    SHARING
 ================================== */
 
