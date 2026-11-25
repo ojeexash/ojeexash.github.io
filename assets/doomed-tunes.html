@@ -656,7 +656,9 @@ function updateCurrentTrack(sound) {
   if (!sound) return;
 
   const trackTitle =
-    typeof sound.title === "string" ? sound.title.trim() : "";
+    typeof sound.title === "string"
+      ? sound.title.trim()
+      : "";
 
   const artistName =
     sound.user && typeof sound.user.username === "string"
@@ -675,7 +677,10 @@ function updateCurrentTrack(sound) {
   if (artwork) {
     const image = document.createElement("img");
     image.src = artwork;
-    image.alt = trackTitle ? trackTitle + " artwork" : "Track artwork";
+    image.alt = trackTitle
+      ? trackTitle + " artwork"
+      : "Track artwork";
+
     artworkElement.appendChild(image);
   } else {
     const placeholder = document.createElement("div");
@@ -684,9 +689,28 @@ function updateCurrentTrack(sound) {
     artworkElement.appendChild(placeholder);
   }
 
-  currentIndex = sounds.findIndex(
-    item => item.id === sound.id
+  /* Match the playing track with the playlist item */
+  let matchedIndex = sounds.findIndex(
+    item => String(item.id) === String(sound.id)
   );
+
+  /* If the ID match fails, use the selected track index */
+  if (matchedIndex === -1 && currentIndex >= 0) {
+    matchedIndex = currentIndex;
+  }
+
+  if (matchedIndex !== -1) {
+    const existingSound = sounds[matchedIndex];
+
+    sounds[matchedIndex] = {
+      ...existingSound,
+      ...sound,
+      title: trackTitle || existingSound.title || "",
+      user: sound.user || existingSound.user
+    };
+
+    currentIndex = matchedIndex;
+  }
 
   renderTracklist();
 }
