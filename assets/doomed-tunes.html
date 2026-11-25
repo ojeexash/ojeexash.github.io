@@ -199,6 +199,10 @@ button {
   font-size: 12px;
 }
 
+.track-artist:empty {
+  display: none;
+}
+
 .controls {
   display: flex;
   align-items: center;
@@ -238,7 +242,7 @@ button {
 
 .control.play:hover {
   opacity: .85;
-  }
+}
 
 .control.shuffle {
   margin-left: auto;
@@ -340,6 +344,10 @@ button {
   font-size: 10px;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.track-user:empty {
+  display: none;
 }
 
 .track-duration {
@@ -480,9 +488,7 @@ button {
       <div class="track-info">
         <div class="track-status" id="track-status">READY TO PLAY</div>
         <h2 class="track-title" id="track-title">DOOMED TUNES</h2>
-        <p class="track-artist" id="track-artist">
-          SoundCloud Playlist
-        </p>
+        <p class="track-artist" id="track-artist"> </p>
       </div>
 
       <div class="controls">
@@ -642,16 +648,23 @@ function updatePlayButton(playing) {
   );
 }
 
-  /* ==================================
+/* ==================================
    TRACK INFORMATION
 ================================== */
 
 function updateCurrentTrack(sound) {
   if (!sound) return;
 
-  titleElement.textContent = sound.title || "Untitled";
-  artistElement.textContent =
-    sound.user?.username || "SoundCloud";
+  const trackTitle =
+    typeof sound.title === "string" ? sound.title.trim() : "";
+
+  const artistName =
+    sound.user && typeof sound.user.username === "string"
+      ? sound.user.username.trim()
+      : "";
+
+  titleElement.textContent = trackTitle;
+  artistElement.textContent = artistName;
 
   statusElement.textContent = "NOW PLAYING";
 
@@ -662,7 +675,7 @@ function updateCurrentTrack(sound) {
   if (artwork) {
     const image = document.createElement("img");
     image.src = artwork;
-    image.alt = "Track artwork";
+    image.alt = trackTitle ? trackTitle + " artwork" : "Track artwork";
     artworkElement.appendChild(image);
   } else {
     const placeholder = document.createElement("div");
@@ -712,12 +725,21 @@ function renderTracklist() {
 
     const name = document.createElement("span");
     name.className = "track-name";
-    name.textContent = sound.title || "Untitled";
+
+    const trackTitle =
+      typeof sound.title === "string" ? sound.title.trim() : "";
+
+    name.textContent = trackTitle;
 
     const artist = document.createElement("span");
     artist.className = "track-user";
-    artist.textContent =
-      sound.user?.username || "SoundCloud";
+
+    const artistName =
+      sound.user && typeof sound.user.username === "string"
+        ? sound.user.username.trim()
+        : "";
+
+    artist.textContent = artistName;
 
     details.append(name, artist);
 
@@ -795,7 +817,9 @@ function initializePlayer() {
     statusElement.textContent = "PLAYLIST CONNECTED";
 
     widget.getSounds((playlistSounds) => {
-      sounds = playlistSounds || [];
+      sounds = Array.isArray(playlistSounds)
+        ? playlistSounds.filter(sound => sound && sound.id)
+        : [];
 
       if (!sounds.length) {
         statusElement.textContent = "NO TRACKS AVAILABLE";
@@ -813,6 +837,8 @@ function initializePlayer() {
           updateCurrentTrack(sound);
         } else {
           statusElement.textContent = "READY TO PLAY";
+          titleElement.textContent = "DOOMED TUNES";
+          artistElement.textContent = "";
         }
       });
     });
@@ -880,7 +906,7 @@ shuffleButton.addEventListener("click", () => {
   );
 });
 
-  /* ==================================
+/* ==================================
    SHARING
 ================================== */
 
@@ -925,7 +951,7 @@ document.getElementById("share-track").addEventListener(
 
       shareContent({
         title: sound.title || "DOOMED TUNES",
-        text: "Listen to " + (sound.title || "this track"),
+        text: sound.title ? "Listen to " + sound.title : "Listen to this track",
         url: sound.permalink_url
       });
     });
