@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -609,6 +610,7 @@ let sounds = [];
 let currentIndex = -1;
 let shuffleEnabled = false;
 let isPlaying = false;
+let isScanningTracks = false;
 
 /* ==================================
    HELPERS
@@ -689,15 +691,9 @@ function updateCurrentTrack(sound) {
     artworkElement.appendChild(placeholder);
   }
 
-  /* Match the playing track with the playlist item */
-  let matchedIndex = sounds.findIndex(
+  const matchedIndex = sounds.findIndex(
     item => String(item.id) === String(sound.id)
   );
-
-  /* If the ID match fails, use the selected track index */
-  if (matchedIndex === -1 && currentIndex >= 0) {
-    matchedIndex = currentIndex;
-  }
 
   if (matchedIndex !== -1) {
     const existingSound = sounds[matchedIndex];
@@ -782,6 +778,124 @@ function renderTracklist() {
 }
 
 /* ==================================
+   COMPLETE TRACK METADATA
+================================== */
+
+function getCurrentSoundIndex() {
+  return new Promise((resolve) => {
+    widget.getCurrentSoundIndex((index) => {
+      resolve(index);
+    });
+  });
+}
+
+function getCurrentSound() {
+  return new Promise((resolve) => {
+    widget.getCurrentSound((sound) => {
+      resolve(sound || null);
+    });
+  });
+}
+
+function waitForTrackIndex(targetIndex, attempts = 0) {
+  return new Promise((resolve) => {
+    widget.getCurrentSoundIndex((index) => {
+      if (Number(index) === targetIndex) {
+        resolve(true);
+        return;
+      }
+
+      if (attempts >= 60) {
+        resolve(false);
+        return;
+      }
+
+      setTimeout(() => {
+        waitForTrackIndex(targetIndex, attempts + 1)
+          .then(resolve);
+      }, 100);
+    });
+  });
+}
+
+async function loadCompleteTracklist() {
+  if (!sounds.length || isScanningTracks) return;
+
+  isScanningTracks = true;
+
+  const originalIndex = await getCurrentSoundIndex();
+
+  const restoreIndex =
+    Number.isInteger(originalIndex) &&
+    originalIndex >= 0 &&
+    originalIndex < sounds.length
+      ? originalIndex
+      : 0;
+
+  const originalVolume = await new Promise((resolve) => {
+    widget.getVolume((volume) => resolve(volume));
+  });
+
+  const wasPaused = await new Promise((resolve) => {
+    widget.isPaused((paused) => resolve(paused));
+  });
+
+  widget.setVolume(0);
+
+  for (let index = 0; index < sounds.length; index++) {
+    widget.skip(index);
+
+    const reached = await waitForTrackIndex(index);
+
+    if (!reached) continue;
+
+    const sound = await getCurrentSound();
+
+    if (!sound) continue;
+
+    if (String(sound.id) !== String(sounds[index].id)) {
+      continue;
+    }
+
+    sounds[index] = {
+      ...sounds[index],
+      ...sound
+    };
+
+    renderTracklist();
+  }
+
+  widget.skip(restoreIndex);
+
+  await waitForTrackIndex(restoreIndex);
+
+  const restoredSound = await getCurrentSound();
+
+  if (restoredSound) {
+    updateCurrentTrack(restoredSound);
+  } else {
+    currentIndex = restoreIndex;
+    renderTracklist();
+  }
+
+  if (wasPaused) {
+    widget.pause();
+    updatePlayButton(false);
+  } else {
+    widget.play();
+    updatePlayButton(true);
+  }
+
+  widget.setVolume(Number(originalVolume));
+
+  isScanningTracks = false;
+
+  statusElement.textContent = wasPaused
+    ? "READY TO PLAY"
+    : "NOW PLAYING";
+}
+
+/* ==================================
    PLAYBACK
 ================================== */
 
@@ -840,7 +954,7 @@ function initializePlayer() {
     widget.setVolume(Number(volumeControl.value));
     statusElement.textContent = "PLAYLIST CONNECTED";
 
-    widget.getSounds((playlistSounds) => {
+    widget.getSounds(async (playlistSounds) => {
       sounds = Array.isArray(playlistSounds)
         ? playlistSounds.filter(sound => sound && sound.id)
         : [];
@@ -856,19 +970,13 @@ function initializePlayer() {
 
       renderTracklist();
 
-      widget.getCurrentSound((sound) => {
-        if (sound) {
-          updateCurrentTrack(sound);
-        } else {
-          statusElement.textContent = "READY TO PLAY";
-          titleElement.textContent = "DOOMED TUNES";
-          artistElement.textContent = "";
-        }
-      });
+      await loadCompleteTracklist();
     });
   });
 
   widget.bind(SC.Widget.Events.PLAY, () => {
+    if (isScanningTracks) return;
+
     updatePlayButton(true);
 
     widget.getCurrentSound((sound) => {
@@ -877,10 +985,14 @@ function initializePlayer() {
   });
 
   widget.bind(SC.Widget.Events.PAUSE, () => {
+    if (isScanningTracks) return;
+
     updatePlayButton(false);
   });
 
   widget.bind(SC.Widget.Events.FINISH, () => {
+    if (isScanningTracks) return;
+
     if (shuffleEnabled) {
       playTrack(getRandomIndex());
     }
