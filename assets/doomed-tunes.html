@@ -2,935 +2,151 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#111b2b">
-<title>DOOMED TUNES® powered by OjeeXa$h</title>
-<meta name="description" content="Explore doom tunes station powered by Ojee Ka$h.">
-<meta name="author" content="Ojee Ka$h">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ojeexash.github.io/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Ojee Ka$h">
-<meta property="og:title" content="DOOMED TUNES® powered by OjeeXa$h">
-<meta property="og:description" content="Explore doom tunes station powered by Ojee Ka$h.">
-<meta property="og:url" content="https://ojeexash.github.io/#doomed-tunes">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DOOMED TUNES® powered by OjeeXa$h">
-<meta name="twitter:description" content="Explore doom tunes station powered by Ojee Ka$h">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "MusicPlaylist",
-  "name": "DOOMED TUNES® powered by OjeeXa$h",
-  "description": "Explore doom tunes station powered by Ojee Ka$h.",
-  "url": "https://ojeexash.github.io/#doomed-tunes",
-  "sameAs": "https://soundcloud.com/ojeexash/sets/doomed-tunes-fm",
-  "creator": {
-    "@type": "Person",
-    "name": "Ojee Ka$h",
-    "url": "https://ojeexash.github.io/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "VN RECORDS"
-  }
-}
-</script>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DOOMED TUNES®</title>
 <style>
-:root {
-  --bg: #111b2b;
-  --panel: #18263a;
-  --text: #f4f3ef;
-  --muted: #8994a5;
-  --accent: #b8a0ff;
-  --line: rgba(255,255,255,.13);
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-button {
-  font: inherit;
-}
-
-.doomed {
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 34px;
-  background: var(--bg);
-  border: 1px solid var(--line);
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px;
-  padding-bottom: 25px;
-  border-bottom: 1px solid var(--line);
-}
-
-.eyebrow {
-  margin: 0 0 12px;
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: .25em;
-  text-transform: uppercase;
-}
-
-.heading {
-  margin: 0;
-  font-size: clamp(28px, 5vw, 48px);
-  font-weight: 900;
-  letter-spacing: -.055em;
-  line-height: 1;
-}
-
-.heading span {
-  color: var(--accent);
-}
-
-.subheading {
-  margin: 9px 0 0;
-  color: var(--muted);
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: .2em;
-  line-height: 1.4;
-}
-
-.volume-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  min-width: 90px;
-  padding-top: 8px;
-}
-
-.volume-control {
-  width: 100px;
-  max-width: 100%;
-  height: 4px;
-  margin: 0;
-  accent-color: var(--accent);
-  cursor: pointer;
-}
-
-.main {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-  gap: 30px;
-  padding-top: 28px;
-}
-
-.now-playing {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.artwork {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  aspect-ratio: 1;
-  overflow: hidden;
-  background: var(--panel);
-  border: 1px solid var(--line);
-}
-
-.artwork img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.artwork-placeholder {
-  color: var(--accent);
-  font-size: clamp(42px, 9vw, 90px);
-  font-weight: 900;
-  letter-spacing: -.1em;
-}
-
-.track-info {
-  padding: 22px 0 15px;
-}
-
-.track-status {
-  margin-bottom: 9px;
-  color: var(--accent);
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-}
-
-.track-title {
-  margin: 0;
-  overflow-wrap: anywhere;
-  font-size: clamp(19px, 3vw, 26px);
-  font-weight: 800;
-  letter-spacing: -.035em;
-}
-
-.track-artist {
-  margin: 8px 0 0;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: auto;
-  padding-top: 18px;
-}
-
-.control {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  padding: 0;
-  color: var(--text);
-  background: transparent;
-  border: 1px solid var(--line);
-  cursor: pointer;
-  transition: .2s ease;
-}
-
-.control:hover,
-.control.active {
-  color: var(--accent);
-  border-color: var(--accent);
-}
-
-.control.play {
-  width: 50px;
-  height: 50px;
-  color: var(--bg);
-  background: var(--accent);
-  border-color: var(--accent);
-  font-size: 18px;
-}
-
-.control.play:hover {
-  opacity: .85;
-}
-
-.control.shuffle {
-  margin-left: auto;
-  font-size: 17px;
-}
-
-.control svg {
-  width: 17px;
-  height: 17px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.playlist {
-  min-width: 0;
-}
-
-.playlist-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--line);
-}
-
-.playlist-heading {
-  margin: 0;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-}
-
-.track-count {
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: .1em;
-}
-
-.track-list {
-  max-height: 390px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--muted) transparent;
-}
-
-.track-item {
-  display: grid;
-  grid-template-columns: 27px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 14px 4px;
-  color: var(--text);
-  text-align: left;
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  cursor: pointer;
-}
-
-.track-item:hover,
-.track-item.current {
-  background: rgba(255,255,255,.045);
-}
-
-.track-number {
-  color: var(--muted);
-  font-size: 10px;
-  text-align: center;
-}
-
-.track-item.current .track-number {
-  color: var(--accent);
-}
-
-.track-details {
-  min-width: 0;
-}
-
-.track-name {
-  display: block;
-  overflow: hidden;
-  font-size: 12px;
-  font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.track-user {
-  display: block;
-  margin-top: 5px;
-  overflow: hidden;
-  color: var(--muted);
-  font-size: 10px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.track-duration {
-  color: var(--muted);
-  font-size: 10px;
-  font-variant-numeric: tabular-nums;
-}
-
-.message {
-  padding: 25px 5px;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.7;
-}
-
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 26px;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
-}
-
-.footer-note {
-  color: var(--muted);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: .16em;
-}
-
-.share-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.share-button {
-  padding: 9px 12px;
-  color: var(--text);
-  background: transparent;
-  border: 1px solid var(--line);
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: .1em;
-  cursor: pointer;
-  transition: .2s ease;
-}
-
-.share-button:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-}
-
-.soundcloud-source {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  left: -10000px;
-  top: 0;
-  opacity: 0;
-  pointer-events: none;
-}
-
-@media (max-width: 650px) {
-  .doomed {
-    padding: 22px 17px;
-  }
-
-  .header {
-    gap: 10px;
-  }
-
-  .volume-wrap {
-    min-width: 65px;
-    padding-top: 6px;
-  }
-
-  .volume-control {
-    width: 72px;
-  }
-
-  .main {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-
-  .artwork {
-    max-width: 360px;
-    margin: 0 auto;
-  }
-
-  .track-list {
-    max-height: 340px;
-  }
-
-  .footer {
-    align-items: flex-start;
-  }
-}
+*{box-sizing:border-box}
+body{margin:0;background:#111b2b;color:#f4f3ef;font:14px Arial}
+#app{max-width:900px;margin:auto;padding:24px}
+header,.controls,.track{display:flex;align-items:center;gap:14px}
+header{justify-content:space-between;border-bottom:1px solid #ffffff22;padding-bottom:18px}
+h1{font-size:25px;margin:0}h1 span{color:#b8a0ff}
+input{accent-color:#b8a0ff;width:100px}
+main{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding-top:24px}
+#art{width:100%;aspect-ratio:1;background:#18263a;display:grid;place-items:center;color:#b8a0ff;font-size:60px;font-weight:bold}
+#art img{width:100%;height:100%;object-fit:cover}
+h2{font-size:18px;margin:18px 0 6px}
+small{color:#8994a5}
+.controls{margin-top:22px}
+button{background:none;color:#f4f3ef;border:1px solid #ffffff33;padding:12px;cursor:pointer}
+button.active,button:hover{color:#b8a0ff;border-color:#b8a0ff}
+#play{background:#b8a0ff;color:#111b2b}
+#tracks{margin-top:14px;max-height:420px;overflow:auto}
+.track{width:100%;padding:13px 5px;border:0;border-bottom:1px solid #ffffff22;text-align:left}
+.track span:nth-child(2){flex:1}
+.track.current{color:#b8a0ff}
+iframe{position:absolute;width:1px;height:1px;left:-9999px}
+@media(max-width:600px){main{grid-template-columns:1fr}}
 </style>
 </head>
-
 <body>
-<section class="doomed" id="doomed-tunes">
-
-  <header class="header">
-    <div>
-      <p class="eyebrow">VN RECORDS® / SELECTION</p>
-      <h1 class="heading">DOOMED <span>TUNES</span></h1>
-      <p class="subheading">SHUFFLE / PLAY</p>
-    </div>
-
-    <div class="volume-wrap">
-      <input
-        class="volume-control"
-        id="volume"
-        type="range"
-        min="0"
-        max="100"
-        value="80"
-        aria-label="Sound level"
-        title="Sound level">
-    </div>
-  </header>
-
-  <div class="main">
-
-    <section class="now-playing">
-
-      <div class="artwork" id="artwork">
-        <div class="artwork-placeholder">DT®</div>
-      </div>
-
-      <div class="track-info">
-        <div class="track-status" id="track-status">READY TO PLAY</div>
-        <h2 class="track-title" id="track-title">DOOMED TUNES</h2>
-        <p class="track-artist" id="track-artist">SoundCloud Playlist</p>
-      </div>
-
-      <div class="controls">
-
-        <button class="control" id="previous" type="button" aria-label="Previous track">
-          <svg viewBox="0 0 24 24">
-            <path d="M19 20 9 12l10-8v16Z"/>
-            <path d="M5 19V5"/>
-          </svg>
-        </button>
-
-        <button class="control play" id="play" type="button" aria-label="Play">
-          ▶
-        </button>
-
-        <button class="control" id="next" type="button" aria-label="Next track">
-          <svg viewBox="0 0 24 24">
-            <path d="m5 4 10 8-10 8V4Z"/>
-            <path d="M19 5v14"/>
-          </svg>
-        </button>
-
-        <button
-          class="control shuffle"
-          id="shuffle"
-          type="button"
-          aria-label="Toggle shuffle"
-          aria-pressed="false"
-          title="Shuffle">
-          <svg viewBox="0 0 24 24">
-            <path d="m16 3 4 4-4 4"/>
-            <path d="M4 17h2.5a5 5 0 0 0 4-2l3-4a5 5 0 0 1 4-2H20"/>
-            <path d="m16 13 4 4-4 4"/>
-            <path d="M4 7h2.5a5 5 0 0 1 3.5 1.5"/>
-            <path d="M14 16a5 5 0 0 0 2.5 1H20"/>
-          </svg>
-        </button>
-
-      </div>
-    </section>
-
-    <section class="playlist">
-
-      <div class="playlist-header">
-        <h2 class="playlist-heading">TRACKLIST</h2>
-        <span class="track-count" id="track-count">LOADING</span>
-      </div>
-
-      <div class="track-list" id="track-list">
-        <div class="message">Connecting to SoundCloud...</div>
-      </div>
-
-    </section>
-
+<div id="app">
+<header>
+  <div><h1>DOOMED <span>TUNES®</span></h1><small>VN RECORDS® / SELECTION</small></div>
+  <input id="volume" type="range" min="0" max="100" value="80">
+</header>
+<main>
+<section>
+  <div id="art">DT®</div>
+  <h2 id="title">DOOMED TUNES</h2>
+  <small id="artist">SoundCloud Playlist</small>
+  <div class="controls">
+    <button id="prev">◀</button>
+    <button id="play">▶</button>
+    <button id="next">▶|</button>
+    <button id="shuffle">⤨</button>
   </div>
-
-  <footer class="footer">
-    <div class="footer-note">DOOMED TUNES® / VN RECORDS</div>
-
-    <div class="share-actions">
-      <button class="share-button" id="share-playlist" type="button">
-        SHARE PLAYLIST
-      </button>
-
-      <button class="share-button" id="share-track" type="button">
-        SHARE TRACK
-      </button>
-    </div>
-  </footer>
-
 </section>
-
-<iframe
-  id="soundcloud-player"
-  class="soundcloud-source"
-  title="DOOMED TUNES SoundCloud Player"
-  allow="autoplay"
-  scrolling="no"
-  frameborder="0">
-</iframe>
-
+<section>
+  <h3>TRACKLIST <small id="count"></small></h3>
+  <div id="tracks"></div>
+</section>
+</main>
+</div>
+<iframe id="sc" allow="autoplay"></iframe>
 <script src="https://w.soundcloud.com/player/api.js"></script>
-
 <script>
 (() => {
-  "use strict";
-
-  const PLAYLIST_URL =
-    "https://soundcloud.com/ojeexash/sets/doomed-tunes-fm";
-
-  const PAGE_URL =
-    "https://ojeexash.github.io/#doomed-tunes";
-
-  const $ = id => document.getElementById(id);
-
-  const iframe = $("soundcloud-player");
-  const title = $("track-title");
-  const artist = $("track-artist");
-  const status = $("track-status");
-  const artwork = $("artwork");
-  const list = $("track-list");
-  const count = $("track-count");
-  const playButton = $("play");
-  const shuffleButton = $("shuffle");
-  const volume = $("volume");
-
-  let player;
-  let tracks = [];
-  let currentIndex = 0;
-  let shuffle = false;
-  let isPlaying = false;
-  let ready = false;
-  let changing = false;
-
-  const embed =
-    "https://w.soundcloud.com/player/?url=" +
-    encodeURIComponent(PLAYLIST_URL) +
-    "&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&visual=false";
-
-  function message(text) {
-    list.replaceChildren();
-
-    const node = document.createElement("div");
-    node.className = "message";
-    node.textContent = text;
-
-    list.appendChild(node);
-  }
-
-  function duration(ms) {
-    const seconds = Math.floor((Number(ms) || 0) / 1000);
-
-    return (
-      Math.floor(seconds / 60) +
-      ":" +
-      String(seconds % 60).padStart(2, "0")
-    );
-  }
-
-  function updatePlayButton(playing) {
-    isPlaying = playing;
-    playButton.textContent = playing ? "Ⅱ" : "▶";
-
-    playButton.setAttribute(
-      "aria-label",
-      playing ? "Pause" : "Play"
-    );
-  }
-
-  function renderArtwork(track) {
-    const url = track && track.artwork_url
-      ? track.artwork_url.replace("-large", "-t500x500")
-      : "";
-
-    artwork.replaceChildren();
-
-    if (url) {
-      const image = document.createElement("img");
-
-      image.src = url;
-      image.alt = (track.title || "Track") + " artwork";
-
-      artwork.appendChild(image);
-    } else {
-      const placeholder = document.createElement("div");
-
-      placeholder.className = "artwork-placeholder";
-      placeholder.textContent = "DT®";
-
-      artwork.appendChild(placeholder);
-    }
-  }
-
-  function renderTracklist() {
-    count.textContent =
-      String(tracks.length).padStart(2, "0") + " TRACKS";
-
-    list.replaceChildren();
-
-    tracks.forEach((track, index) => {
-      const button = document.createElement("button");
-
-      button.type = "button";
-      button.className =
-        "track-item" +
-        (index === currentIndex ? " current" : "");
-
-      const number = document.createElement("span");
-
-      number.className = "track-number";
-      number.textContent = String(index + 1).padStart(2, "0");
-
-      const details = document.createElement("span");
-      details.className = "track-details";
-
-      const name = document.createElement("span");
-
-      name.className = "track-name";
-      name.textContent = track.title || "Track " + (index + 1);
-
-      const user = document.createElement("span");
-
-      user.className = "track-user";
-      user.textContent = track.user?.username || "SoundCloud";
-
-      details.append(name, user);
-
-      const time = document.createElement("span");
-
-      time.className = "track-duration";
-      time.textContent = duration(track.duration);
-
-      button.append(number, details, time);
-
-      button.addEventListener("click", () => {
-        selectTrack(index);
-      });
-
-      list.appendChild(button);
-    });
-  }
-
-  function showTrack(track, index) {
-    if (!track) return;
-
-    if (
-      Number.isInteger(index) &&
-      index >= 0 &&
-      index < tracks.length
-    ) {
-      currentIndex = index;
-    }
-
-    title.textContent =
-      track.title ||
-      tracks[currentIndex]?.title ||
-      "DOOMED TUNES";
-
-    artist.textContent =
-      track.user?.username ||
-      tracks[currentIndex]?.user?.username ||
-      "SoundCloud";
-
-    renderArtwork(track);
-    renderTracklist();
-  }
-
-  function getRandomIndex() {
-    if (tracks.length < 2) return currentIndex;
-
-    let index;
-
-    do {
-      index = Math.floor(Math.random() * tracks.length);
-    } while (index === currentIndex);
-
-    return index;
-  }
-
-  function selectTrack(index) {
-    if (!ready || changing || index < 0 || index >= tracks.length) {
-      return;
-    }
-
-    changing = true;
-    currentIndex = index;
-
-    renderTracklist();
-    status.textContent = "LOADING TRACK";
-
-    player.skip(index);
-    player.seekTo(0);
-    player.play();
-
-    player.getCurrentSound(track => {
-      if (track) showTrack(track, index);
-
-      changing = false;
-      status.textContent = "NOW PLAYING";
-    });
-  }
-
-  function nextTrack() {
-    if (!ready || !tracks.length) return;
-
-    if (shuffle) {
-      selectTrack(getRandomIndex());
-    } else {
-      player.next();
-    }
-  }
-
-  function previousTrack() {
-    if (!ready || !tracks.length) return;
-
-    if (shuffle) {
-      selectTrack(getRandomIndex());
-    } else {
-      player.prev();
-    }
-  }
-
-  function bindPlayer() {
-    const events = SC.Widget.Events;
-
-    player.bind(events.READY, () => {
-      ready = true;
-      player.setVolume(Number(volume.value));
-
-      player.getSounds(sounds => {
-        tracks = Array.isArray(sounds) ? sounds : [];
-
-        if (!tracks.length) {
-          count.textContent = "EMPTY";
-          status.textContent = "NO TRACKS AVAILABLE";
-
-          message("No public tracks are available in this playlist.");
-          return;
-        }
-
-        player.getCurrentSoundIndex(index => {
-          currentIndex =
-            Number.isInteger(index) && index >= 0 ? index : 0;
-
-          renderTracklist();
-
-          player.getCurrentSound(track => {
-            if (track) showTrack(track, currentIndex);
-
-            status.textContent = "READY TO PLAY";
-          });
-        });
-      });
-    });
-
-    player.bind(events.PLAY, () => {
-      updatePlayButton(true);
-
-      player.getCurrentSoundIndex(index => {
-        player.getCurrentSound(track => {
-          if (track) showTrack(track, index);
-        });
-      });
-
-      status.textContent = "NOW PLAYING";
-    });
-
-    player.bind(events.PAUSE, () => {
-      updatePlayButton(false);
-      status.textContent = "PAUSED";
-    });
-
-    player.bind(events.FINISH, () => {
-      if (shuffle && tracks.length > 1) {
-        selectTrack(getRandomIndex());
-      } else {
-        updatePlayButton(false);
-      }
-    });
-
-    player.bind(events.ERROR, () => {
-      status.textContent = "SOUNDCLOUD ERROR";
-    });
-  }
-
-  function copyLink(url) {
-    if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(url)
-        .then(() => {
-          status.textContent = "LINK COPIED";
-        })
-        .catch(() => {
-          window.prompt("Copy this link:", url);
-        });
-    } else {
-      window.prompt("Copy this link:", url);
-    }
-  }
-
-  function share(data) {
-    if (navigator.share) {
-      navigator.share(data).catch(error => {
-        if (error.name !== "AbortError") {
-          copyLink(data.url);
-        }
-      });
-    } else {
-      copyLink(data.url);
-    }
-  }
-
-  volume.addEventListener("input", () => {
-    if (ready) {
-      player.setVolume(Number(volume.value));
-    }
+const $=id=>document.getElementById(id);
+const url="https://soundcloud.com/ojeexash/sets/doomed-tunes-fm";
+const frame=$("sc");
+frame.src="https://w.soundcloud.com/player/?url="+encodeURIComponent(url)+"&auto_play=false&visual=false";
+const p=SC.Widget(frame), E=SC.Widget.Events;
+let tracks=[],current=0,bag=[],shuffle=false,ready=false,pending=null;
+
+function render(){
+  $("count").textContent=tracks.length+" TRACKS";
+  $("tracks").replaceChildren();
+  tracks.forEach((t,i)=>{
+    const b=document.createElement("button");
+    b.className="track"+(i===current?" current":"");
+    const n=document.createElement("span");n.textContent=String(i+1).padStart(2,"0");
+    const name=document.createElement("span");name.textContent=t.title||"";
+    b.append(n,name);
+    b.onclick=()=>play(i);
+    $("tracks").append(b);
   });
-
-  playButton.addEventListener("click", () => {
-    if (ready) player.toggle();
-  });
-
-  $("next").addEventListener("click", nextTrack);
-  $("previous").addEventListener("click", previousTrack);
-
-  shuffleButton.addEventListener("click", () => {
-    shuffle = !shuffle;
-
-    shuffleButton.classList.toggle("active", shuffle);
-
-    shuffleButton.setAttribute(
-      "aria-pressed",
-      String(shuffle)
-    );
-  });
-
-  $("share-playlist").addEventListener("click", () => {
-    share({
-      title: "DOOMED TUNES® powered by OjeeXa$h",
-      url: PAGE_URL
-    });
-  });
-
-  $("share-track").addEventListener("click", () => {
-    if (!ready) return;
-
-    player.getCurrentSound(track => {
-      if (track?.permalink_url) {
-        share({
-          title: track.title || "DOOMED TUNES",
-          url: track.permalink_url
-        });
-      } else {
-        status.textContent = "NO TRACK SELECTED";
-      }
-    });
-  });
-
-  function initialize() {
-    if (!window.SC?.Widget) {
-      status.textContent = "PLAYER UNAVAILABLE";
-      count.textContent = "ERROR";
-
-      message(
-        "SoundCloud player could not be initialized. Refresh the page and try again."
-      );
-
-      return;
-    }
-
-    iframe.src = embed;
-    player = SC.Widget(iframe);
-
-    bindPlayer();
+}
+function show(t,i){
+  if(!t)return;
+  current=i;
+  $("title").textContent=t.title||"DOOMED TUNES";
+  $("artist").textContent=t.user?.username||"";
+  $("art").replaceChildren();
+  if(t.artwork_url){
+    const img=document.createElement("img");
+    img.src=t.artwork_url.replace("-large","-t500x500");
+    $("art").append(img);
+  }else $("art").textContent="DT®";
+  render();
+}
+function play(i){
+  if(!ready||!tracks[i])return;
+  current=i;pending=i;render();
+  p.skip(i);p.play();
+}
+function refill(){
+  bag=tracks.map((_,i)=>i).filter(i=>i!==current);
+  for(let i=bag.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [bag[i],bag[j]]=[bag[j],bag[i]];
   }
-
-  initialize();
+}
+function next(){
+  if(!tracks.length)return;
+  if(shuffle){if(!bag.length)refill();play(bag.pop());}
+  else play((current+1)%tracks.length);
+}
+async function completeMetadata(t){
+  if(t.title||!t.permalink_url)return t;
+  try{
+    const r=await fetch("https://soundcloud.com/oembed?format=json&url="+encodeURIComponent(t.permalink_url));
+    if(r.ok){
+      const d=await r.json();
+      return {...t,title:d.title||t.title,user:{...t.user,username:d.author_name||t.user?.username}};
+    }
+  }catch(e){}
+  return t;
+}
+p.bind(E.READY,()=>{
+  p.getSounds(async sounds=>{
+    if(!Array.isArray(sounds)||!sounds.length)return;
+    tracks=await Promise.all(sounds.map(completeMetadata));
+    tracks=tracks.filter(t=>t.title);
+    if(!tracks.length)return;
+    ready=true;current=0;render();show(tracks[0],0);
+    p.setVolume(+$("volume").value);
+    refill();
+  });
+});
+p.bind(E.PLAY,()=>{
+  $("play").textContent="Ⅱ";
+  p.getCurrentSoundIndex(i=>p.getCurrentSound(t=>{
+    if(pending!==null&&i===pending){pending=null;p.seekTo(0);}
+    show(t,i);
+  }));
+});
+p.bind(E.PAUSE,()=>$("play").textContent="▶");
+p.bind(E.FINISH",()=>{if(shuffle)next();});
+$("play").onclick=()=>ready&&p.toggle();
+$("next").onclick=next;
+$("prev").onclick=()=>play((current-1+tracks.length)%tracks.length);
+$("shuffle").onclick=()=>{
+  shuffle=!shuffle;
+  $("shuffle").classList.toggle("active",shuffle);
+  if(shuffle)refill();
+};
+$("volume").oninput=e=>ready&&p.setVolume(+e.target.value);
 })();
 </script>
 </body>
