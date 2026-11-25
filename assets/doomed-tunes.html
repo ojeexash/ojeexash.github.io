@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,79 +6,219 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DOOMED TUNES®</title>
 <style>
-body{margin:0;padding:24px;background:#111b2b;color:#f4f3ef;font:14px Arial}
-#player{max-width:700px;margin:auto}
+*{box-sizing:border-box}
+body{margin:0;background:#111b2b;color:#f4f3ef;font:14px Arial}
+#app{max-width:900px;margin:auto;padding:25px}
+header,.controls,.track{display:flex;align-items:center;gap:12px}
+header{justify-content:space-between;border-bottom:1px solid #ffffff22;padding-bottom:20px}
+h1{font-size:28px;margin:0}h1 span{color:#b8a0ff}
+small{color:#8994a5}
+input{width:100px;accent-color:#b8a0ff}
+main{display:grid;grid-template-columns:1fr 1.1fr;gap:30px;padding-top:25px}
+#art{aspect-ratio:1;background:#18263a;display:grid;place-items:center;color:#b8a0ff;font-size:65px;font-weight:bold}
+#art img{width:100%;height:100%;object-fit:cover}
+h2{font-size:22px;margin:20px 0 7px;overflow-wrap:anywhere}
+.controls{margin-top:22px}
 button{padding:12px;background:none;color:inherit;border:1px solid #ffffff33;cursor:pointer}
-button.active{color:#b8a0ff;border-color:#b8a0ff}
-#tracks{margin-top:16px}
-.track{display:flex;width:100%;gap:14px;text-align:left;border-width:0 0 1px;padding:14px 4px}
-.track span:nth-child(2){flex:1}
+button:hover,button.active{color:#b8a0ff;border-color:#b8a0ff}
+#play{background:#b8a0ff;color:#111b2b}
+#tracks{max-height:430px;overflow:auto}
+.track{width:100%;padding:14px 5px;text-align:left;border-width:0 0 1px;border-color:#ffffff22}
+.track span:nth-child(2){flex:1;overflow-wrap:anywhere}
 .track.current{color:#b8a0ff}
-iframe{position:absolute;width:1px;height:1px;left:-9999px}
+iframe{position:fixed;width:1px;height:1px;left:-100px;bottom:0}
+@media(max-width:600px){main{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div id="player">
-<h2>DOOMED TUNES®</h2>
-<div>
-<button id="play">PLAY</button>
-<button id="shuffle">SHUFFLE OFF</button>
-<input id="volume" type="range" min="0" max="100" value="80">
+<div id="app">
+<header>
+  <div>
+    <h1>DOOMED <span>TUNES®</span></h1>
+    <small>VN RECORDS® / SELECTION</small>
+  </div>
+  <input id="volume" type="range" min="0" max="100" value="80">
+</header>
+<main>
+<section>
+  <div id="art">DT®</div>
+  <h2 id="title">DOOMED TUNES</h2>
+  <small id="artist">SoundCloud Playlist</small>
+  <div class="controls">
+    <button id="prev">|◀</button>
+    <button id="play">▶</button>
+    <button id="next">▶|</button>
+    <button id="shuffle">⤨</button>
+  </div>
+</section>
+<section>
+  <h3>TRACKLIST <small id="count"></small></h3>
+  <div id="tracks">Loading playlist...</div>
+</section>
+</main>
 </div>
-<div id="tracks"></div>
-</div>
+
 <iframe id="sc" allow="autoplay"></iframe>
 <script src="https://w.soundcloud.com/player/api.js"></script>
 <script>
-(async()=>{
-const $=id=>document.getElementById(id);
-const url="https://soundcloud.com/ojeexash/sets/doomed-tunes-fm";
-const endpoint="https://soundcloud.com/oembed?format=json&url="+encodeURIComponent(url);
-const response=await fetch(endpoint);
-if(!response.ok)throw Error("Playlist unavailable");
-const data=await response.json();
-const doc=new DOMParser().parseFromString(data.html,"text/html");
-const source=doc.querySelector("iframe");
-if(!source)throw Error("Playlist embed unavailable");
-$("sc").src=source.src+"&auto_play=false&visual=false";
-const p=SC.Widget($("sc")),E=SC.Widget.Events;
-let tracks=[],index=0,shuffle=false,bag=[];
-function render(){
-$("tracks").replaceChildren();
-tracks.forEach((t,i)=>{
-const b=document.createElement("button");b.className="track"+(i===index?" current":"");
-const n=document.createElement("span");n.textContent=String(i+1).padStart(2,"0");
-const name=document.createElement("span");name.textContent=t.title;
-b.append(n,name);b.onclick=()=>play(i);$("tracks").append(b);
+(() => {
+const $ = id => document.getElementById(id);
+const url = "https://soundcloud.com/ojeexash/sets/doomed-tunes-fm";
+const frame = $("sc");
+frame.src = "https://w.soundcloud.com/player/?url=" +
+  encodeURIComponent(url) + "&auto_play=false&visual=false";
+
+const p = SC.Widget(frame);
+const E = SC.Widget.Events;
+let tracks = [], current = 0, bag = [];
+let ready = false, shuffle = false, scanning = false;
+
+function render() {
+  $("count").textContent = tracks.length + " TRACKS";
+  $("tracks").replaceChildren();
+
+  tracks.forEach((t, i) => {
+    const b = document.createElement("button");
+    b.className = "track" + (i === current ? " current" : "");
+    const n = document.createElement("span");
+    n.textContent = String(i + 1).padStart(2, "0");
+    const name = document.createElement("span");
+    name.textContent = t.title || " ";
+    const time = document.createElement("span");
+    const seconds = Math.floor((t.duration || 0) / 1000);
+    time.textContent = seconds
+      ? Math.floor(seconds / 60) + ":" +
+        String(seconds % 60).padStart(2, "0")
+      : "";
+    b.append(n, name, time);
+    b.onclick = () => play(i);
+    $("tracks").append(b);
+  });
+}
+
+function show(t, i) {
+  if (!t) return;
+  current = i;
+  $("title").textContent = t.title || "DOOMED TUNES";
+  $("artist").textContent = t.user?.username || "";
+  $("art").replaceChildren();
+
+  if (t.artwork_url) {
+    const img = document.createElement("img");
+    img.src = t.artwork_url.replace("-large", "-t500x500");
+    img.alt = t.title || "";
+    $("art").append(img);
+  } else {
+    $("art").textContent = "DT®";
+  }
+  render();
+}
+
+function waitForIndex(target, callback, attempts = 0) {
+  p.getCurrentSoundIndex(index => {
+    if (index === target) callback();
+    else if (attempts < 60)
+      setTimeout(() => waitForIndex(target, callback, attempts + 1), 50);
+    else callback(false);
+  });
+}
+
+function scan(index) {
+  if (index >= tracks.length) {
+    p.skip(current);
+    waitForIndex(current, () => {
+      p.pause();
+      p.setVolume(+$("volume").value);
+      ready = true;
+      scanning = false;
+      p.getCurrentSound(t => show(t || tracks[current], current));
+      refill();
+    });
+    return;
+  }
+
+  p.skip(index);
+  waitForIndex(index, success => {
+    if (!success) {
+      scan(index + 1);
+      return;
+    }
+    p.getCurrentSound(t => {
+      if (t?.title) tracks[index] = {...tracks[index], ...t};
+      scan(index + 1);
+    });
+  });
+}
+
+function refill() {
+  bag = tracks.map((_, i) => i).filter(i => i !== current);
+  for (let i = bag.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [bag[i], bag[j]] = [bag[j], bag[i]];
+  }
+}
+
+function play(index) {
+  if (!ready || index < 0 || index >= tracks.length) return;
+  current = index;
+  p.skip(index);
+  waitForIndex(index, success => {
+    if (!success) return;
+    p.seekTo(0);
+    p.play();
+    render();
+  });
+}
+
+function next() {
+  if (!ready || !tracks.length) return;
+  if (shuffle) {
+    if (!bag.length) refill();
+    if (bag.length) play(bag.pop());
+  } else {
+    play((current + 1) % tracks.length);
+  }
+}
+
+p.bind(E.READY, () => {
+  if (scanning) return;
+  scanning = true;
+  p.getSounds(sounds => {
+    if (!Array.isArray(sounds) || !sounds.length) {
+      $("tracks").textContent = "Playlist unavailable";
+      scanning = false;
+      return;
+    }
+    tracks = sounds.slice();
+    p.getCurrentSoundIndex(index => {
+      current = Number.isInteger(index) ? index : 0;
+      p.setVolume(0);
+      scan(0);
+    });
+  });
 });
-}
-function refill(){
-bag=tracks.map((_,i)=>i).filter(i=>i!==index);
-for(let i=bag.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bag[i],bag[j]]=[bag[j],bag[i]];}
-}
-function play(i){
-index=i;p.skip(i);p.seekTo(0);p.play();render();
-}
-function next(){
-if(!tracks.length)return;
-if(shuffle&&!bag.length)refill();
-play(shuffle?bag.pop():(index+1)%tracks.length);
-}
-p.bind(E.READY,()=>{
-p.getSounds(sounds=>{
-tracks=sounds||[];
-render();refill();p.setVolume(+$("volume").value);
+
+p.bind(E.PLAY, () => {
+  $("play").textContent = "Ⅱ";
+  p.getCurrentSoundIndex(i =>
+    p.getCurrentSound(t => show(t, i)));
 });
-});
-p.bind(E.FINISH,()=>{if(shuffle)next();});
-p.bind(E.PLAY,()=>$("play").textContent="PAUSE");
-p.bind(E.PAUSE,()=>$("play").textContent="PLAY");
-$("play").onclick=()=>p.toggle();
-$("shuffle").onclick=()=>{
-shuffle=!shuffle;$("shuffle").textContent=shuffle?"SHUFFLE ON":"SHUFFLE OFF";
-if(shuffle)refill();
+
+p.bind(E.PAUSE, () => $("play").textContent = "▶");
+p.bind(E.FINISH, () => { if (shuffle) next(); });
+
+$("play").onclick = () => ready && p.toggle();
+$("next").onclick = next;
+$("prev").onclick = () => {
+  if (ready) play(shuffle ? (bag.length ? bag.pop() : current) :
+    (current - 1 + tracks.length) % tracks.length);
 };
-$("volume").oninput=e=>p.setVolume(+e.target.value);
+$("shuffle").onclick = () => {
+  shuffle = !shuffle;
+  $("shuffle").classList.toggle("active", shuffle);
+  if (shuffle) refill();
+};
+$("volume").oninput = e => ready && p.setVolume(+e.target.value);
 })();
 </script>
 </body>
