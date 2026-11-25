@@ -588,11 +588,24 @@ async function loadTrackTitles() {
   isLoadingTitles = false;
 }
 
-function playTrack(index) {
+async function playTrack(index) {
   if (!widget || index < 0 || index >= sounds.length) return;
+
   currentIndex = index;
   renderTracklist();
+
   widget.skip(index);
+
+  for (let attempt = 0; attempt < 40; attempt++) {
+    const current = await widgetCall("getCurrentSoundIndex");
+
+    if (Number(current) === index) break;
+
+    await wait(50);
+  }
+
+  widget.seekTo(0);
+  await wait(100);
   widget.play();
 }
 
