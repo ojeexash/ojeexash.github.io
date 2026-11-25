@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -385,7 +386,13 @@ button { font:inherit; }
           <svg viewBox="0 0 24 24"><path d="m5 4 10 8-10 8V4Z"/><path d="M19 5v14"/></svg>
         </button>
         <button class="control shuffle" id="shuffle" aria-label="Toggle shuffle" aria-pressed="false" title="Shuffle">
-          <svg viewBox="0 0 24 24"><path d="m16 3 4 4-4 4"/><path d="M4 17h2.5a5 5 0 0 0 4-2l3-4a5 5 0 0 1 4-2H20"/><path d="m16 13 4 4-4 4"/><path d="M4 7h2.5a5 5 0 0 1 3.5 1.5"/><path d="M14 16a5 5 0 0 0 2.5 1H20"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path d="m16 3 4 4-4 4"/>
+            <path d="M4 17h2.5a5 5 0 0 0 4-2l3-4a5 5 0 0 1 4-2H20"/>
+            <path d="m16 13 4 4-4 4"/>
+            <path d="M4 7h2.5a5 5 0 0 1 3.5 1.5"/>
+            <path d="M14 16a5 5 0 0 0 2.5 1H20"/>
+          </svg>
         </button>
       </div>
     </section>
@@ -416,6 +423,7 @@ button { font:inherit; }
 <script>
 const PLAYLIST_URL = "https://soundcloud.com/ojeexash/sets/doomed-tunes-fm";
 const SHARE_URL = "https://ojeexash.github.io/#doomed-tunes";
+
 const iframe = document.getElementById("soundcloud-player");
 const titleEl = document.getElementById("track-title");
 const artistEl = document.getElementById("track-artist");
@@ -432,8 +440,12 @@ const embedURL = "https://w.soundcloud.com/player/?" +
   "&auto_play=false&hide_related=true&show_comments=false" +
   "&show_user=true&show_reposts=false&visual=false";
 
-let widget, sounds = [], currentIndex = -1;
-let shuffleEnabled = false, isPlaying = false, isLoadingTitles = false;
+let widget;
+let sounds = [];
+let currentIndex = -1;
+let shuffleEnabled = false;
+let isPlaying = false;
+let playRequest = 0;
 
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -480,7 +492,8 @@ function renderTracklist() {
   sounds.forEach((sound, index) => {
     const item = document.createElement("button");
     item.type = "button";
-    item.className = "track-item" + (index === currentIndex ? " current" : "");
+    item.className = "track-item" +
+      (index === currentIndex ? " current" : "");
 
     const number = document.createElement("span");
     number.className = "track-number";
@@ -491,11 +504,11 @@ function renderTracklist() {
 
     const name = document.createElement("span");
     name.className = "track-name";
-    name.textContent = sound.title || "Loading track title...";
+    name.textContent = sound.title || "Untitled track";
 
     const artist = document.createElement("span");
     artist.className = "track-user";
-    artist.textContent = sound.user && sound.user.username || "";
+    artist.textContent = sound.user?.username || "";
 
     details.append(name, artist);
 
@@ -512,8 +525,17 @@ function renderTracklist() {
 function updateCurrentTrack(sound) {
   if (!sound) return;
 
+  const index = sounds.findIndex(
+    track => String(track.id) === String(sound.id)
+  );
+
+  if (index !== -1) {
+    sounds[index] = { ...sounds[index], ...sound };
+    currentIndex = index;
+  }
+
   titleEl.textContent = sound.title || "DOOMED TUNES";
-  artistEl.textContent = sound.user && sound.user.username || "";
+  artistEl.textContent = sound.user?.username || "";
   statusEl.textContent = "NOW PLAYING";
 
   artworkEl.textContent = "";
@@ -531,99 +553,67 @@ function updateCurrentTrack(sound) {
     artworkEl.appendChild(placeholder);
   }
 
-  const index = sounds.findIndex(track => String(track.id) === String(sound.id));
-  if (index !== -1) {
-    sounds[index] = { ...sounds[index], ...sound };
-    currentIndex = index;
-  }
   renderTracklist();
 }
 
-/* Load titles before the user selects a track.
-   SoundCloud sometimes returns blank titles in getSounds().
-   The widget's current-sound metadata contains the actual title. */
-async function loadTrackTitles() {
-  if (isLoadingTitles || !sounds.length) return;
-  isLoadingTitles = true;
+function randomIndex() {
+  if (sounds.length < 2) return currentIndex;
 
-  const originalIndex = await widgetCall("getCurrentSoundIndex");
-  const paused = await widgetCall("isPaused");
-  const originalVolume = await widgetCall("getVolume");
+  let index;
+  do {
+    index = Math.floor(Math.random() * sounds.length);
+  } while (index === currentIndex);
 
-  const restoreIndex = Number.isInteger(originalIndex) &&
-    originalIndex >= 0 && originalIndex < sounds.length
-    ? originalIndex : 0;
-
-  widget.setVolume(0);
-  widget.play();
-  await wait(500);
-
-  for (let i = 0; i < sounds.length; i++) {
-    widget.skip(i);
-    await wait(350);
-
-    const sound = await widgetCall("getCurrentSound");
-    if (!sound || String(sound.id) !== String(sounds[i].id)) continue;
-
-    sounds[i] = { ...sounds[i], ...sound };
-    renderTracklist();
-  }
-
-  widget.skip(restoreIndex);
-  await wait(350);
-
-  const restored = await widgetCall("getCurrentSound");
-  if (restored) updateCurrentTrack(restored);
-
-  if (paused) {
-    widget.pause();
-    updatePlayButton(false);
-    statusEl.textContent = "READY TO PLAY";
-  } else {
-    widget.play();
-    updatePlayButton(true);
-  }
-
-  widget.setVolume(Number(originalVolume ?? volumeEl.value));
-  isLoadingTitles = false;
+  return index;
 }
 
 async function playTrack(index) {
   if (!widget || index < 0 || index >= sounds.length) return;
 
+  const request = ++playRequest;
   currentIndex = index;
   renderTracklist();
 
+  widget.pause();
   widget.skip(index);
 
-  for (let attempt = 0; attempt < 40; attempt++) {
-    const current = await widgetCall("getCurrentSoundIndex");
+  for (let attempt = 0; attempt < 50; attempt++) {
+    if (request !== playRequest) return;
 
-    if (Number(current) === index) break;
+    const actualIndex = await widgetCall("getCurrentSoundIndex");
 
+    if (Number(actualIndex) === index) break;
     await wait(50);
   }
 
-  widget.seekTo(0);
-  await wait(100);
-  widget.play();
-}
+  if (request !== playRequest) return;
 
-function randomIndex() {
-  if (sounds.length < 2) return currentIndex;
-  let index = currentIndex;
-  while (index === currentIndex) index = Math.floor(Math.random() * sounds.length);
-  return index;
+  widget.seekTo(0);
+  await wait(150);
+
+  if (request !== playRequest) return;
+
+  widget.play();
 }
 
 function nextTrack() {
   if (!widget || !sounds.length) return;
-  shuffleEnabled ? playTrack(randomIndex()) : widget.next();
+
+  if (shuffleEnabled) {
+    playTrack(randomIndex());
+  } else {
+    widget.next();
+  }
 }
 
 function previousTrack() {
   if (!widget || !sounds.length) return;
-  shuffleEnabled ? playTrack(randomIndex()) : widget.prev();
+
+  if (shuffleEnabled) {
+    playTrack(randomIndex());
+  } else {
+    playTrack(Math.max(0, currentIndex - 1));
+  }
 }
 
 function initializePlayer() {
@@ -632,9 +622,8 @@ function initializePlayer() {
 
   widget.bind(SC.Widget.Events.READY, () => {
     widget.setVolume(Number(volumeEl.value));
-    statusEl.textContent = "PLAYLIST CONNECTED";
 
-    widget.getSounds(async playlistSounds => {
+    widget.getSounds(playlistSounds => {
       sounds = Array.isArray(playlistSounds)
         ? playlistSounds.filter(sound => sound && sound.id)
         : [];
@@ -642,17 +631,26 @@ function initializePlayer() {
       if (!sounds.length) {
         statusEl.textContent = "NO TRACKS AVAILABLE";
         countEl.textContent = "EMPTY";
-        showMessage("No tracks available. Check the playlist's public and embedding permissions.");
+        showMessage("No tracks available. Check playlist visibility and embedding permissions.");
         return;
       }
 
       renderTracklist();
-      await loadTrackTitles();
+
+      widget.getCurrentSoundIndex(index => {
+        currentIndex = Number.isInteger(index) ? index : 0;
+        renderTracklist();
+      });
+
+      widget.getCurrentSound(sound => {
+        if (sound) updateCurrentTrack(sound);
+      });
+
+      statusEl.textContent = "PLAYLIST CONNECTED";
     });
   });
 
   widget.bind(SC.Widget.Events.PLAY, () => {
-    if (isLoadingTitles) return;
     updatePlayButton(true);
     widget.getCurrentSound(sound => {
       if (sound) updateCurrentTrack(sound);
@@ -660,11 +658,10 @@ function initializePlayer() {
   });
 
   widget.bind(SC.Widget.Events.PAUSE, () => {
-    if (!isLoadingTitles) updatePlayButton(false);
+    updatePlayButton(false);
   });
 
   widget.bind(SC.Widget.Events.FINISH, () => {
-    if (isLoadingTitles) return;
     if (shuffleEnabled) playTrack(randomIndex());
   });
 }
@@ -716,7 +713,7 @@ document.getElementById("share-track").addEventListener("click", () => {
   if (!widget) return;
 
   widget.getCurrentSound(sound => {
-    if (!sound || !sound.permalink_url) {
+    if (!sound?.permalink_url) {
       alert("No track is currently selected.");
       return;
     }
