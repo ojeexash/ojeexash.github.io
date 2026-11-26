@@ -9,20 +9,22 @@
 *{box-sizing:border-box}
 html,body{width:100%;margin:0;padding:0;background:transparent}
 body{color:#d8d4e8;font:14px Arial,sans-serif}
-#player{width:100%;max-width:340px;margin:30px auto;padding:0}
-.player-main{display:grid;grid-template-columns:40px 180px 40px;align-items:center;justify-content:center;gap:12px;width:100%}
-.side-button{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:0;background:none;color:#fff;font-size:21px;cursor:pointer;padding:0}
-.side-button:hover{opacity:.7}
-.cover-wrap{width:180px;height:180px;position:relative;border-radius:50%;overflow:hidden}
-#cover{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;border-radius:50%}
-#toggle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;padding:0;margin:0;border:0;border-radius:50%;background:rgba(0,0,0,.58);color:#fff;font-size:21px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
-#toggle span{display:block;line-height:1;transform:translateX(1px)}
-#track-title{margin:10px auto 0;width:100%;max-width:260px;min-height:16px;text-align:center;color:#d8d4e8;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
-.bottom-controls{width:180px;margin:13px auto 0;display:flex;align-items:center;justify-content:space-between;min-height:24px}
-#volume{width:95px;height:3px;margin:0;accent-color:#fff;cursor:pointer}
-#shuffle{width:24px;height:24px;display:flex;align-items:center;justify-content:center;border:0;background:none;color:#fff;opacity:.55;cursor:pointer;padding:2px}
+#player{width:100%;max-width:420px;margin:30px auto;padding:10px}
+.player-main{display:grid;grid-template-columns:64px minmax(0,1fr) 76px;align-items:center;gap:12px;width:100%}
+.cover-wrap{width:64px;height:64px;position:relative;overflow:hidden;border-radius:4px;background:#171421}
+#cover{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:contain}
+#toggle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34px;height:34px;padding:0;margin:0;border:0;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
+#toggle span{display:block;line-height:1}
+.track-info{min-width:0;display:flex;flex-direction:column;justify-content:center;gap:12px}
+#track-title{width:100%;color:#d8d4e8;font-size:12px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bottom-controls{display:flex;align-items:center;gap:10px;width:100%}
+#volume{width:100%;min-width:0;height:3px;margin:0;accent-color:#fff;cursor:pointer}
+#shuffle{flex:0 0 24px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border:0;background:none;color:#fff;opacity:.55;cursor:pointer;padding:2px}
 #shuffle.active{opacity:1}
 #shuffle svg{width:19px;height:19px;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.transport{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.side-button{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:0;background:none;color:#fff;font-size:17px;cursor:pointer;padding:0}
+.side-button:hover{opacity:.7}
 #tracks{display:none}
 #sc{position:fixed;top:0;left:0;width:100%;height:166px;opacity:0;pointer-events:none}
 </style>
@@ -30,21 +32,25 @@ body{color:#d8d4e8;font:14px Arial,sans-serif}
 <body>
 <div id="player">
   <div class="player-main">
-    <button class="side-button" id="prev" aria-label="Previous track">◀</button>
     <div class="cover-wrap">
       <img id="cover" alt="">
       <button id="toggle" aria-label="Play or pause"><span>▶</span></button>
     </div>
-    <button class="side-button" id="next" aria-label="Next track">▶</button>
-  </div>
-  <div id="track-title"></div>
-  <div class="bottom-controls">
-    <input id="volume" type="range" min="0" max="100" value="80" aria-label="Volume">
-    <button id="shuffle" aria-label="Shuffle">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
-      </svg>
-    </button>
+    <div class="track-info">
+      <div id="track-title"></div>
+      <div class="bottom-controls">
+        <input id="volume" type="range" min="0" max="100" value="80" aria-label="Volume">
+        <button id="shuffle" aria-label="Shuffle">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="transport">
+      <button class="side-button" id="prev" aria-label="Previous track">◀</button>
+      <button class="side-button" id="next" aria-label="Next track">▶</button>
+    </div>
   </div>
   <div id="tracks"></div>
 </div>
