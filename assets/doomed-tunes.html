@@ -8,25 +8,35 @@
 <style>
 *{box-sizing:border-box}
 html,body{width:100%;margin:0;padding:0;background:transparent}
-body{color:#d8d4e8;font:14px Arial,sans-serif}
-#player{width:100%;max-width:420px;margin:30px auto;padding:10px}
-.player-main{display:grid;grid-template-columns:64px minmax(0,1fr) 76px;align-items:center;gap:12px;width:100%}
-.cover-wrap{width:64px;height:64px;position:relative;overflow:hidden;border-radius:4px;background:#171421}
-#cover{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:contain}
-#toggle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34px;height:34px;padding:0;margin:0;border:0;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
-#toggle span{display:block;line-height:1}
-.track-info{min-width:0;display:flex;flex-direction:column;justify-content:center;gap:12px}
-#track-title{width:100%;color:#d8d4e8;font-size:12px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bottom-controls{display:flex;align-items:center;gap:10px;width:100%}
-#volume{width:100%;min-width:0;height:3px;margin:0;accent-color:#fff;cursor:pointer}
-#shuffle{flex:0 0 24px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border:0;background:none;color:#fff;opacity:.55;cursor:pointer;padding:2px}
+body{color:#d8d4e8;font:13px Arial,sans-serif}
+#player{width:100%;max-width:440px;margin:30px auto;padding:10px}
+.player-main{display:grid;grid-template-columns:68px minmax(0,1fr);gap:14px;align-items:center}
+.cover-wrap{width:68px;height:68px;position:relative;overflow:hidden;border-radius:4px;background:#171421}
+#cover{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+#toggle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34px;height:34px;border:0;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+#track-title{font-size:13px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:12px}
+.progress-area{width:100%}
+#progress{width:100%;height:3px;display:block;margin:0;accent-color:#fff;cursor:pointer}
+.time-row{display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:#aaa}
+.controls{display:flex;align-items:center;justify-content:space-between;margin-top:13px}
+.transport{display:flex;align-items:center;gap:17px}
+.control-button{border:0;background:none;color:#fff;padding:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px}
+.control-button:hover{opacity:.65}
+#toggle-main{font-size:21px;width:30px}
+#volume{width:85px;height:3px;accent-color:#fff;cursor:pointer}
+.right-controls{display:flex;align-items:center;gap:13px}
+#shuffle{opacity:.55}
 #shuffle.active{opacity:1}
-#shuffle svg{width:19px;height:19px;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.transport{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.side-button{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:0;background:none;color:#fff;font-size:17px;cursor:pointer;padding:0}
-.side-button:hover{opacity:.7}
+#shuffle svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 #tracks{display:none}
 #sc{position:fixed;top:0;left:0;width:100%;height:166px;opacity:0;pointer-events:none}
+@media(max-width:360px){
+ #player{padding:6px}
+ .player-main{grid-template-columns:58px minmax(0,1fr);gap:10px}
+ .cover-wrap{width:58px;height:58px}
+ #volume{width:65px}
+ .transport{gap:11px}
+}
 </style>
 </head>
 <body>
@@ -34,22 +44,32 @@ body{color:#d8d4e8;font:14px Arial,sans-serif}
   <div class="player-main">
     <div class="cover-wrap">
       <img id="cover" alt="">
-      <button id="toggle" aria-label="Play or pause"><span>▶</span></button>
+      <button id="toggle" aria-label="Play or pause">▶</button>
     </div>
-    <div class="track-info">
-      <div id="track-title"></div>
-      <div class="bottom-controls">
-        <input id="volume" type="range" min="0" max="100" value="80" aria-label="Volume">
-        <button id="shuffle" aria-label="Shuffle">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
-          </svg>
-        </button>
+    <div class="player-content">
+      <div id="track-title">DOOMED TUNES</div>
+      <div class="progress-area">
+        <input id="progress" type="range" min="0" max="100" value="0" aria-label="Track progress">
+        <div class="time-row">
+          <span id="current-time">0:00</span>
+          <span id="duration">0:00</span>
+        </div>
       </div>
     </div>
+  </div>
+  <div class="controls">
     <div class="transport">
-      <button class="side-button" id="prev" aria-label="Previous track">◀</button>
-      <button class="side-button" id="next" aria-label="Next track">▶</button>
+      <button class="control-button" id="prev" aria-label="Previous track">|◀</button>
+      <button class="control-button" id="toggle-main" aria-label="Play or pause">▶</button>
+      <button class="control-button" id="next" aria-label="Next track">▶|</button>
+    </div>
+    <div class="right-controls">
+      <input id="volume" type="range" min="0" max="100" value="80" aria-label="Volume">
+      <button class="control-button" id="shuffle" aria-label="Shuffle">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
+        </svg>
+      </button>
     </div>
   </div>
   <div id="tracks"></div>
@@ -64,10 +84,26 @@ $("sc").src = "https://w.soundcloud.com/player/?url=" + encodeURIComponent(playl
 const widget = SC.Widget($("sc"));
 const events = SC.Widget.Events;
 let tracks = [], current = 0, ready = false, scanning = false, shuffle = false;
+let duration = 0, seeking = false;
+
 const delay = ms => new Promise(resolve => setTimeout(resolve,ms));
 const getSounds = () => new Promise(resolve => widget.getSounds(resolve));
 const getIndex = () => new Promise(resolve => widget.getCurrentSoundIndex(resolve));
 const getSound = () => new Promise(resolve => widget.getCurrentSound(resolve));
+const getDuration = () => new Promise(resolve => widget.getDuration(resolve));
+
+function formatTime(ms) {
+  const seconds = Math.floor((ms || 0) / 1000);
+  return Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2,"0");
+}
+
+async function updateDuration() {
+  duration = await getDuration() || 0;
+  $("progress").max = duration || 100;
+  $("progress").value = 0;
+  $("duration").textContent = formatTime(duration);
+  $("current-time").textContent = "0:00";
+}
 
 async function waitIndex(target) {
   for(let i=0;i<80;i++) {
@@ -105,6 +141,7 @@ function showTrack(track,index) {
   $("track-title").textContent = track.title || "";
   if(track.artwork_url) $("cover").src = track.artwork_url.replace("-large","-t500x500");
   else $("cover").removeAttribute("src");
+  updateDuration();
   render();
 }
 
@@ -175,27 +212,57 @@ async function changeTrack(direction) {
   await play(index);
 }
 
+function togglePlayback() {
+  if(ready) widget.toggle();
+}
+
 widget.bind(events.READY,loadPlaylist);
+
 widget.bind(events.PLAY,async () => {
-  $("toggle").querySelector("span").textContent = "Ⅱ";
+  $("toggle").textContent = "Ⅱ";
+  $("toggle-main").textContent = "Ⅱ";
   const index = await getIndex();
   const sound = await getSound();
   if(sound) showTrack(sound,index);
 });
+
 widget.bind(events.PAUSE,() => {
-  $("toggle").querySelector("span").textContent = "▶";
+  $("toggle").textContent = "▶";
+  $("toggle-main").textContent = "▶";
 });
+
+widget.bind(events.PLAY_PROGRESS,data => {
+  if(seeking) return;
+  const position = data.currentPosition || 0;
+  $("progress").value = position;
+  $("current-time").textContent = formatTime(position);
+});
+
 widget.bind(events.FINISH,() => {
   if(ready) changeTrack(1);
 });
-$("toggle").onclick = () => {
-  if(ready) widget.toggle();
-};
+
+$("toggle").onclick = togglePlayback;
+$("toggle-main").onclick = togglePlayback;
 $("prev").onclick = () => changeTrack(-1);
 $("next").onclick = () => changeTrack(1);
+
+$("progress").oninput = event => {
+  if(!ready || !duration) return;
+  seeking = true;
+  const position = +event.target.value;
+  $("current-time").textContent = formatTime(position);
+  widget.seekTo(position);
+};
+
+$("progress").onchange = () => {
+  seeking = false;
+};
+
 $("volume").oninput = event => {
   if(ready) widget.setVolume(+event.target.value);
 };
+
 $("shuffle").onclick = () => {
   shuffle = !shuffle;
   $("shuffle").classList.toggle("active",shuffle);
