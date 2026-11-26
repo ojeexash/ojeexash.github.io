@@ -12,46 +12,52 @@
 body{
   margin:0;
   background:transparent;
-  color:inherit;
+  color:#d8d4e8;
   font:14px Arial,sans-serif;
 }
 
 #player{
   width:100%;
-  max-width:320px;
+  max-width:340px;
   margin:30px auto;
   padding:0;
 }
 
 .player-main{
-  display:flex;
+  display:grid;
+  grid-template-columns:40px 180px 40px;
   align-items:center;
   justify-content:center;
-  gap:14px;
+  gap:12px;
 }
 
 .side-button{
-  width:32px;
+  width:40px;
   height:40px;
-  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   border:0;
   background:none;
-  color:inherit;
-  font-size:23px;
+  color:#c5b5f5;
+  font-size:21px;
   cursor:pointer;
   padding:0;
+}
+
+.side-button:hover{
+  color:#fff;
 }
 
 .cover-wrap{
   width:180px;
   height:180px;
   position:relative;
-  flex-shrink:0;
 }
 
 #cover{
-  width:100%;
-  height:100%;
+  width:180px;
+  height:180px;
   display:block;
   object-fit:cover;
 }
@@ -60,54 +66,66 @@ body{
   position:absolute;
   inset:0;
   margin:auto;
-  width:48px;
-  height:48px;
+  width:46px;
+  height:46px;
   border:0;
   border-radius:50%;
-  background:rgba(0,0,0,.45);
-  color:white;
-  font-size:22px;
-  cursor:pointer;
+  background:rgba(25,20,40,.72);
+  color:#fff;
+  font-size:21px;
   display:flex;
   align-items:center;
   justify-content:center;
+  cursor:pointer;
 }
 
 #track-title{
-  margin:9px auto 0;
-  max-width:250px;
+  margin:10px auto 0;
+  width:100%;
+  max-width:260px;
+  min-height:16px;
   text-align:center;
+  color:#d8d4e8;
   font-size:11px;
-  line-height:1.4;
+  line-height:1.5;
   overflow-wrap:anywhere;
 }
 
 .bottom-controls{
   width:180px;
-  margin:12px auto 0;
+  margin:13px auto 0;
   display:flex;
   align-items:center;
   justify-content:space-between;
+  min-height:24px;
 }
 
 #volume{
-  width:90px;
+  width:95px;
   height:3px;
+  margin:0;
+  accent-color:#a88bea;
   cursor:pointer;
 }
 
 #shuffle{
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   border:0;
   background:none;
-  color:inherit;
+  color:#a88bea;
   opacity:.55;
-  font-size:19px;
+  font-size:18px;
   cursor:pointer;
-  padding:3px;
+  padding:0;
 }
 
 #shuffle.active{
   opacity:1;
+  color:#fff;
 }
 
 #tracks{
@@ -132,22 +150,22 @@ body{
 
   <div class="player-main">
 
-    <button class="side-button" id="prev">◀</button>
+    <button class="side-button" id="prev" aria-label="Previous track">◀</button>
 
     <div class="cover-wrap">
       <img id="cover" alt="">
-      <button id="toggle">▶</button>
+      <button id="toggle" aria-label="Play or pause">▶</button>
     </div>
 
-    <button class="side-button" id="next">▶</button>
+    <button class="side-button" id="next" aria-label="Next track">▶</button>
 
   </div>
 
   <div id="track-title"></div>
 
   <div class="bottom-controls">
-    <input id="volume" type="range" min="0" max="100" value="80">
-    <button id="shuffle">🔀</button>
+    <input id="volume" type="range" min="0" max="100" value="80" aria-label="Volume">
+    <button id="shuffle" aria-label="Shuffle">🔀</button>
   </div>
 
   <div id="tracks"></div>
