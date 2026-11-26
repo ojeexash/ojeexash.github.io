@@ -9,52 +9,53 @@
 *{box-sizing:border-box}
 html,body{width:100%;margin:0;padding:0;background:transparent}
 body{color:#d8d4e8;font:13px Arial,sans-serif}
-#player{width:100%;max-width:440px;margin:30px auto;padding:10px}
-.player-main{display:grid;grid-template-columns:68px minmax(0,1fr);gap:14px;align-items:center}
+#player{width:100%;max-width:460px;margin:30px auto;padding:10px}
+.player-main{display:grid;grid-template-columns:30px 68px 30px minmax(0,1fr);gap:9px;align-items:center;width:100%}
 .cover-wrap{width:68px;height:68px;position:relative;overflow:hidden;border-radius:4px;background:#171421}
 #cover{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
-#toggle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34px;height:34px;padding:0;border:0;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.side-button{width:30px;height:36px;padding:0;border:0;background:none;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer}
+.side-button:hover,.control-button:hover{opacity:.65}
+.player-content{min-width:0}
 #track-title{font-size:13px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:12px}
 .progress-area{width:100%}
-#progress{width:100%;height:3px;display:block;margin:0;accent-color:#fff;cursor:pointer}
-.time-row{display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:#aaa}
-.controls{display:flex;align-items:center;justify-content:space-between;margin-top:13px}
-.transport{display:flex;align-items:center;gap:17px}
-.control-button{border:0;background:none;color:#fff;padding:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px}
-.control-button:hover{opacity:.65}
-#toggle-main{width:30px;height:30px;padding:0}
-.play-icon{width:18px;height:18px;display:block;fill:currentColor}
-.pause-icon{width:18px;height:18px;display:block;fill:currentColor}
-#toggle .play-icon,#toggle .pause-icon{width:17px;height:17px}
+.progress-wrap{position:relative;width:100%;height:22px;display:flex;align-items:center}
+#progress{display:block;width:100%;height:3px;margin:0;accent-color:#fff;cursor:pointer}
+#toggle-main{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:28px;height:28px;padding:0;border:0;border-radius:50%;background:#24202e;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2}
+#toggle-main svg{display:block;width:13px;height:13px;fill:currentColor}
+.time-row{display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:#aaa}
+.controls{display:flex;align-items:center;justify-content:flex-end;margin-top:10px}
 .right-controls{display:flex;align-items:center;gap:13px}
 #volume{width:85px;height:3px;accent-color:#fff;cursor:pointer}
+.control-button{border:0;background:none;color:#fff;padding:3px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 #shuffle{opacity:.55}
 #shuffle.active{opacity:1}
 #shuffle svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 #tracks{display:none}
 #sc{position:fixed;top:0;left:0;width:100%;height:166px;opacity:0;pointer-events:none}
 @media(max-width:360px){
- #player{padding:6px}
- .player-main{grid-template-columns:58px minmax(0,1fr);gap:10px}
+ #player{padding:5px}
+ .player-main{grid-template-columns:24px 58px 24px minmax(0,1fr);gap:6px}
  .cover-wrap{width:58px;height:58px}
+ .side-button{width:24px;font-size:14px}
  #volume{width:65px}
- .transport{gap:11px}
 }
 </style>
 </head>
 <body>
 <div id="player">
   <div class="player-main">
-    <div class="cover-wrap">
-      <img id="cover" alt="">
-      <button id="toggle" aria-label="Play">
-        <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.8v14.4L19 12 7 4.8z"/></svg>
-      </button>
-    </div>
+    <button class="side-button" id="prev" aria-label="Previous track">|◀</button>
+    <div class="cover-wrap"><img id="cover" alt=""></div>
+    <button class="side-button" id="next" aria-label="Next track">▶|</button>
     <div class="player-content">
       <div id="track-title">DOOMED TUNES</div>
       <div class="progress-area">
-        <input id="progress" type="range" min="0" max="100" value="0" aria-label="Track progress">
+        <div class="progress-wrap">
+          <input id="progress" type="range" min="0" max="100" value="0" aria-label="Track progress">
+          <button id="toggle-main" aria-label="Play">
+            <svg id="play-icon" viewBox="0 0 24 24"><path d="M7 4.8v14.4L19 12 7 4.8z"/></svg>
+          </button>
+        </div>
         <div class="time-row">
           <span id="current-time">0:00</span>
           <span id="duration">0:00</span>
@@ -63,13 +64,6 @@ body{color:#d8d4e8;font:13px Arial,sans-serif}
     </div>
   </div>
   <div class="controls">
-    <div class="transport">
-      <button class="control-button" id="prev" aria-label="Previous track">|◀</button>
-      <button class="control-button" id="toggle-main" aria-label="Play">
-        <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.8v14.4L19 12 7 4.8z"/></svg>
-      </button>
-      <button class="control-button" id="next" aria-label="Next track">▶|</button>
-    </div>
     <div class="right-controls">
       <input id="volume" type="range" min="0" max="100" value="80" aria-label="Volume">
       <button class="control-button" id="shuffle" aria-label="Shuffle">
@@ -93,13 +87,11 @@ const events = SC.Widget.Events;
 let tracks = [], current = 0, ready = false, scanning = false, shuffle = false;
 let duration = 0, seeking = false;
 
-const playIcon = '<svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.8v14.4L19 12 7 4.8z"/></svg>';
-const pauseIcon = '<svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+const playIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.8v14.4L19 12 7 4.8z"/></svg>';
+const pauseIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
 
 function setPlaybackIcon(playing) {
-  $("toggle").innerHTML = playing ? pauseIcon : playIcon;
   $("toggle-main").innerHTML = playing ? pauseIcon : playIcon;
-  $("toggle").setAttribute("aria-label",playing ? "Pause" : "Play");
   $("toggle-main").setAttribute("aria-label",playing ? "Pause" : "Play");
 }
 
@@ -230,12 +222,13 @@ async function changeTrack(direction) {
   await play(index);
 }
 
-function togglePlayback() {
+$("toggle-main").onclick = () => {
   if(ready) widget.toggle();
-}
+};
+$("prev").onclick = () => changeTrack(-1);
+$("next").onclick = () => changeTrack(1);
 
 widget.bind(events.READY,loadPlaylist);
-
 widget.bind(events.PLAY,async () => {
   if(scanning) return;
   setPlaybackIcon(true);
@@ -243,27 +236,16 @@ widget.bind(events.PLAY,async () => {
   const sound = await getSound();
   if(sound) showTrack(sound,index);
 });
-
-widget.bind(events.PAUSE,() => {
-  setPlaybackIcon(false);
-});
-
+widget.bind(events.PAUSE,() => setPlaybackIcon(false));
 widget.bind(events.PLAY_PROGRESS,data => {
   if(scanning || seeking) return;
   const position = data.currentPosition || 0;
   $("progress").value = position;
   $("current-time").textContent = formatTime(position);
 });
-
 widget.bind(events.FINISH,() => {
   if(ready) changeTrack(1);
 });
-
-$("toggle").onclick = togglePlayback;
-$("toggle-main").onclick = togglePlayback;
-$("prev").onclick = () => changeTrack(-1);
-$("next").onclick = () => changeTrack(1);
-
 $("progress").oninput = event => {
   if(!ready || !duration) return;
   seeking = true;
@@ -271,15 +253,10 @@ $("progress").oninput = event => {
   $("current-time").textContent = formatTime(position);
   widget.seekTo(position);
 };
-
-$("progress").onchange = () => {
-  seeking = false;
-};
-
+$("progress").onchange = () => seeking = false;
 $("volume").oninput = event => {
   if(ready) widget.setVolume(+event.target.value);
 };
-
 $("shuffle").onclick = () => {
   shuffle = !shuffle;
   $("shuffle").classList.toggle("active",shuffle);
