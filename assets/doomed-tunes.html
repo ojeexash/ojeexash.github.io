@@ -5,39 +5,164 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DOOMED TUNES</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#fff;color:#111;font:14px Arial}
-#player{max-width:600px;margin:30px auto;padding:15px}
-#cover{width:100%;aspect-ratio:1;object-fit:cover;display:block}
-#tracks{margin:20px 0;max-height:350px;overflow:auto}
-.track{display:block;width:100%;padding:9px 0;border:0;background:none;color:#111;text-align:left;font:inherit;cursor:pointer;overflow-wrap:anywhere}
-.track.active{font-weight:bold}
-.controls{display:flex;align-items:center;gap:15px;margin:15px 0}
-button{border:0;background:none;color:inherit;font-size:20px;cursor:pointer;padding:5px}
-#volume{flex:1;min-width:60px}
-#sc{position:fixed;top:0;left:0;width:100%;height:166px;opacity:0;pointer-events:none}
+
+body{
+  margin:0;
+  background:transparent;
+  color:inherit;
+  font:14px Arial,sans-serif;
+}
+
+#player{
+  width:100%;
+  max-width:320px;
+  margin:30px auto;
+  padding:0;
+}
+
+.player-main{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+}
+
+.side-button{
+  width:32px;
+  height:40px;
+  flex-shrink:0;
+  border:0;
+  background:none;
+  color:inherit;
+  font-size:23px;
+  cursor:pointer;
+  padding:0;
+}
+
+.cover-wrap{
+  width:180px;
+  height:180px;
+  position:relative;
+  flex-shrink:0;
+}
+
+#cover{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+
+#toggle{
+  position:absolute;
+  inset:0;
+  margin:auto;
+  width:48px;
+  height:48px;
+  border:0;
+  border-radius:50%;
+  background:rgba(0,0,0,.45);
+  color:white;
+  font-size:22px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+#track-title{
+  margin:9px auto 0;
+  max-width:250px;
+  text-align:center;
+  font-size:11px;
+  line-height:1.4;
+  overflow-wrap:anywhere;
+}
+
+.bottom-controls{
+  width:180px;
+  margin:12px auto 0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+#volume{
+  width:90px;
+  height:3px;
+  cursor:pointer;
+}
+
+#shuffle{
+  border:0;
+  background:none;
+  color:inherit;
+  opacity:.55;
+  font-size:19px;
+  cursor:pointer;
+  padding:3px;
+}
+
+#shuffle.active{
+  opacity:1;
+}
+
+#tracks{
+  display:none;
+}
+
+#sc{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:166px;
+  opacity:0;
+  pointer-events:none;
+}
 </style>
 </head>
+
 <body>
 
 <div id="player">
-<img id="cover" alt="">
-<div id="tracks"></div>
-<div class="controls">
-<button id="prev">|◀</button>
-<button id="toggle">▶</button>
-<button id="next">▶|</button>
-<input id="volume" type="range" min="0" max="100" value="80">
-</div>
+
+  <div class="player-main">
+
+    <button class="side-button" id="prev">◀</button>
+
+    <div class="cover-wrap">
+      <img id="cover" alt="">
+      <button id="toggle">▶</button>
+    </div>
+
+    <button class="side-button" id="next">▶</button>
+
+  </div>
+
+  <div id="track-title"></div>
+
+  <div class="bottom-controls">
+    <input id="volume" type="range" min="0" max="100" value="80">
+    <button id="shuffle">🔀</button>
+  </div>
+
+  <div id="tracks"></div>
+
 </div>
 
 <iframe id="sc" allow="autoplay"></iframe>
 
 <script src="https://w.soundcloud.com/player/api.js"></script>
+
 <script>
 (async () => {
+
 const $ = id => document.getElementById(id);
+
 const playlist = "https://soundcloud.com/ojeexash/sets/doomed-tunes-fm";
 
 $("sc").src =
@@ -52,6 +177,7 @@ let tracks = [];
 let current = 0;
 let ready = false;
 let scanning = false;
+let shuffle = false;
 
 const delay = ms => new Promise(resolve => setTimeout(resolve,ms));
 
@@ -104,6 +230,8 @@ function showTrack(track,index) {
 
   current = index;
 
+  $("track-title").textContent = track.title || "";
+
   if(track.artwork_url) {
     $("cover").src = track.artwork_url.replace("-large","-t500x500");
   } else {
@@ -115,6 +243,7 @@ function showTrack(track,index) {
 
 async function loadPlaylist() {
   if(scanning || ready) return;
+
   scanning = true;
 
   try {
@@ -126,16 +255,19 @@ async function loadPlaylist() {
     }
 
     const total = sounds.length;
+
     tracks = sounds.map(sound =>
       sound && sound.title ? {...sound} : null
     );
 
     await widget.setVolume(0);
+
     widget.skip(0);
 
     if(!await waitIndex(0)) throw Error("Track selection failed");
 
     for(let i=0;i<total;i++) {
+
       const sound = await readCurrentTrack();
 
       if(sound && sound.title) {
@@ -146,22 +278,23 @@ async function loadPlaylist() {
       if(i < total-1) {
         widget.next();
 
-        if(!await waitIndex(i+1)) {
-          throw Error("Track change failed");
-        }
+        if(!await waitIndex(i+1)) throw Error("Track change failed");
       }
     }
 
     widget.skip(0);
     await waitIndex(0);
     widget.pause();
+
     await widget.setVolume(+$("volume").value);
 
     current = 0;
+
     if(tracks[0]) showTrack(tracks[0],0);
 
     ready = true;
     scanning = false;
+
     render();
 
   } catch(error) {
@@ -178,10 +311,12 @@ async function play(index) {
   if(!await waitIndex(index)) return;
 
   current = index;
+
   widget.seekTo(0);
   widget.play();
 
   const sound = await readCurrentTrack();
+
   if(sound) {
     tracks[index] = {...(tracks[index] || {}),...sound};
     showTrack(sound,index);
@@ -189,9 +324,18 @@ async function play(index) {
 }
 
 async function changeTrack(direction) {
-  if(!ready) return;
+  if(!ready || !tracks.length) return;
 
-  const index = (current + direction + tracks.length) % tracks.length;
+  let index;
+
+  if(shuffle && direction === 1 && tracks.length > 1) {
+    do {
+      index = Math.floor(Math.random() * tracks.length);
+    } while(index === current);
+  } else {
+    index = (current + direction + tracks.length) % tracks.length;
+  }
+
   await play(index);
 }
 
@@ -199,8 +343,10 @@ widget.bind(events.READY,loadPlaylist);
 
 widget.bind(events.PLAY,async () => {
   $("toggle").textContent = "Ⅱ";
+
   const index = await getIndex();
   const sound = await getSound();
+
   if(sound) showTrack(sound,index);
 });
 
@@ -217,13 +363,20 @@ $("toggle").onclick = () => {
 };
 
 $("prev").onclick = () => changeTrack(-1);
+
 $("next").onclick = () => changeTrack(1);
 
 $("volume").oninput = event => {
   if(ready) widget.setVolume(+event.target.value);
 };
 
+$("shuffle").onclick = () => {
+  shuffle = !shuffle;
+  $("shuffle").classList.toggle("active",shuffle);
+};
+
 })();
 </script>
+
 </body>
 </html>
