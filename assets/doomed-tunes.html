@@ -5,257 +5,63 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DOOMED TUNES</title>
-
 <style>
-*{
-  box-sizing:border-box;
-}
-
-html,body{
-  width:100%;
-  margin:0;
-  padding:0;
-  background:transparent;
-}
-
-body{
-  color:#d8d4e8;
-  font:14px Arial,sans-serif;
-}
-
-#player{
-  width:100%;
-  max-width:340px;
-  margin:30px auto;
-  padding:0;
-  position:relative;
-  left:50%;
-  transform:translateX(-50%);
-}
-
-.player-main{
-  display:grid;
-  grid-template-columns:40px 180px 40px;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  width:100%;
-}
-
-.side-button{
-  width:40px;
-  height:40px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:0;
-  background:none;
-  color:#fff;
-  font-size:21px;
-  cursor:pointer;
-  padding:0;
-}
-
-.side-button:hover{
-  opacity:.7;
-}
-
-.cover-wrap{
-  width:180px;
-  height:180px;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-#cover{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:cover;
-}
-
-#toggle{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:46px;
-  height:46px;
-  padding:0;
-  margin:0;
-  border:0;
-  border-radius:50%;
-  background:rgba(0,0,0,.58);
-  color:#fff;
-  font-size:21px;
-  line-height:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-}
-
-#toggle span{
-  display:block;
-  line-height:1;
-  transform:translateX(1px);
-}
-
-#track-title{
-  margin:10px auto 0;
-  width:100%;
-  max-width:260px;
-  min-height:16px;
-  text-align:center;
-  color:#d8d4e8;
-  font-size:11px;
-  line-height:1.5;
-  overflow-wrap:anywhere;
-}
-
-.bottom-controls{
-  width:180px;
-  margin:13px auto 0;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  min-height:24px;
-}
-
-#volume{
-  width:95px;
-  height:3px;
-  margin:0;
-  accent-color:#fff;
-  cursor:pointer;
-}
-
-#shuffle{
-  width:24px;
-  height:24px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:0;
-  background:none;
-  color:#fff;
-  opacity:.55;
-  cursor:pointer;
-  padding:2px;
-}
-
-#shuffle.active{
-  opacity:1;
-}
-
-#shuffle svg{
-  width:19px;
-  height:19px;
-  display:block;
-  fill:none;
-  stroke:currentColor;
-  stroke-width:1.7;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-}
-
-#tracks{
-  display:none;
-}
-
-#sc{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:166px;
-  opacity:0;
-  pointer-events:none;
-}
+*{box-sizing:border-box}
+html,body{width:100%;margin:0;padding:0;background:transparent}
+body{color:#d8d4e8;font:14px Arial,sans-serif}
+#player{width:100%;max-width:340px;margin:30px auto;padding:0}
+.player-main{display:grid;grid-template-columns:40px 180px 40px;align-items:center;justify-content:center;gap:12px;width:100%}
+.side-button{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:0;background:none;color:#fff;font-size:21px;cursor:pointer;padding:0}
+.side-button:hover{opacity:.7}
+.cover-wrap{width:180px;height:180px;position:relative;border-radius:50%;overflow:hidden}
+#cover{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;border-radius:50%}
+#toggle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;padding:0;margin:0;border:0;border-radius:50%;background:rgba(0,0,0,.58);color:#fff;font-size:21px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
+#toggle span{display:block;line-height:1;transform:translateX(1px)}
+#track-title{margin:10px auto 0;width:100%;max-width:260px;min-height:16px;text-align:center;color:#d8d4e8;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
+.bottom-controls{width:180px;margin:13px auto 0;display:flex;align-items:center;justify-content:space-between;min-height:24px}
+#volume{width:95px;height:3px;margin:0;accent-color:#fff;cursor:pointer}
+#shuffle{width:24px;height:24px;display:flex;align-items:center;justify-content:center;border:0;background:none;color:#fff;opacity:.55;cursor:pointer;padding:2px}
+#shuffle.active{opacity:1}
+#shuffle svg{width:19px;height:19px;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+#tracks{display:none}
+#sc{position:fixed;top:0;left:0;width:100%;height:166px;opacity:0;pointer-events:none}
 </style>
 </head>
-
 <body>
-
 <div id="player">
-
   <div class="player-main">
-
     <button class="side-button" id="prev" aria-label="Previous track">◀</button>
-
     <div class="cover-wrap">
       <img id="cover" alt="">
       <button id="toggle" aria-label="Play or pause"><span>▶</span></button>
     </div>
-
     <button class="side-button" id="next" aria-label="Next track">▶</button>
-
   </div>
-
   <div id="track-title"></div>
-
   <div class="bottom-controls">
-
     <input id="volume" type="range" min="0" max="100" value="80" aria-label="Volume">
-
     <button id="shuffle" aria-label="Shuffle">
       <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M16 3h5v5"/>
-        <path d="M4 20L21 3"/>
-        <path d="M21 16v5h-5"/>
-        <path d="M15 15l6 6"/>
-        <path d="M4 4l5 5"/>
+        <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
       </svg>
     </button>
-
   </div>
-
   <div id="tracks"></div>
-
 </div>
-
 <iframe id="sc" allow="autoplay"></iframe>
-
 <script src="https://w.soundcloud.com/player/api.js"></script>
-
 <script>
 (async () => {
-
 const $ = id => document.getElementById(id);
-
 const playlist = "https://soundcloud.com/ojeexash/sets/doomed-tunes-fm";
-
-$("sc").src =
-  "https://w.soundcloud.com/player/?url=" +
-  encodeURIComponent(playlist) +
-  "&auto_play=false&visual=false";
-
+$("sc").src = "https://w.soundcloud.com/player/?url=" + encodeURIComponent(playlist) + "&auto_play=false&visual=false";
 const widget = SC.Widget($("sc"));
 const events = SC.Widget.Events;
-
-let tracks = [];
-let current = 0;
-let ready = false;
-let scanning = false;
-let shuffle = false;
-
+let tracks = [], current = 0, ready = false, scanning = false, shuffle = false;
 const delay = ms => new Promise(resolve => setTimeout(resolve,ms));
-
-function getSounds() {
-  return new Promise(resolve => widget.getSounds(resolve));
-}
-
-function getIndex() {
-  return new Promise(resolve => widget.getCurrentSoundIndex(resolve));
-}
-
-function getSound() {
-  return new Promise(resolve => widget.getCurrentSound(resolve));
-}
+const getSounds = () => new Promise(resolve => widget.getSounds(resolve));
+const getIndex = () => new Promise(resolve => widget.getCurrentSoundIndex(resolve));
+const getSound = () => new Promise(resolve => widget.getCurrentSound(resolve));
 
 async function waitIndex(target) {
   for(let i=0;i<80;i++) {
@@ -277,10 +83,8 @@ async function readCurrentTrack() {
 function render() {
   const list = $("tracks");
   list.replaceChildren();
-
   tracks.forEach((track,index) => {
     if(!track || !track.title) return;
-
     const button = document.createElement("button");
     button.className = "track" + (index === current ? " active" : "");
     button.textContent = track.title;
@@ -291,76 +95,47 @@ function render() {
 
 function showTrack(track,index) {
   if(!track) return;
-
   current = index;
-
   $("track-title").textContent = track.title || "";
-
-  if(track.artwork_url) {
-    $("cover").src = track.artwork_url.replace("-large","-t500x500");
-  } else {
-    $("cover").removeAttribute("src");
-  }
-
+  if(track.artwork_url) $("cover").src = track.artwork_url.replace("-large","-t500x500");
+  else $("cover").removeAttribute("src");
   render();
 }
 
 async function loadPlaylist() {
   if(scanning || ready) return;
-
   scanning = true;
-
   try {
     const sounds = await getSounds();
-
     if(!Array.isArray(sounds) || !sounds.length) {
       scanning = false;
       return;
     }
-
     const total = sounds.length;
-
-    tracks = sounds.map(sound =>
-      sound && sound.title ? {...sound} : null
-    );
-
+    tracks = sounds.map(sound => sound && sound.title ? {...sound} : null);
     await widget.setVolume(0);
-
     widget.skip(0);
-
     if(!await waitIndex(0)) throw Error("Track selection failed");
-
     for(let i=0;i<total;i++) {
-
       const sound = await readCurrentTrack();
-
       if(sound && sound.title) {
         tracks[i] = {...(tracks[i] || {}),...sound};
         render();
       }
-
       if(i < total-1) {
         widget.next();
-
         if(!await waitIndex(i+1)) throw Error("Track change failed");
       }
     }
-
     widget.skip(0);
     await waitIndex(0);
     widget.pause();
-
     await widget.setVolume(+$("volume").value);
-
     current = 0;
-
     if(tracks[0]) showTrack(tracks[0],0);
-
     ready = true;
     scanning = false;
-
     render();
-
   } catch(error) {
     scanning = false;
     console.error(error);
@@ -369,18 +144,12 @@ async function loadPlaylist() {
 
 async function play(index) {
   if(!ready || index<0 || index>=tracks.length) return;
-
   widget.skip(index);
-
   if(!await waitIndex(index)) return;
-
   current = index;
-
   widget.seekTo(0);
   widget.play();
-
   const sound = await readCurrentTrack();
-
   if(sound) {
     tracks[index] = {...(tracks[index] || {}),...sound};
     showTrack(sound,index);
@@ -389,9 +158,7 @@ async function play(index) {
 
 async function changeTrack(direction) {
   if(!ready || !tracks.length) return;
-
   let index;
-
   if(shuffle && direction === 1 && tracks.length > 1) {
     do {
       index = Math.floor(Math.random() * tracks.length);
@@ -399,48 +166,35 @@ async function changeTrack(direction) {
   } else {
     index = (current + direction + tracks.length) % tracks.length;
   }
-
   await play(index);
 }
 
 widget.bind(events.READY,loadPlaylist);
-
 widget.bind(events.PLAY,async () => {
   $("toggle").querySelector("span").textContent = "Ⅱ";
-
   const index = await getIndex();
   const sound = await getSound();
-
   if(sound) showTrack(sound,index);
 });
-
 widget.bind(events.PAUSE,() => {
   $("toggle").querySelector("span").textContent = "▶";
 });
-
 widget.bind(events.FINISH,() => {
   if(ready) changeTrack(1);
 });
-
 $("toggle").onclick = () => {
   if(ready) widget.toggle();
 };
-
 $("prev").onclick = () => changeTrack(-1);
-
 $("next").onclick = () => changeTrack(1);
-
 $("volume").oninput = event => {
   if(ready) widget.setVolume(+event.target.value);
 };
-
 $("shuffle").onclick = () => {
   shuffle = !shuffle;
   $("shuffle").classList.toggle("active",shuffle);
 };
-
 })();
 </script>
-
 </body>
 </html>
