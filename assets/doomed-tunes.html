@@ -26,14 +26,17 @@ button:hover,button.active{color:#b8a0ff;border-color:#b8a0ff}
 .track{width:100%;padding:14px 5px;text-align:left;border-width:0 0 1px;border-color:#ffffff22}
 .track span:nth-child(2){flex:1;overflow-wrap:anywhere}
 .track.current{color:#b8a0ff}
-iframe{position:fixed;width:1px;height:1px;left:0;top:0;opacity:0;pointer-events:none}
+iframe{position:fixed;width:1px;height:1px;left:-100px;bottom:0}
 @media(max-width:600px){main{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div id="app">
 <header>
-<div><h1>DOOMED <span>TUNES®</span></h1><small>VN RECORDS® / SELECTION</small></div>
+<div>
+<h1>DOOMED <span>TUNES®</span></h1>
+<small>VN RECORDS® / SELECTION</small>
+</div>
 <input id="volume" type="range" min="0" max="100" value="80">
 </header>
 <main>
@@ -54,34 +57,50 @@ iframe{position:fixed;width:1px;height:1px;left:0;top:0;opacity:0;pointer-events
 </section>
 </main>
 </div>
+
 <iframe id="sc" allow="autoplay"></iframe>
 <script src="https://w.soundcloud.com/player/api.js"></script>
 <script>
 (() => {
 const $ = id => document.getElementById(id);
 const url = "https://soundcloud.com/ojeexash/sets/doomed-tunes-fm";
-$("sc").src = "https://w.soundcloud.com/player/?url=" +
+const frame = $("sc");
+
+frame.src = "https://w.soundcloud.com/player/?url=" +
   encodeURIComponent(url) + "&auto_play=false&visual=false";
 
-const p = SC.Widget($("sc"));
+const p = SC.Widget(frame);
 const E = SC.Widget.Events;
-let tracks = [], current = 0, startIndex = 0, bag = [];
-let ready = false, shuffle = false, scanning = false;
+
+let tracks = [];
+let current = 0;
+let startIndex = 0;
+let bag = [];
+let ready = false;
+let shuffle = false;
+let scanning = false;
+let scanToken = 0;
 
 function render() {
   $("count").textContent = tracks.length + " TRACKS";
   $("tracks").replaceChildren();
+
   tracks.forEach((t,i) => {
     const b = document.createElement("button");
     b.className = "track" + (i === current ? " current" : "");
+
     const n = document.createElement("span");
     n.textContent = String(i+1).padStart(2,"0");
+
     const name = document.createElement("span");
-    name.textContent = t.title || "Loading track...";
+    name.textContent = t.title || "Track " + (i+1);
+
     const time = document.createElement("span");
     const s = Math.floor((t.duration || 0)/1000);
-    time.textContent = s ? Math.floor(s/60)+":"+
-      String(s%60).padStart(2,"0") : "";
+    time.textContent = s
+      ? Math.floor(s/60)+":"+String(s%60).padStart(2,"0")
+      : "";
+
     b.append(n,name,time);
     b.onclick = () => play(i);
     $("tracks").append(b);
@@ -90,134 +109,235 @@ function render() {
 
 function show(t,i) {
   if (!t) return;
+
   current = i;
   $("title").textContent = t.title || "DOOMED TUNES";
   $("artist").textContent = t.user?.username || "";
+
   $("art").replaceChildren();
+
   if (t.artwork_url) {
     const img = document.createElement("img");
     img.src = t.artwork_url.replace("-large","-t500x500");
     img.alt = t.title || "";
     $("art").append(img);
-  } else $("art").textContent = "DT®";
+  } else {
+    $("art").textContent = "DT®";
+  }
+
   render();
 }
 
-function waitIndex(target, done, tries=0) {
-  p.getCurrentSoundIndex(i => {
-    if (i === target) done(true);
-    else if (tries < 80)
-      setTimeout(() => waitIndex(target,done,tries+1),100);
-    else done(false);
-  });
+function waitIndex(target,done,token=scanToken) {
+  let finished = false;
+  let attempts = 0;
+
+  const finish = ok => {
+    if (finished) return;
+    finished = true;
+    done(ok);
+  };
+
+  function check() {
+    if (finished || token !== scanToken) return;
+
+    p.getCurrentSoundIndex(index => {
+      if (finished || token !== scanToken) return;
+
+      if (index === target) {
+        finish(true);
+      } else if (++attempts < 40) {
+        setTimeout(check,100);
+      } else {
+        finish(false);
+      }
+    });
+  }
+
+  check();
 }
 
-function readTrack(index, attempt=0) {
-  p.getCurrentSound(t => {
-    if (t && t.title) {
-      tracks[index] = {...tracks[index],...t};
-      render();
-      scan(index+1);
-    } else if (attempt < 15) {
-      setTimeout(() => readTrack(index,attempt+1),200);
-    } else {
-      scan(index+1);
-    }
-  });
+function readTrack(index,token) {
+  let finished = false;
+  let attempts = 0;
+
+  function read() {
+    if (finished || token !== scanToken) return;
+
+    const timeout = setTimeout(() => {
+      if (finished || token !== scanToken) return;
+      finished = true;
+      scan(index+1,token);
+    },2500);
+
+    p.getCurrentSound(t => {
+      clearTimeout(timeout);
+
+      if (finished || token !== scanToken) return;
+
+      if (t && t.title) {
+        finished = true;
+        tracks[index] = {...tracks[index],...t};
+        render();
+        scan(index+1,token);
+      } else if (++attempts < 5) {
+        setTimeout(read,300);
+      } else {
+        finished = true;
+        scan(index+1,token);
+      }
+    });
+  }
+
+  read();
 }
 
-function scan(index) {
+function scan(index,token) {
+  if (token !== scanToken) return;
+
   if (index >= tracks.length) {
     p.skip(startIndex);
+
     waitIndex(startIndex,() => {
+      if (token !== scanToken) return;
+
       p.pause();
       p.setVolume(+$("volume").value);
       ready = true;
       scanning = false;
-      p.getCurrentSound(t => show(t || tracks[startIndex],startIndex));
+
+      p.getCurrentSound(t => {
+        if (t) show(t,startIndex);
+        else render();
+      });
+
       refill();
-    });
+    },token);
+
     return;
   }
 
   p.skip(index);
+
   waitIndex(index,ok => {
-    if (ok) readTrack(index);
-    else scan(index+1);
-  });
+    if (token !== scanToken) return;
+
+    if (ok) readTrack(index,token);
+    else scan(index+1,token);
+  },token);
 }
 
 function refill() {
   bag = tracks.map((_,i)=>i).filter(i=>i!==current);
-  for(let i=bag.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [bag[i],bag[j]]=[bag[j],bag[i]];
+
+  for(let i=bag.length-1;i>0;i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [bag[i],bag[j]] = [bag[j],bag[i]];
   }
 }
 
 function play(index) {
   if (!ready || index<0 || index>=tracks.length) return;
+
   p.skip(index);
+
   waitIndex(index,ok => {
     if (!ok) return;
+
     current = index;
     p.seekTo(0);
     p.play();
-    render();
+
     if (shuffle) bag = bag.filter(i=>i!==index);
+    render();
   });
 }
 
 function next() {
   if (!ready || !tracks.length) return;
+
   if (shuffle) {
     if (!bag.length) refill();
     if (bag.length) play(bag.pop());
-  } else play((current+1)%tracks.length);
+  } else {
+    play((current+1)%tracks.length);
+  }
 }
 
 p.bind(E.READY,() => {
-  if (scanning) return;
+  if (scanning || ready) return;
+
   scanning = true;
+  const token = ++scanToken;
+
   p.getSounds(sounds => {
+    if (token !== scanToken) return;
+
     if (!Array.isArray(sounds) || !sounds.length) {
       $("tracks").textContent = "Playlist unavailable";
       scanning = false;
       return;
     }
+
     tracks = sounds.map(t=>({...t}));
+    render();
+
     p.getCurrentSoundIndex(i => {
+      if (token !== scanToken) return;
+
       startIndex = Number.isInteger(i) ? i : 0;
       current = startIndex;
-      render();
+
       p.setVolume(0);
-      scan(0);
+      scan(0,token);
     });
   });
 });
 
 p.bind(E.PLAY,() => {
   $("play").textContent = "Ⅱ";
-  p.getCurrentSoundIndex(i =>
-    p.getCurrentSound(t => show(t,i)));
-});
-p.bind(E.PAUSE,()=>$("play").textContent="▶");
-p.bind(E.FINISH,()=>{if(shuffle)next();});
 
-$("play").onclick=()=>ready&&p.toggle();
-$("next").onclick=next;
-$("prev").onclick=()=>{
-  if(!ready)return;
-  if(shuffle){
-    if(bag.length)play(bag.pop());
-  }else play((current-1+tracks.length)%tracks.length);
+  p.getCurrentSoundIndex(i => {
+    p.getCurrentSound(t => {
+      if (t) show(t,i);
+    });
+  });
+});
+
+p.bind(E.PAUSE,() => {
+  $("play").textContent = "▶";
+});
+
+p.bind(E.FINISH,() => {
+  if (shuffle) next();
+  else if (ready) next();
+});
+
+$("play").onclick = () => {
+  if (ready) p.toggle();
 };
-$("shuffle").onclick=()=>{
-  shuffle=!shuffle;
+
+$("next").onclick = next;
+
+$("prev").onclick = () => {
+  if (!ready) return;
+
+  if (shuffle) {
+    if (bag.length) play(bag.pop());
+  } else {
+    play((current-1+tracks.length)%tracks.length);
+  }
+};
+
+$("shuffle").onclick = () => {
+  shuffle = !shuffle;
   $("shuffle").classList.toggle("active",shuffle);
-  if(shuffle)refill();
+  if (shuffle) refill();
 };
-$("volume").oninput=e=>ready&&p.setVolume(+e.target.value);
+
+$("volume").oninput = e => {
+  if (ready) p.setVolume(+e.target.value);
+};
 })();
 </script>
 </body>
