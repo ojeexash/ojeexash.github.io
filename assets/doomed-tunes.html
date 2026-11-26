@@ -4,340 +4,225 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DOOMED TUNES®</title>
+<title>DOOMED TUNES</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#111b2b;color:#f4f3ef;font:14px Arial}
-#app{max-width:900px;margin:auto;padding:25px}
-header,.controls,.track{display:flex;align-items:center;gap:12px}
-header{justify-content:space-between;border-bottom:1px solid #ffffff22;padding-bottom:20px}
-h1{font-size:28px;margin:0}h1 span{color:#b8a0ff}
-small{color:#8994a5}
-input{width:100px;accent-color:#b8a0ff}
-main{display:grid;grid-template-columns:1fr 1.1fr;gap:30px;padding-top:25px}
-#art{aspect-ratio:1;background:#18263a;display:grid;place-items:center;color:#b8a0ff;font-size:65px;font-weight:bold}
-#art img{width:100%;height:100%;object-fit:cover}
-h2{font-size:22px;margin:20px 0 7px;overflow-wrap:anywhere}
-.controls{margin-top:22px}
-button{padding:12px;background:none;color:inherit;border:1px solid #ffffff33;cursor:pointer}
-button:hover,button.active{color:#b8a0ff;border-color:#b8a0ff}
-#play{background:#b8a0ff;color:#111b2b}
-#tracks{max-height:430px;overflow:auto}
-.track{width:100%;padding:14px 5px;text-align:left;border-width:0 0 1px;border-color:#ffffff22}
-.track span:nth-child(2){flex:1;overflow-wrap:anywhere}
-.track.current{color:#b8a0ff}
-iframe{position:fixed;width:1px;height:1px;left:-100px;bottom:0}
-@media(max-width:600px){main{grid-template-columns:1fr}}
+body{margin:0;background:#fff;color:#111;font:14px Arial}
+#player{max-width:600px;margin:30px auto;padding:15px}
+#cover{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+#tracks{margin:20px 0;max-height:350px;overflow:auto}
+.track{display:block;width:100%;padding:9px 0;border:0;background:none;color:#111;text-align:left;font:inherit;cursor:pointer;overflow-wrap:anywhere}
+.track.active{font-weight:bold}
+.controls{display:flex;align-items:center;gap:15px;margin:15px 0}
+button{border:0;background:none;color:inherit;font-size:20px;cursor:pointer;padding:5px}
+#volume{flex:1;min-width:60px}
+#sc{position:fixed;top:0;left:0;width:100%;height:166px;opacity:0;pointer-events:none}
 </style>
 </head>
 <body>
-<div id="app">
-<header>
-<div>
-<h1>DOOMED <span>TUNES®</span></h1>
-<small>VN RECORDS® / SELECTION</small>
-</div>
-<input id="volume" type="range" min="0" max="100" value="80">
-</header>
-<main>
-<section>
-<div id="art">DT®</div>
-<h2 id="title">DOOMED TUNES</h2>
-<small id="artist">SoundCloud Playlist</small>
+
+<div id="player">
+<img id="cover" alt="">
+<div id="tracks"></div>
 <div class="controls">
 <button id="prev">|◀</button>
-<button id="play">▶</button>
+<button id="toggle">▶</button>
 <button id="next">▶|</button>
-<button id="shuffle">⤨</button>
+<input id="volume" type="range" min="0" max="100" value="80">
 </div>
-</section>
-<section>
-<h3>TRACKLIST <small id="count"></small></h3>
-<div id="tracks">Loading playlist...</div>
-</section>
-</main>
 </div>
 
 <iframe id="sc" allow="autoplay"></iframe>
+
 <script src="https://w.soundcloud.com/player/api.js"></script>
 <script>
-(() => {
+(async () => {
 const $ = id => document.getElementById(id);
-const url = "https://soundcloud.com/ojeexash/sets/doomed-tunes-fm";
-const frame = $("sc");
+const playlist = "https://soundcloud.com/ojeexash/sets/doomed-tunes-fm";
 
-frame.src = "https://w.soundcloud.com/player/?url=" +
-  encodeURIComponent(url) + "&auto_play=false&visual=false";
+$("sc").src =
+  "https://w.soundcloud.com/player/?url=" +
+  encodeURIComponent(playlist) +
+  "&auto_play=false&visual=false";
 
-const p = SC.Widget(frame);
-const E = SC.Widget.Events;
+const widget = SC.Widget($("sc"));
+const events = SC.Widget.Events;
 
 let tracks = [];
 let current = 0;
-let startIndex = 0;
-let bag = [];
 let ready = false;
-let shuffle = false;
 let scanning = false;
-let scanToken = 0;
+
+const delay = ms => new Promise(resolve => setTimeout(resolve,ms));
+
+function getSounds() {
+  return new Promise(resolve => widget.getSounds(resolve));
+}
+
+function getIndex() {
+  return new Promise(resolve => widget.getCurrentSoundIndex(resolve));
+}
+
+function getSound() {
+  return new Promise(resolve => widget.getCurrentSound(resolve));
+}
+
+async function waitIndex(target) {
+  for(let i=0;i<80;i++) {
+    if(await getIndex() === target) return true;
+    await delay(150);
+  }
+  return false;
+}
+
+async function readCurrentTrack() {
+  for(let i=0;i<40;i++) {
+    const sound = await getSound();
+    if(sound && sound.title) return sound;
+    await delay(250);
+  }
+  return null;
+}
 
 function render() {
-  $("count").textContent = tracks.length + " TRACKS";
-  $("tracks").replaceChildren();
+  const list = $("tracks");
+  list.replaceChildren();
 
-  tracks.forEach((t,i) => {
-    const b = document.createElement("button");
-    b.className = "track" + (i === current ? " current" : "");
+  tracks.forEach((track,index) => {
+    if(!track || !track.title) return;
 
-    const n = document.createElement("span");
-    n.textContent = String(i+1).padStart(2,"0");
-
-    const name = document.createElement("span");
-    name.textContent = t.title || "Track " + (i+1);
-
-    const time = document.createElement("span");
-    const s = Math.floor((t.duration || 0)/1000);
-    time.textContent = s
-      ? Math.floor(s/60)+":"+String(s%60).padStart(2,"0")
-      : "";
-
-    b.append(n,name,time);
-    b.onclick = () => play(i);
-    $("tracks").append(b);
+    const button = document.createElement("button");
+    button.className = "track" + (index === current ? " active" : "");
+    button.textContent = track.title;
+    button.onclick = () => play(index);
+    list.append(button);
   });
 }
 
-function show(t,i) {
-  if (!t) return;
+function showTrack(track,index) {
+  if(!track) return;
 
-  current = i;
-  $("title").textContent = t.title || "DOOMED TUNES";
-  $("artist").textContent = t.user?.username || "";
+  current = index;
 
-  $("art").replaceChildren();
-
-  if (t.artwork_url) {
-    const img = document.createElement("img");
-    img.src = t.artwork_url.replace("-large","-t500x500");
-    img.alt = t.title || "";
-    $("art").append(img);
+  if(track.artwork_url) {
+    $("cover").src = track.artwork_url.replace("-large","-t500x500");
   } else {
-    $("art").textContent = "DT®";
+    $("cover").removeAttribute("src");
   }
 
   render();
 }
 
-function waitIndex(target,done,token=scanToken) {
-  let finished = false;
-  let attempts = 0;
-
-  const finish = ok => {
-    if (finished) return;
-    finished = true;
-    done(ok);
-  };
-
-  function check() {
-    if (finished || token !== scanToken) return;
-
-    p.getCurrentSoundIndex(index => {
-      if (finished || token !== scanToken) return;
-
-      if (index === target) {
-        finish(true);
-      } else if (++attempts < 40) {
-        setTimeout(check,100);
-      } else {
-        finish(false);
-      }
-    });
-  }
-
-  check();
-}
-
-function readTrack(index,token) {
-  let finished = false;
-  let attempts = 0;
-
-  function read() {
-    if (finished || token !== scanToken) return;
-
-    const timeout = setTimeout(() => {
-      if (finished || token !== scanToken) return;
-      finished = true;
-      scan(index+1,token);
-    },2500);
-
-    p.getCurrentSound(t => {
-      clearTimeout(timeout);
-
-      if (finished || token !== scanToken) return;
-
-      if (t && t.title) {
-        finished = true;
-        tracks[index] = {...tracks[index],...t};
-        render();
-        scan(index+1,token);
-      } else if (++attempts < 5) {
-        setTimeout(read,300);
-      } else {
-        finished = true;
-        scan(index+1,token);
-      }
-    });
-  }
-
-  read();
-}
-
-function scan(index,token) {
-  if (token !== scanToken) return;
-
-  if (index >= tracks.length) {
-    p.skip(startIndex);
-
-    waitIndex(startIndex,() => {
-      if (token !== scanToken) return;
-
-      p.pause();
-      p.setVolume(+$("volume").value);
-      ready = true;
-      scanning = false;
-
-      p.getCurrentSound(t => {
-        if (t) show(t,startIndex);
-        else render();
-      });
-
-      refill();
-    },token);
-
-    return;
-  }
-
-  p.skip(index);
-
-  waitIndex(index,ok => {
-    if (token !== scanToken) return;
-
-    if (ok) readTrack(index,token);
-    else scan(index+1,token);
-  },token);
-}
-
-function refill() {
-  bag = tracks.map((_,i)=>i).filter(i=>i!==current);
-
-  for(let i=bag.length-1;i>0;i--) {
-    const j = Math.floor(Math.random()*(i+1));
-    [bag[i],bag[j]] = [bag[j],bag[i]];
-  }
-}
-
-function play(index) {
-  if (!ready || index<0 || index>=tracks.length) return;
-
-  p.skip(index);
-
-  waitIndex(index,ok => {
-    if (!ok) return;
-
-    current = index;
-    p.seekTo(0);
-    p.play();
-
-    if (shuffle) bag = bag.filter(i=>i!==index);
-    render();
-  });
-}
-
-function next() {
-  if (!ready || !tracks.length) return;
-
-  if (shuffle) {
-    if (!bag.length) refill();
-    if (bag.length) play(bag.pop());
-  } else {
-    play((current+1)%tracks.length);
-  }
-}
-
-p.bind(E.READY,() => {
-  if (scanning || ready) return;
-
+async function loadPlaylist() {
+  if(scanning || ready) return;
   scanning = true;
-  const token = ++scanToken;
 
-  p.getSounds(sounds => {
-    if (token !== scanToken) return;
+  try {
+    const sounds = await getSounds();
 
-    if (!Array.isArray(sounds) || !sounds.length) {
-      $("tracks").textContent = "Playlist unavailable";
+    if(!Array.isArray(sounds) || !sounds.length) {
       scanning = false;
       return;
     }
 
-    tracks = sounds.map(t=>({...t}));
+    const total = sounds.length;
+    tracks = sounds.map(sound =>
+      sound && sound.title ? {...sound} : null
+    );
+
+    await widget.setVolume(0);
+    widget.skip(0);
+
+    if(!await waitIndex(0)) throw Error("Track selection failed");
+
+    for(let i=0;i<total;i++) {
+      const sound = await readCurrentTrack();
+
+      if(sound && sound.title) {
+        tracks[i] = {...(tracks[i] || {}),...sound};
+        render();
+      }
+
+      if(i < total-1) {
+        widget.next();
+
+        if(!await waitIndex(i+1)) {
+          throw Error("Track change failed");
+        }
+      }
+    }
+
+    widget.skip(0);
+    await waitIndex(0);
+    widget.pause();
+    await widget.setVolume(+$("volume").value);
+
+    current = 0;
+    if(tracks[0]) showTrack(tracks[0],0);
+
+    ready = true;
+    scanning = false;
     render();
 
-    p.getCurrentSoundIndex(i => {
-      if (token !== scanToken) return;
-
-      startIndex = Number.isInteger(i) ? i : 0;
-      current = startIndex;
-
-      p.setVolume(0);
-      scan(0,token);
-    });
-  });
-});
-
-p.bind(E.PLAY,() => {
-  $("play").textContent = "Ⅱ";
-
-  p.getCurrentSoundIndex(i => {
-    p.getCurrentSound(t => {
-      if (t) show(t,i);
-    });
-  });
-});
-
-p.bind(E.PAUSE,() => {
-  $("play").textContent = "▶";
-});
-
-p.bind(E.FINISH,() => {
-  if (shuffle) next();
-  else if (ready) next();
-});
-
-$("play").onclick = () => {
-  if (ready) p.toggle();
-};
-
-$("next").onclick = next;
-
-$("prev").onclick = () => {
-  if (!ready) return;
-
-  if (shuffle) {
-    if (bag.length) play(bag.pop());
-  } else {
-    play((current-1+tracks.length)%tracks.length);
+  } catch(error) {
+    scanning = false;
+    console.error(error);
   }
+}
+
+async function play(index) {
+  if(!ready || index<0 || index>=tracks.length) return;
+
+  widget.skip(index);
+
+  if(!await waitIndex(index)) return;
+
+  current = index;
+  widget.seekTo(0);
+  widget.play();
+
+  const sound = await readCurrentTrack();
+  if(sound) {
+    tracks[index] = {...(tracks[index] || {}),...sound};
+    showTrack(sound,index);
+  }
+}
+
+async function changeTrack(direction) {
+  if(!ready) return;
+
+  const index = (current + direction + tracks.length) % tracks.length;
+  await play(index);
+}
+
+widget.bind(events.READY,loadPlaylist);
+
+widget.bind(events.PLAY,async () => {
+  $("toggle").textContent = "Ⅱ";
+  const index = await getIndex();
+  const sound = await getSound();
+  if(sound) showTrack(sound,index);
+});
+
+widget.bind(events.PAUSE,() => {
+  $("toggle").textContent = "▶";
+});
+
+widget.bind(events.FINISH,() => {
+  if(ready) changeTrack(1);
+});
+
+$("toggle").onclick = () => {
+  if(ready) widget.toggle();
 };
 
-$("shuffle").onclick = () => {
-  shuffle = !shuffle;
-  $("shuffle").classList.toggle("active",shuffle);
-  if (shuffle) refill();
+$("prev").onclick = () => changeTrack(-1);
+$("next").onclick = () => changeTrack(1);
+
+$("volume").oninput = event => {
+  if(ready) widget.setVolume(+event.target.value);
 };
 
-$("volume").oninput = e => {
-  if (ready) p.setVolume(+e.target.value);
-};
 })();
 </script>
 </body>
