@@ -7,11 +7,18 @@
 <title>DOOMED TUNES</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  width:100%;
+  margin:0;
+  padding:0;
+  background:transparent;
+}
 
 body{
-  margin:0;
-  background:transparent;
   color:#d8d4e8;
   font:14px Arial,sans-serif;
 }
@@ -21,6 +28,9 @@ body{
   max-width:340px;
   margin:30px auto;
   padding:0;
+  position:relative;
+  left:50%;
+  transform:translateX(-50%);
 }
 
 .player-main{
@@ -29,6 +39,7 @@ body{
   align-items:center;
   justify-content:center;
   gap:12px;
+  width:100%;
 }
 
 .side-button{
@@ -39,44 +50,59 @@ body{
   justify-content:center;
   border:0;
   background:none;
-  color:#c5b5f5;
+  color:#fff;
   font-size:21px;
   cursor:pointer;
   padding:0;
 }
 
 .side-button:hover{
-  color:#fff;
+  opacity:.7;
 }
 
 .cover-wrap{
   width:180px;
   height:180px;
   position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 #cover{
-  width:180px;
-  height:180px;
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
   display:block;
   object-fit:cover;
 }
 
 #toggle{
   position:absolute;
-  inset:0;
-  margin:auto;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
   width:46px;
   height:46px;
+  padding:0;
+  margin:0;
   border:0;
   border-radius:50%;
-  background:rgba(25,20,40,.72);
+  background:rgba(0,0,0,.58);
   color:#fff;
   font-size:21px;
+  line-height:1;
   display:flex;
   align-items:center;
   justify-content:center;
   cursor:pointer;
+}
+
+#toggle span{
+  display:block;
+  line-height:1;
+  transform:translateX(1px);
 }
 
 #track-title{
@@ -104,7 +130,7 @@ body{
   width:95px;
   height:3px;
   margin:0;
-  accent-color:#a88bea;
+  accent-color:#fff;
   cursor:pointer;
 }
 
@@ -116,16 +142,25 @@ body{
   justify-content:center;
   border:0;
   background:none;
-  color:#a88bea;
+  color:#fff;
   opacity:.55;
-  font-size:18px;
   cursor:pointer;
-  padding:0;
+  padding:2px;
 }
 
 #shuffle.active{
   opacity:1;
-  color:#fff;
+}
+
+#shuffle svg{
+  width:19px;
+  height:19px;
+  display:block;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.7;
+  stroke-linecap:round;
+  stroke-linejoin:round;
 }
 
 #tracks{
@@ -154,7 +189,7 @@ body{
 
     <div class="cover-wrap">
       <img id="cover" alt="">
-      <button id="toggle" aria-label="Play or pause">▶</button>
+      <button id="toggle" aria-label="Play or pause"><span>▶</span></button>
     </div>
 
     <button class="side-button" id="next" aria-label="Next track">▶</button>
@@ -164,8 +199,19 @@ body{
   <div id="track-title"></div>
 
   <div class="bottom-controls">
+
     <input id="volume" type="range" min="0" max="100" value="80" aria-label="Volume">
-    <button id="shuffle" aria-label="Shuffle">🔀</button>
+
+    <button id="shuffle" aria-label="Shuffle">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M16 3h5v5"/>
+        <path d="M4 20L21 3"/>
+        <path d="M21 16v5h-5"/>
+        <path d="M15 15l6 6"/>
+        <path d="M4 4l5 5"/>
+      </svg>
+    </button>
+
   </div>
 
   <div id="tracks"></div>
@@ -360,7 +406,7 @@ async function changeTrack(direction) {
 widget.bind(events.READY,loadPlaylist);
 
 widget.bind(events.PLAY,async () => {
-  $("toggle").textContent = "Ⅱ";
+  $("toggle").querySelector("span").textContent = "Ⅱ";
 
   const index = await getIndex();
   const sound = await getSound();
@@ -369,7 +415,7 @@ widget.bind(events.PLAY,async () => {
 });
 
 widget.bind(events.PAUSE,() => {
-  $("toggle").textContent = "▶";
+  $("toggle").querySelector("span").textContent = "▶";
 });
 
 widget.bind(events.FINISH,() => {
